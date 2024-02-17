@@ -1,0 +1,17 @@
+// DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
+
+abstract class  LocaleKeys {
+  static const gameTitle = 'gameTitle';
+  static const start = 'start';
+  static const profile = 'profile';
+  static const settings = 'settings';
+  static const exit = 'exit';
+  static const save = 'save';
+  static const cancel = 'cancel';
+  static const back = 'back';
+  static const nicknameLabel = 'nicknameLabel';
+  static const nicknameHint = 'nicknameHint';
+  static const about = 'about';
+  static const privacy = 'privacy';
+
+}

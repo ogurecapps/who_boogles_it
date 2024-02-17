@@ -1,0 +1,38 @@
+name: who_boogles_it
+description: "The game where you must guess the end of search requests"
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.6 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  flutter_bloc: ^8.1.3
+  go_router: ^13.2.0
+  easy_localization: ^3.0.3
+  flutter_svg: ^2.0.9
+  flutter_native_splash: ^2.3.11
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/jpg/
+    - assets/images/svg/
+    - assets/translations/
+
+  fonts:
+    - family: SofiaSans
+      fonts:
+        - asset: assets/fonts/SofiaSans.ttf

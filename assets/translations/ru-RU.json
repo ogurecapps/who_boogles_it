@@ -1,0 +1,16 @@
+{
+    "gameTitle": "КТО ВООБЩЕ ГУГЛИТ ЭТО?!",
+    "start": "ИГРАТЬ",
+    "profile": "МОЙ ПРОФИЛЬ",
+    "settings": "НАСТРОЙКИ",
+    "exit": "ВЫХОД",
+    "save": "СОХРАНИТЬ",
+    "cancel": "ОТМЕНИТЬ",
+    "back": "НАЗАД",
+    "nicknameLabel": "Никнейм",
+    "nicknameHint": "Введи свой никнейм",
+    "about": "ОБ АВТОРЕ",
+    "privacy": "PRIVACY POLICY",
+    "en": "ENGLISH",
+    "ru": "РУССКИЙ"
+}

@@ -1,0 +1,16 @@
+{
+    "gameTitle": "WHO BOOGLES IT?!",
+    "start": "PLAY",
+    "profile": "MY PROFILE",
+    "settings": "SETTINGS",
+    "exit": "EXIT",
+    "save": "SAVE",
+    "cancel": "CANCEL",
+    "back": "BACK",
+    "nicknameLabel": "Nickname",
+    "nicknameHint": "Enter your nickname",
+    "about": "ABOUT",
+    "privacy": "PRIVACY POLICY",
+    "en": "ENGLISH",
+    "ru": "РУССКИЙ"
+}
