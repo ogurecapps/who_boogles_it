@@ -32,7 +32,7 @@ class LanguageSelector extends StatelessWidget {
                 child: SizedBox(
                   height: 19,
                   width: 19,
-                  child: SvgPicture.asset('assets/images/svg/${locale.countryCode}.svg'),
+                  child: SvgPicture.asset('assets/images/svg/${locale.languageCode}.svg'),
                 ),
               ),
             ),
