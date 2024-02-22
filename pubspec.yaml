@@ -12,11 +12,11 @@ dependencies:
   flutter:
     sdk: flutter
   
-  flutter_bloc: ^8.1.3
   go_router: ^13.2.0
   easy_localization: ^3.0.3
   flutter_svg: ^2.0.9
   flutter_native_splash: ^2.3.11
+  url_launcher: ^6.2.4
 
 dev_dependencies:
   flutter_test:
@@ -28,7 +28,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/jpg/
     - assets/images/svg/
     - assets/translations/
 

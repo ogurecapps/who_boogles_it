@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:who_boogles_it/core/widgets/scaffold_wrapper.dart';
 import 'package:who_boogles_it/features/home/presentation/widgets/actions_group.dart';
 import 'package:who_boogles_it/features/home/presentation/widgets/game_title.dart';
 
@@ -7,26 +8,16 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/jpg/placeholder.jpg"),
-              fit: BoxFit.cover,
-            ),
+    return ScaffoldWrapper(
+      body: Stack(
+        children: [
+          Container(
+            alignment: Alignment.topCenter,
+            margin: const EdgeInsets.only(top: 50.0),
+            child: const GameTitle(),
           ),
-          child: Stack(
-            children: [
-              Container(
-                alignment: Alignment.topCenter,
-                margin: const EdgeInsets.only(top: 50.0),
-                child: const GameTitle(),
-              ),
-              const Center(child: ActionsGroup()),
-            ],
-          ),
-        ),
+          const Center(child: ActionsGroup()),
+        ],
       ),
     );
   }
