@@ -25,7 +25,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: tr(LocaleKeys.gameTitle),
+      onGenerateTitle: (BuildContext context) => LocaleKeys.gameTitle.tr(),
       theme: AppTheme().buildThemeData(),
       debugShowCheckedModeBanner: false,
       routerConfig: AppRouter.router,

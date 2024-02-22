@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -35,7 +36,9 @@ class ActionsGroup extends StatelessWidget {
             buildNavButton('/settings', Icons.settings, LocaleKeys.settings),
             space,
             Visibility(
-              visible: (Platform.isAndroid || Platform.isLinux || Platform.isMacOS || Platform.isWindows),
+              visible: (kIsWeb
+                  ? false
+                  : Platform.isAndroid || Platform.isLinux || Platform.isMacOS || Platform.isWindows),
               child: ElevatedButton.icon(
                 onPressed: onExitPressed,
                 icon: const Icon(Icons.cancel),
@@ -47,11 +50,13 @@ class ActionsGroup extends StatelessWidget {
   }
 
   void onExitPressed() {
-    Future.delayed(const Duration(milliseconds: 500), () {
-      if (Platform.isAndroid) {
-        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-      } else {
-        exit(0);
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (!kIsWeb) {
+        if (Platform.isAndroid) {
+          SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+        } else {
+          exit(0);
+        }
       }
     });
   }
