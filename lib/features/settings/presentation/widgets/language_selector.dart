@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:who_boogles_it/app/themes/app_size.dart';
+import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/main.dart';
 
 class LanguageSelector extends StatelessWidget {

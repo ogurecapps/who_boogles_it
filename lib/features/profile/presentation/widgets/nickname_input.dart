@@ -13,7 +13,9 @@ class NicknameInput extends StatelessWidget {
         hintText: LocaleKeys.nicknameHint.tr(),
         border: const OutlineInputBorder(),
       ),
-      initialValue: "Player1020",
+      initialValue: "Player102011",
+      maxLength: 16,
+      onChanged: (value) {},
     );
   }
 }

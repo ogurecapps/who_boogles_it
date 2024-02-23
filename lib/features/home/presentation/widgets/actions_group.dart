@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:who_boogles_it/app/themes/app_size.dart';
+import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
 
 class ActionsGroup extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:who_boogles_it/app/themes/app_size.dart';
+import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/features/settings/presentation/widgets/language_selector.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
 
