@@ -33,7 +33,21 @@ const PlayerSchema = CollectionSchema(
   deserialize: _playerDeserialize,
   deserializeProp: _playerDeserializeProp,
   idName: r'isarId',
-  indexes: {},
+  indexes: {
+    r'nickname': IndexSchema(
+      id: 4062737668634095984,
+      name: r'nickname',
+      unique: true,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'nickname',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    )
+  },
   links: {},
   embeddedSchemas: {},
   getId: _playerGetId,
@@ -102,6 +116,60 @@ List<IsarLinkBase<dynamic>> _playerGetLinks(Player object) {
 
 void _playerAttach(IsarCollection<dynamic> col, Id id, Player object) {
   object.isarId = id;
+}
+
+extension PlayerByIndex on IsarCollection<Player> {
+  Future<Player?> getByNickname(String nickname) {
+    return getByIndex(r'nickname', [nickname]);
+  }
+
+  Player? getByNicknameSync(String nickname) {
+    return getByIndexSync(r'nickname', [nickname]);
+  }
+
+  Future<bool> deleteByNickname(String nickname) {
+    return deleteByIndex(r'nickname', [nickname]);
+  }
+
+  bool deleteByNicknameSync(String nickname) {
+    return deleteByIndexSync(r'nickname', [nickname]);
+  }
+
+  Future<List<Player?>> getAllByNickname(List<String> nicknameValues) {
+    final values = nicknameValues.map((e) => [e]).toList();
+    return getAllByIndex(r'nickname', values);
+  }
+
+  List<Player?> getAllByNicknameSync(List<String> nicknameValues) {
+    final values = nicknameValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'nickname', values);
+  }
+
+  Future<int> deleteAllByNickname(List<String> nicknameValues) {
+    final values = nicknameValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'nickname', values);
+  }
+
+  int deleteAllByNicknameSync(List<String> nicknameValues) {
+    final values = nicknameValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'nickname', values);
+  }
+
+  Future<Id> putByNickname(Player object) {
+    return putByIndex(r'nickname', object);
+  }
+
+  Id putByNicknameSync(Player object, {bool saveLinks = true}) {
+    return putByIndexSync(r'nickname', object, saveLinks: saveLinks);
+  }
+
+  Future<List<Id>> putAllByNickname(List<Player> objects) {
+    return putAllByIndex(r'nickname', objects);
+  }
+
+  List<Id> putAllByNicknameSync(List<Player> objects, {bool saveLinks = true}) {
+    return putAllByIndexSync(r'nickname', objects, saveLinks: saveLinks);
+  }
 }
 
 extension PlayerQueryWhereSort on QueryBuilder<Player, Player, QWhere> {
@@ -175,6 +243,51 @@ extension PlayerQueryWhere on QueryBuilder<Player, Player, QWhereClause> {
         upper: upperIsarId,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<Player, Player, QAfterWhereClause> nicknameEqualTo(
+      String nickname) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'nickname',
+        value: [nickname],
+      ));
+    });
+  }
+
+  QueryBuilder<Player, Player, QAfterWhereClause> nicknameNotEqualTo(
+      String nickname) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'nickname',
+              lower: [],
+              upper: [nickname],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'nickname',
+              lower: [nickname],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'nickname',
+              lower: [nickname],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'nickname',
+              lower: [],
+              upper: [nickname],
+              includeUpper: false,
+            ));
+      }
     });
   }
 }
