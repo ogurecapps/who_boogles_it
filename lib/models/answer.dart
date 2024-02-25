@@ -1,11 +1,12 @@
 import 'package:isar/isar.dart';
 import 'package:who_boogles_it/models/localized_string.dart';
 
+part 'answer.g.dart';
+
 @embedded
 class Answer {
-  Id isarId = Isar.autoIncrement;
-  int weight;
-  List<LocalizedString> text;
+  byte weight;
+  List<LocalizedString>? text;
 
-  Answer({required this.weight, required this.text});
+  Answer({this.weight = 0, this.text});
 }

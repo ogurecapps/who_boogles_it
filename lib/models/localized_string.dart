@@ -1,11 +1,11 @@
 import 'package:isar/isar.dart';
 
+part 'localized_string.g.dart';
+
 @embedded
 class LocalizedString {
-  Id isarId = Isar.autoIncrement;
-  @Index(type: IndexType.value)
-  String langCode;
-  String text;
+  String? langCode;
+  String? text;
 
-  LocalizedString({required this.langCode, required this.text});
+  LocalizedString({this.langCode, this.text});
 }

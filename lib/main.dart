@@ -1,12 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:who_boogles_it/app/app_theme.dart';
+import 'package:who_boogles_it/di/locator.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
 import 'package:who_boogles_it/routes/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await initSingletons();
+
+  registerDatasources();
+  registerRepositories();
+  registerUseCases();
 
   runApp(
     EasyLocalization(

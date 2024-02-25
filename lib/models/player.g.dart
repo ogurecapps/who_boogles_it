@@ -38,12 +38,25 @@ const PlayerSchema = CollectionSchema(
       id: 4062737668634095984,
       name: r'nickname',
       unique: true,
-      replace: false,
+      replace: true,
       properties: [
         IndexPropertySchema(
           name: r'nickname',
           type: IndexType.hash,
           caseSensitive: true,
+        )
+      ],
+    ),
+    r'isMe': IndexSchema(
+      id: -5067857139706567221,
+      name: r'isMe',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'isMe',
+          type: IndexType.value,
+          caseSensitive: false,
         )
       ],
     )
@@ -178,6 +191,14 @@ extension PlayerQueryWhereSort on QueryBuilder<Player, Player, QWhere> {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
+
+  QueryBuilder<Player, Player, QAfterWhere> anyIsMe() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'isMe'),
+      );
+    });
+  }
 }
 
 extension PlayerQueryWhere on QueryBuilder<Player, Player, QWhereClause> {
@@ -285,6 +306,49 @@ extension PlayerQueryWhere on QueryBuilder<Player, Player, QWhereClause> {
               indexName: r'nickname',
               lower: [],
               upper: [nickname],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<Player, Player, QAfterWhereClause> isMeEqualTo(bool isMe) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'isMe',
+        value: [isMe],
+      ));
+    });
+  }
+
+  QueryBuilder<Player, Player, QAfterWhereClause> isMeNotEqualTo(bool isMe) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isMe',
+              lower: [],
+              upper: [isMe],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isMe',
+              lower: [isMe],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isMe',
+              lower: [isMe],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isMe',
+              lower: [],
+              upper: [isMe],
               includeUpper: false,
             ));
       }
