@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:who_boogles_it/app/app_theme.dart';
-import 'package:who_boogles_it/core/util/nickname_generator.dart';
 import 'package:who_boogles_it/di/locator.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
 import 'package:who_boogles_it/routes/app_router.dart';
@@ -9,6 +8,7 @@ import 'package:who_boogles_it/routes/app_router.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+
   await initSingletons();
 
   registerDatasources();
@@ -31,8 +31,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    locator<NicknameGenerator>().reloadSources(context.locale);
-
     return MaterialApp.router(
       onGenerateTitle: (BuildContext context) => LocaleKeys.gameTitle.tr(),
       theme: AppTheme().buildThemeData(),

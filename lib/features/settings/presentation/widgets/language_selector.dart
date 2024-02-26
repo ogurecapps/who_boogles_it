@@ -58,7 +58,7 @@ class LanguageSelector extends StatelessWidget {
       onChanged: (locale) async {
         await context.setLocale(locale!);
         await WidgetsBinding.instance.performReassemble();
-        await locator<NicknameGenerator>().reloadSources(locale);
+        locator<NicknameGenerator>().reloadTranslations();
       },
       decoration: InputDecoration(
         enabledBorder: border,

@@ -1,27 +1,22 @@
-import 'dart:convert';
 import 'dart:math';
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:who_boogles_it/generated/locale_keys.g.dart';
 
 class NicknameGenerator {
-  late List<String> what;
-  late List<String> who;
+  late List<String> _what;
+  late List<String> _who;
 
-  Future<void> reloadSources(Locale locale) async {
-    what = await parseJsonList('assets/translations/what_${locale.languageCode}.json');
-    who = await parseJsonList('assets/translations/who_${locale.languageCode}.json');
-  }
-
-  Future<List<String>> parseJsonList(String assetsPath) async {
-    return rootBundle.loadString(assetsPath).then((jsonStr) => jsonDecode(jsonStr));
+  reloadTranslations() {
+    _what = LocaleKeys.what.tr().split(',');
+    _who = LocaleKeys.who.tr().split(',');
   }
 
   String getRandomNickname({String exclude = ''}) {
     var r = Random(DateTime.now().millisecondsSinceEpoch);
-    var nickname = "${what[r.nextInt(what.length)]} ${who[r.nextInt(who.length)]}";
+    var nickname = "${_what[r.nextInt(_what.length)]}_${_who[r.nextInt(_who.length)]}";
     while (nickname == exclude) {
-      nickname = "${what[r.nextInt(what.length)]} ${who[r.nextInt(who.length)]}";
+      nickname = "${_what[r.nextInt(_what.length)]}_${_who[r.nextInt(_who.length)]}";
     }
     return nickname;
   }

@@ -8,7 +8,9 @@ final locator = GetIt.I;
 Future<void> initSingletons() async {
   locator.registerLazySingleton<NicknameGenerator>(() => NicknameGenerator());
   locator.registerLazySingleton<LocalDatabase>(() => LocalDatabaseImpl());
+
   await locator<LocalDatabase>().initDb();
+  locator<NicknameGenerator>().reloadTranslations();
 }
 
 void registerDatasources() {}
