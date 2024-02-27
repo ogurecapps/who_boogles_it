@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:who_boogles_it/models/localized_string.dart';
+import 'package:who_boogles_it/core/models/localized_string.dart';
 
 part 'answer.g.dart';
 

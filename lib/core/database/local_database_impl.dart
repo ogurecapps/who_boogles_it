@@ -1,8 +1,8 @@
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:who_boogles_it/core/database/local_database.dart';
-import 'package:who_boogles_it/models/player.dart';
-import 'package:who_boogles_it/models/question.dart';
+import 'package:who_boogles_it/core/models/player.dart';
+import 'package:who_boogles_it/core/models/question.dart';
 
 class LocalDatabaseImpl extends LocalDatabase {
   late Isar _db;

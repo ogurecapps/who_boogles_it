@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
-import 'package:who_boogles_it/models/answer.dart';
-import 'package:who_boogles_it/models/localized_string.dart';
+import 'package:who_boogles_it/core/models/answer.dart';
+import 'package:who_boogles_it/core/models/localized_string.dart';
 
 part 'question.g.dart';
 

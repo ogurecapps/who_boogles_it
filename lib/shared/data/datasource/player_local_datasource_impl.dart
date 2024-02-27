@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:isar/isar.dart';
 import 'package:who_boogles_it/core/database/local_database.dart';
+import 'package:who_boogles_it/core/di/locator.dart';
+import 'package:who_boogles_it/core/models/player.dart';
 import 'package:who_boogles_it/core/util/nickname_generator.dart';
-import 'package:who_boogles_it/di/locator.dart';
-import 'package:who_boogles_it/features/common/data/datasource/player_local_datasource.dart';
-import 'package:who_boogles_it/models/player.dart';
+import 'package:who_boogles_it/shared/data/datasource/player_local_datasource.dart';
 
 class PlayerLocalDatasourceImpl extends PlayerLocalDatasource {
   LocalDatabase db;

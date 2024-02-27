@@ -10,7 +10,6 @@ Future<void> initSingletons() async {
   locator.registerLazySingleton<LocalDatabase>(() => LocalDatabaseImpl());
 
   await locator<LocalDatabase>().initDb();
-  locator<NicknameGenerator>().reloadTranslations();
 }
 
 void registerDatasources() {}

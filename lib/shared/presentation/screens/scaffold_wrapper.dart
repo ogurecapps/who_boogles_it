@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:who_boogles_it/app/app_size.dart';
-import 'package:who_boogles_it/core/widgets/abstract_background.dart';
+import 'package:who_boogles_it/shared/presentation/widgets/abstract_background.dart';
 
 /// Background can be Color, Image, or Widget
 class ScaffoldWrapper extends StatelessWidget {

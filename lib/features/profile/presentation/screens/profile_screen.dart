@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:who_boogles_it/app/app_size.dart';
-import 'package:who_boogles_it/core/widgets/scaffold_wrapper.dart';
 import 'package:who_boogles_it/features/profile/presentation/widgets/bottom_bar.dart';
 import 'package:who_boogles_it/features/profile/presentation/widgets/nickname_input.dart';
+import 'package:who_boogles_it/shared/presentation/screens/scaffold_wrapper.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
