@@ -11,9 +11,9 @@ void main() async {
 
   await initSingletons();
 
-  registerDatasources();
-  registerRepositories();
-  registerUseCases();
+  provideDatasources();
+  provideRepositories();
+  provideUseCases();
 
   runApp(
     EasyLocalization(

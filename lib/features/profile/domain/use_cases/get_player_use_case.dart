@@ -6,7 +6,7 @@ class GetPlayerUseCase {
 
   GetPlayerUseCase({required this.playerRepository});
 
-  Future<Player> execute(bool isMe) async {
-    return isMe ? playerRepository.getMe() : playerRepository.getEnemy();
+  Future<Player> execute() async {
+    return playerRepository.getMe();
   }
 }

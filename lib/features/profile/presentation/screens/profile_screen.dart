@@ -1,7 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:who_boogles_it/app/app_size.dart';
-import 'package:who_boogles_it/features/profile/presentation/widgets/bottom_bar.dart';
-import 'package:who_boogles_it/features/profile/presentation/widgets/nickname_input.dart';
+import 'package:who_boogles_it/generated/locale_keys.g.dart';
 import 'package:who_boogles_it/shared/presentation/screens/scaffold_wrapper.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -11,13 +12,32 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScaffoldWrapper(
       background: Theme.of(context).colorScheme.background,
-      body: const Column(children: [
-        SizedBox(height: AppSize.defaultSpace),
-        NicknameInput(),
-        SizedBox(height: AppSize.defaultSpace),
-        Expanded(child: Placeholder()),
-        SizedBox(height: AppSize.defaultSpace),
-        BottomBar(),
+      body: Column(children: [
+        Expanded(
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Player_0001',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(
+          width: AppSize.menuButtonWidth,
+          child: ElevatedButton.icon(
+            onPressed: () => context.go(''),
+            icon: const Icon(Icons.arrow_back_ios),
+            label: const Text(LocaleKeys.back).tr(),
+          ),
+        ),
       ]),
     );
   }
