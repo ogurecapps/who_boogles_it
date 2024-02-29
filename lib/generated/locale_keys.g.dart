@@ -17,5 +17,7 @@ abstract class  LocaleKeys {
   static const ru = 'ru';
   static const what = 'what';
   static const who = 'who';
+  static const avatarHint = 'avatarHint';
+  static const levelProgressHint = 'levelProgressHint';
 
 }
