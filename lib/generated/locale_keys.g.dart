@@ -13,5 +13,11 @@ abstract class  LocaleKeys {
   static const nicknameHint = 'nicknameHint';
   static const about = 'about';
   static const privacy = 'privacy';
+  static const en = 'en';
+  static const ru = 'ru';
+  static const what = 'what';
+  static const who = 'who';
+  static const avatarHint = 'avatarHint';
+  static const levelProgressHint = 'levelProgressHint';
 
 }

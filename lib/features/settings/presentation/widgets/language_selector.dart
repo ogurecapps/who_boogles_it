@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:who_boogles_it/app/themes/app_size.dart';
+import 'package:who_boogles_it/app/app_size.dart';
+import 'package:who_boogles_it/core/di/locator.dart';
+import 'package:who_boogles_it/core/util/nickname_generator.dart';
 import 'package:who_boogles_it/main.dart';
 
 class LanguageSelector extends StatelessWidget {
@@ -53,9 +55,10 @@ class LanguageSelector extends StatelessWidget {
               ))
           .toList(),
       value: Localizations.localeOf(context),
-      onChanged: (Locale? locale) async {
+      onChanged: (locale) async {
         await context.setLocale(locale!);
         await WidgetsBinding.instance.performReassemble();
+        locator<NicknameGenerator>().loadTranslations();
       },
       decoration: InputDecoration(
         enabledBorder: border,

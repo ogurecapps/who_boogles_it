@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:who_boogles_it/features/game/presentation/game_screen.dart';
-import 'package:who_boogles_it/features/home/home_screen.dart';
-import 'package:who_boogles_it/features/profile/presentation/profile_screen.dart';
-import 'package:who_boogles_it/features/settings/presentation/settings_screen.dart';
+import 'package:who_boogles_it/features/game/presentation/screens/game_screen.dart';
+import 'package:who_boogles_it/features/home/presentation/screens/home_screen.dart';
+import 'package:who_boogles_it/features/profile/presentation/screens/profile_screen.dart';
+import 'package:who_boogles_it/features/settings/presentation/screens/settings_screen.dart';
 
 class AppRouter {
   static GoRouter get router => _router;

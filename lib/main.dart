@@ -1,18 +1,25 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:who_boogles_it/app/routes/app_router.dart';
-import 'package:who_boogles_it/app/themes/app_theme.dart';
+import 'package:who_boogles_it/app/app_theme.dart';
+import 'package:who_boogles_it/core/di/locator.dart';
+import 'package:who_boogles_it/core/routes/app_router.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
+  await initSingletons();
+
+  provideDatasources();
+  provideRepositories();
+  provideUseCases();
+
   runApp(
     EasyLocalization(
         supportedLocales: App.supportedLocales,
         path: 'assets/translations',
-        fallbackLocale: const Locale('en', 'US'),
+        fallbackLocale: App.supportedLocales[0],
         child: const App()),
   );
 }

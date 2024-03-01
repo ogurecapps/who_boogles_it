@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:who_boogles_it/app/themes/app_size.dart';
+import 'package:who_boogles_it/app/app_size.dart';
 
 class AppTheme {
   ThemeData buildThemeData() {
