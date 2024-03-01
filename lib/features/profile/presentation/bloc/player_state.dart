@@ -9,6 +9,8 @@ sealed class PlayerState extends Equatable {
 
 final class PlayerInitialState extends PlayerState {}
 
+final class PlayerRefreshState extends PlayerState {}
+
 final class PlayerReadyState extends PlayerState {
   final Player player;
 

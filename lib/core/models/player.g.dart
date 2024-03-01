@@ -22,18 +22,13 @@ const PlayerSchema = CollectionSchema(
       name: r'isMe',
       type: IsarType.bool,
     ),
-    r'level': PropertySchema(
-      id: 1,
-      name: r'level',
-      type: IsarType.long,
-    ),
     r'nickname': PropertySchema(
-      id: 2,
+      id: 1,
       name: r'nickname',
       type: IsarType.string,
     ),
     r'winCounter': PropertySchema(
-      id: 3,
+      id: 2,
       name: r'winCounter',
       type: IsarType.long,
     )
@@ -96,9 +91,8 @@ void _playerSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeBool(offsets[0], object.isMe);
-  writer.writeLong(offsets[1], object.level);
-  writer.writeString(offsets[2], object.nickname);
-  writer.writeLong(offsets[3], object.winCounter);
+  writer.writeString(offsets[1], object.nickname);
+  writer.writeLong(offsets[2], object.winCounter);
 }
 
 Player _playerDeserialize(
@@ -109,9 +103,8 @@ Player _playerDeserialize(
 ) {
   final object = Player(
     isMe: reader.readBoolOrNull(offsets[0]) ?? false,
-    level: reader.readLongOrNull(offsets[1]) ?? 1,
-    nickname: reader.readString(offsets[2]),
-    winCounter: reader.readLongOrNull(offsets[3]) ?? 0,
+    nickname: reader.readString(offsets[1]),
+    winCounter: reader.readLongOrNull(offsets[2]) ?? 0,
   );
   object.isarId = id;
   return object;
@@ -127,10 +120,8 @@ P _playerDeserializeProp<P>(
     case 0:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 1:
-      return (reader.readLongOrNull(offset) ?? 1) as P;
-    case 2:
       return (reader.readString(offset)) as P;
-    case 3:
+    case 2:
       return (reader.readLongOrNull(offset) ?? 0) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -436,58 +427,6 @@ extension PlayerQueryFilter on QueryBuilder<Player, Player, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Player, Player, QAfterFilterCondition> levelEqualTo(int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'level',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Player, Player, QAfterFilterCondition> levelGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'level',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Player, Player, QAfterFilterCondition> levelLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'level',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Player, Player, QAfterFilterCondition> levelBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'level',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
   QueryBuilder<Player, Player, QAfterFilterCondition> nicknameEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -689,18 +628,6 @@ extension PlayerQuerySortBy on QueryBuilder<Player, Player, QSortBy> {
     });
   }
 
-  QueryBuilder<Player, Player, QAfterSortBy> sortByLevel() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'level', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Player, Player, QAfterSortBy> sortByLevelDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'level', Sort.desc);
-    });
-  }
-
   QueryBuilder<Player, Player, QAfterSortBy> sortByNickname() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'nickname', Sort.asc);
@@ -751,18 +678,6 @@ extension PlayerQuerySortThenBy on QueryBuilder<Player, Player, QSortThenBy> {
     });
   }
 
-  QueryBuilder<Player, Player, QAfterSortBy> thenByLevel() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'level', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Player, Player, QAfterSortBy> thenByLevelDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'level', Sort.desc);
-    });
-  }
-
   QueryBuilder<Player, Player, QAfterSortBy> thenByNickname() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'nickname', Sort.asc);
@@ -795,12 +710,6 @@ extension PlayerQueryWhereDistinct on QueryBuilder<Player, Player, QDistinct> {
     });
   }
 
-  QueryBuilder<Player, Player, QDistinct> distinctByLevel() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'level');
-    });
-  }
-
   QueryBuilder<Player, Player, QDistinct> distinctByNickname(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -825,12 +734,6 @@ extension PlayerQueryProperty on QueryBuilder<Player, Player, QQueryProperty> {
   QueryBuilder<Player, bool, QQueryOperations> isMeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isMe');
-    });
-  }
-
-  QueryBuilder<Player, int, QQueryOperations> levelProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'level');
     });
   }
 

@@ -21,10 +21,8 @@ class ProfileHint extends StatelessWidget {
           padding: const EdgeInsets.all(6),
           child: const Text(
             LocaleKeys.avatarHint,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.blueGrey,
-            ),
+            textAlign: TextAlign.left,
+            style: TextStyle(color: Colors.blueGrey),
           ).tr(),
         ),
       ),
