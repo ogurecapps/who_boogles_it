@@ -6,8 +6,7 @@ abstract class  LocaleKeys {
   static const profile = 'profile';
   static const settings = 'settings';
   static const exit = 'exit';
-  static const save = 'save';
-  static const cancel = 'cancel';
+  static const done = 'done';
   static const back = 'back';
   static const nicknameLabel = 'nicknameLabel';
   static const nicknameHint = 'nicknameHint';
@@ -19,5 +18,6 @@ abstract class  LocaleKeys {
   static const who = 'who';
   static const avatarHint = 'avatarHint';
   static const levelProgressHint = 'levelProgressHint';
+  static const level = 'level';
 
 }

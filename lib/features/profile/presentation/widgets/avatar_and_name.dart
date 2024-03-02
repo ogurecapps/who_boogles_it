@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/features/profile/presentation/bloc/player_bloc.dart';
 
-class Avatar extends StatelessWidget {
-  const Avatar({super.key});
+class AvatarAndName extends StatelessWidget {
+  const AvatarAndName({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +14,17 @@ class Avatar extends StatelessWidget {
           CircleAvatar(
             backgroundColor: Colors.white,
             radius: AppSize.profileAvatarSize / 2 + AppSize.buttonBorder,
-            child: state is PlayerReadyState ? state.player.avatar : null,
+            child: state is PlayerReadyState
+                ? state.player.avatar
+                : Icon(
+                    Icons.hourglass_top_rounded,
+                    size: 70,
+                    color: Colors.blueGrey[100],
+                  ),
           ),
           const SizedBox(height: AppSize.defaultSpace),
           SizedBox(
-            width: AppSize.profileAvatarSize + 40,
+            width: AppSize.profileAvatarSize + 80,
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: Theme.of(context).secondaryHeaderColor,

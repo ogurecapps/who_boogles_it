@@ -4,8 +4,7 @@
     "profile": "MY PROFILE",
     "settings": "SETTINGS",
     "exit": "EXIT",
-    "save": "SAVE",
-    "cancel": "CANCEL",
+    "done": "DONE",
     "back": "BACK",
     "nicknameLabel": "Nickname",
     "nicknameHint": "Enter your nickname",
@@ -16,5 +15,6 @@
     "what": "Angry,Quiet,Sad,Sleepy,Confused,Strange,Rare,Lucky,Ugly,Careful,Lazy,Boring,Brave,Busy,Antic,Young,Wild,Old,Fuzzy",
     "who": "Banana,Bat,Worm,Snake,Fish,Viper,Rat,Lion,Hawk,Octopus,Frog,Ant,Jaguar,Donut,Mouse,Duck,Elf,Gorilla,Horse",
     "avatarHint": "Ваш аватар генерируется на основе вашего никнейма. Для каждого никнейма будет сгенерирован свой, гарантированно уникальный аватар. Вы можете воспользоваться функцией автогенерации никнейма или отредактировать его вручную. Не бойтесь экспериментировать!",
-    "levelProgressHint" : "Побед до следущего уровня:"
+    "levelProgressHint" : "Побед до следущего уровня:",
+    "level" : "Level"
 }
