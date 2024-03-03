@@ -41,7 +41,7 @@ class Player {
 
     var grade = grades[0];
     switch (level) {
-      case > 40:
+      case > 44:
         grade = grades[5];
         break;
       case > 30:

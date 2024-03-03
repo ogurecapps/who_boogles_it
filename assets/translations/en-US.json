@@ -18,5 +18,12 @@
     "avatarHint": "Your avatar is generated based on the nickname. For each nickname will be generated his guaranteed by a unique avatar. You can use the auto-generation feature or edit the nickname manually - experiment! This is the place for your creativity!",
     "levelProgressHint" : "Wins for the next level:",
     "level" : "Level",
-    "nicknameValidator": "Please enter at least 3 characters"
+    "nicknameValidator": "Please enter at least 3 characters",
+    "grade_0":" - Beginner (level 1-3)",
+    "grade_1":" - Lover (level 4-10)",
+    "grade_2":" - Professional (level 11-20)",
+    "grade_3":" - Expert (level 21-30)",
+    "grade_4":" - Elite (level 31-44)",
+    "grade_5":" - Director of Boogle (level 45+)",
+    "gradesHintTitle": "The colour differentiation of levels"
 }
