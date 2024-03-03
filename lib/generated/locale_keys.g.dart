@@ -10,6 +10,7 @@ abstract class  LocaleKeys {
   static const back = 'back';
   static const nicknameLabel = 'nicknameLabel';
   static const nicknameHint = 'nicknameHint';
+  static const nicknameLimits = 'nicknameLimits';
   static const about = 'about';
   static const privacy = 'privacy';
   static const en = 'en';
@@ -19,5 +20,6 @@ abstract class  LocaleKeys {
   static const avatarHint = 'avatarHint';
   static const levelProgressHint = 'levelProgressHint';
   static const level = 'level';
+  static const nicknameValidator = 'nicknameValidator';
 
 }

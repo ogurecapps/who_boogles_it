@@ -8,6 +8,7 @@
     "back": "BACK",
     "nicknameLabel": "Nickname",
     "nicknameHint": "Enter your nickname",
+    "nicknameLimits": "Hint: available only letters, numbers, and symbol \"_\"",
     "about": "ABOUT",
     "privacy": "PRIVACY POLICY",
     "en": "ENGLISH",
@@ -16,5 +17,6 @@
     "who": "Cucumber,Tomato,Boar,Dwarf,Giant,Mole,Raccoon,Hobbit,Banana,Bat,Worm,Snake,Fish,Viper,Rat,Lion,Hawk,Octopus,Frog,Ant,Jaguar,Donut,Mouse,Duck,Elf,Gorilla,Horse,Skull",
     "avatarHint": "Your avatar is generated based on the nickname. For each nickname will be generated his guaranteed by a unique avatar. You can use the auto-generation feature or edit the nickname manually - experiment! This is the place for your creativity!",
     "levelProgressHint" : "Wins for the next level:",
-    "level" : "Level"
+    "level" : "Level",
+    "nicknameValidator": "Please enter at least 3 characters"
 }

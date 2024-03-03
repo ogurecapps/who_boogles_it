@@ -12,7 +12,7 @@ class ProfileActions extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         ElevatedButton(
-            onPressed: () => {context.read<PlayerBloc>().add(const RandomPlayerEvent())},
+            onPressed: () => {context.read<PlayerBloc>().add(const RandomPlayerNameEvent())},
             style: ElevatedButton.styleFrom(
               shape: const CircleBorder(),
               padding: EdgeInsets.zero,
@@ -27,8 +27,11 @@ class ProfileActions extends StatelessWidget {
                     borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
                   ),
                   context: context,
-                  builder: (BuildContext context) {
-                    return const NameEditor();
+                  builder: (innerContext) {
+                    return BlocProvider.value(
+                      value: BlocProvider.of<PlayerBloc>(context),
+                      child: const NameEditor(),
+                    );
                   });
             },
             style: ElevatedButton.styleFrom(

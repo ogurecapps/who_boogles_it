@@ -6,14 +6,19 @@ import 'package:who_boogles_it/core/models/player.dart';
 import 'package:who_boogles_it/core/util/nickname_generator.dart';
 import 'package:who_boogles_it/shared/domain/repositories/player_repository.dart';
 
-class GetRandomUseCase {
+class SetPlayerNameUseCase {
   final PlayerRepository playerRepository;
 
-  GetRandomUseCase({required this.playerRepository});
+  SetPlayerNameUseCase({required this.playerRepository});
 
-  Future<Player> execute() async {
+  Future<Player> execute({required String name}) async {
     var player = await playerRepository.getMe();
-    player.nickname = locator<NicknameGenerator>().getRandomNickname();
+
+    if (name == '') {
+      player.nickname = locator<NicknameGenerator>().getRandomNickname();
+    } else {
+      player.nickname = name;
+    }
 
     await player.buildAvatar(const Size(AppSize.profileAvatarSize, AppSize.profileAvatarSize));
     await playerRepository.putPlayer(player);

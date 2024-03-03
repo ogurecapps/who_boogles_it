@@ -3,8 +3,7 @@ import 'package:who_boogles_it/core/database/local_database.dart';
 import 'package:who_boogles_it/core/database/local_database_impl.dart';
 import 'package:who_boogles_it/core/util/nickname_generator.dart';
 import 'package:who_boogles_it/features/profile/domain/use_cases/get_player_use_case.dart';
-import 'package:who_boogles_it/features/profile/domain/use_cases/get_random_use_case.dart';
-import 'package:who_boogles_it/features/profile/domain/use_cases/put_player_use_case.dart';
+import 'package:who_boogles_it/features/profile/domain/use_cases/set_player_name_use_case.dart';
 import 'package:who_boogles_it/shared/data/datasource/player_local_datasource.dart';
 import 'package:who_boogles_it/shared/data/datasource/player_local_datasource_impl.dart';
 import 'package:who_boogles_it/shared/data/repositories/player_repository_impl.dart';
@@ -32,8 +31,6 @@ void provideRepositories() {
 void provideUseCases() {
   locator.registerFactory<GetPlayerUseCase>(
       () => GetPlayerUseCase(playerRepository: locator.get<PlayerRepository>()));
-  locator.registerFactory<PutPlayerUseCase>(
-      () => PutPlayerUseCase(playerRepository: locator.get<PlayerRepository>()));
-  locator.registerFactory<GetRandomUseCase>(
-      () => GetRandomUseCase(playerRepository: locator.get<PlayerRepository>()));
+  locator.registerFactory<SetPlayerNameUseCase>(
+      () => SetPlayerNameUseCase(playerRepository: locator.get<PlayerRepository>()));
 }

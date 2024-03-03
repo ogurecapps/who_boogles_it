@@ -11,11 +11,11 @@ final class GetPlayerEvent extends PlayerEvent {
   const GetPlayerEvent();
 }
 
-final class RandomPlayerEvent extends PlayerEvent {
-  const RandomPlayerEvent();
+final class RandomPlayerNameEvent extends PlayerEvent {
+  const RandomPlayerNameEvent();
 }
 
-final class PutPlayerEvent extends PlayerEvent {
-  final Player player;
-  const PutPlayerEvent({required this.player});
+final class SetPlayerNameEvent extends PlayerEvent {
+  final String name;
+  const SetPlayerNameEvent(this.name);
 }
