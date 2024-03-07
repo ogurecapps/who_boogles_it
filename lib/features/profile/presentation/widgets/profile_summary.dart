@@ -8,37 +8,29 @@ import 'package:who_boogles_it/features/profile/presentation/widgets/level_title
 import 'package:who_boogles_it/features/profile/presentation/widgets/profile_actions.dart';
 import 'package:who_boogles_it/features/profile/presentation/widgets/profile_hint.dart';
 
-class ProfileSummary extends StatefulWidget {
+class ProfileSummary extends StatelessWidget {
   const ProfileSummary({super.key});
 
   @override
-  State<ProfileSummary> createState() => _ProfileSummaryState();
-}
-
-class _ProfileSummaryState extends State<ProfileSummary> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<PlayerBloc>().add(const GetPlayerEvent());
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return const Expanded(
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            LevelTitle(),
-            SizedBox(height: 4),
-            AvatarAndName(),
-            SizedBox(height: 4),
-            ProfileActions(),
-            SizedBox(height: AppSize.defaultSpace),
-            LevelIndicator(),
-            SizedBox(height: 6),
-            ProfileHint(),
-          ],
+    return BlocProvider(
+      create: (context) => PlayerBloc()..add(const GetPlayerEvent()),
+      child: const Expanded(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              LevelTitle(),
+              SizedBox(height: 4),
+              AvatarAndName(),
+              SizedBox(height: 4),
+              ProfileActions(),
+              SizedBox(height: AppSize.defaultSpace),
+              LevelIndicator(),
+              SizedBox(height: 6),
+              ProfileHint(),
+            ],
+          ),
         ),
       ),
     );

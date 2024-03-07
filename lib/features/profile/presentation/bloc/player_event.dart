@@ -18,4 +18,7 @@ final class RandomPlayerNameEvent extends PlayerEvent {
 final class SetPlayerNameEvent extends PlayerEvent {
   final String name;
   const SetPlayerNameEvent(this.name);
+
+  @override
+  List<Object> get props => [name];
 }

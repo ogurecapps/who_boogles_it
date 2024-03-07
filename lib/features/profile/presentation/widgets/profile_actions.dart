@@ -12,7 +12,10 @@ class ProfileActions extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         ElevatedButton(
-            onPressed: () => {context.read<PlayerBloc>().add(const RandomPlayerNameEvent())},
+            onPressed: () {
+              if (BlocProvider.of<PlayerBloc>(context).state is! PlayerReadyState) return;
+              context.read<PlayerBloc>().add(const RandomPlayerNameEvent());
+            },
             style: ElevatedButton.styleFrom(
               shape: const CircleBorder(),
               padding: EdgeInsets.zero,
@@ -22,6 +25,7 @@ class ProfileActions extends StatelessWidget {
         const SizedBox(width: 8),
         ElevatedButton(
             onPressed: () {
+              if (BlocProvider.of<PlayerBloc>(context).state is! PlayerReadyState) return;
               showModalBottomSheet(
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(top: Radius.circular(10)),

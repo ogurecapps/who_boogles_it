@@ -17,7 +17,7 @@ class SettingsScreen extends StatelessWidget {
         SizedBox(
           width: AppSize.menuButtonWidth,
           child: ElevatedButton.icon(
-            onPressed: () => context.go(''),
+            onPressed: () => context.pop(),
             icon: const Icon(Icons.arrow_back_ios),
             label: const Text(LocaleKeys.back).tr(),
           ),

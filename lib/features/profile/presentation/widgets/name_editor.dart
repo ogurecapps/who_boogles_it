@@ -23,7 +23,7 @@ class _NameEditorState extends State<NameEditor> {
     final state = BlocProvider.of<PlayerBloc>(context).state;
 
     if (state is PlayerReadyState) {
-      _startName = state.player.nickname;
+      _startName = state.nickname;
     } else {
       _startName = '';
     }

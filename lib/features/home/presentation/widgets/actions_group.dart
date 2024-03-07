@@ -15,7 +15,7 @@ class ActionsGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     ElevatedButton buildNavButton(String path, IconData icon, String key) {
       return ElevatedButton.icon(
-        onPressed: () => context.go(path),
+        onPressed: () => context.push(path),
         icon: Icon(icon),
         label: Text(key).tr(),
       );

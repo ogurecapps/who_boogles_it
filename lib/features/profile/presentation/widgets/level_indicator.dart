@@ -13,13 +13,6 @@ class LevelIndicator extends StatelessWidget {
     return BlocBuilder<PlayerBloc, PlayerState>(
       buildWhen: (previous, current) => previous is PlayerInitialState, // One time
       builder: (context, state) {
-        String legend = '';
-        double value = 0;
-        if (state is PlayerReadyState) {
-          final lvl = state.player.getLevel();
-          legend = '${state.player.winCounter}/${lvl.level * 3}';
-          value = lvl.progress / 3;
-        }
         return SizedBox(
           width: AppSize.profileInfoWidth,
           child: DecoratedBox(
@@ -33,8 +26,9 @@ class LevelIndicator extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(LocaleKeys.levelProgressHint, style: TextStyle(color: Colors.blueGrey)).tr(),
-                  LinearProgressIndicator(value: value),
-                  Text(legend, style: const TextStyle(color: Colors.blueGrey)),
+                  LinearProgressIndicator(value: state is PlayerReadyState ? state.levelIndicatorValue : 0),
+                  Text(state is PlayerReadyState ? state.levelIndicatorLegend : '',
+                      style: const TextStyle(color: Colors.blueGrey)),
                 ],
               ),
             ),

@@ -12,7 +12,7 @@ class LevelTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PlayerBloc, PlayerState>(
-      buildWhen: (previous, current) => previous is PlayerInitialState,
+      buildWhen: (previous, current) => previous is PlayerInitialState, // One time
       builder: (context, state) {
         return GestureDetector(
           onTap: () => showDialog<void>(
@@ -22,14 +22,14 @@ class LevelTitle extends StatelessWidget {
               }),
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: state is PlayerReadyState ? state.player.getLevel().grade : Colors.white,
+              color: state is PlayerReadyState ? state.levelGrade : Colors.white,
               borderRadius: const BorderRadius.all(Radius.circular(2)),
               border: Border.all(color: Colors.white, width: AppSize.buttonBorder),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
-                state is PlayerReadyState ? '${LocaleKeys.level.tr()} ${state.player.getLevel().level}' : '',
+                state is PlayerReadyState ? '${LocaleKeys.level.tr()} ${state.level}' : '',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
