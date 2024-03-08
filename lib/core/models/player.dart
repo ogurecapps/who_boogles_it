@@ -7,6 +7,8 @@ import 'package:who_boogles_it/core/util/avatar_generator.dart';
 
 part 'player.g.dart';
 
+typedef LevelStats = ({int level, int progress, Color grade});
+
 @collection
 class Player {
   Id isarId = Isar.autoIncrement;
@@ -35,7 +37,7 @@ class Player {
   }
 
   // One level every 3 win
-  ({int level, int progress, Color grade}) getLevel() {
+  LevelStats getLevelStats() {
     var level = (winCounter / 3).floor() + 1;
     var closedWin = (level - 1) * 3;
 

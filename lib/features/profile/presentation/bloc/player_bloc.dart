@@ -29,11 +29,12 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
   }
 
   PlayerReadyState _constructReadyState(Player player) {
-    final lvl = player.getLevel();
-    var levelIndicatorLegend = '${player.winCounter}/${lvl.level * 3}';
-    var levelIndicatorValue = lvl.progress / 3;
+    final LevelStats stats = player.getLevelStats();
+
+    var levelIndicatorLegend = '${player.winCounter}/${stats.level * 3}';
+    var levelIndicatorValue = stats.progress / 3;
     return PlayerReadyState(
-        player.avatar, player.nickname, lvl.level, lvl.grade, levelIndicatorValue, levelIndicatorLegend);
+        player.avatar, player.nickname, stats.level, stats.grade, levelIndicatorValue, levelIndicatorLegend);
   }
 
   Future<void> _getPlayer(PlayerEvent event, Emitter<PlayerState> emit) async {

@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
@@ -13,15 +14,16 @@ class ActionsGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ElevatedButton buildNavButton(String path, IconData icon, String key) {
-      return ElevatedButton.icon(
-        onPressed: () => context.push(path),
-        icon: Icon(icon),
-        label: Text(key).tr(),
+    Widget buildNavButton(String path, IconData icon, String key) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: AppSize.defaultSpace),
+        child: ElevatedButton.icon(
+          onPressed: () => context.push(path),
+          icon: Icon(icon),
+          label: Text(key).tr(),
+        ),
       );
     }
-
-    const Widget space = SizedBox(height: AppSize.defaultSpace);
 
     return SizedBox(
         width: AppSize.menuButtonWidth,
@@ -30,11 +32,8 @@ class ActionsGroup extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             buildNavButton('/game', Icons.pageview, LocaleKeys.start),
-            space,
             buildNavButton('/profile', Icons.account_circle, LocaleKeys.profile),
-            space,
             buildNavButton('/settings', Icons.settings, LocaleKeys.settings),
-            space,
             Visibility(
               visible: (kIsWeb
                   ? false
@@ -50,7 +49,7 @@ class ActionsGroup extends StatelessWidget {
   }
 
   void onExitPressed() {
-    Future.delayed(const Duration(milliseconds: 300), () {
+    Future.delayed(300.ms, () {
       if (!kIsWeb) {
         if (Platform.isAndroid) {
           SystemChannels.platform.invokeMethod('SystemNavigator.pop');

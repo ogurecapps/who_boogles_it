@@ -11,7 +11,6 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   Animate.restartOnHotReload = true;
-
   await initSingletons();
 
   provideDatasources();

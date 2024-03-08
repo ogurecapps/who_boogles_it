@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:who_boogles_it/core/di/locator.dart';
 import 'package:who_boogles_it/features/game/presentation/screens/game_screen.dart';
 import 'package:who_boogles_it/features/home/presentation/screens/home_screen.dart';
 import 'package:who_boogles_it/features/profile/presentation/screens/profile_screen.dart';
@@ -9,6 +10,7 @@ class AppRouter {
   static GoRouter get router => _router;
 
   static final GoRouter _router = GoRouter(
+    observers: [locator.get<RouteObserver<ModalRoute>>()],
     routes: <RouteBase>[
       GoRoute(
         path: '/',

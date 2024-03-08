@@ -1,9 +1,41 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:who_boogles_it/core/di/locator.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
 
-class GameTitle extends StatelessWidget {
+class GameTitle extends StatefulWidget {
   const GameTitle({super.key});
+
+  @override
+  State<GameTitle> createState() => _GameTitleState();
+}
+
+class _GameTitleState extends State<GameTitle> with RouteAware, SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      locator.get<RouteObserver<ModalRoute>>().subscribe(this, ModalRoute.of(context)!);
+    });
+    _controller = AnimationController(vsync: this);
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    _controller.reset();
+    _controller.forward();
+    super.didPopNext();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +70,9 @@ class GameTitle extends StatelessWidget {
           ),
         ).tr(),
       ],
-    );
+    )
+        .animate(controller: _controller)
+        .slideY(begin: .8, end: 0, duration: 1000.ms, curve: Curves.fastOutSlowIn)
+        .fadeIn(duration: 800.ms);
   }
 }
