@@ -7,43 +7,21 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:who_boogles_it/app/app_size.dart';
-import 'package:who_boogles_it/core/di/locator.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
+import 'package:who_boogles_it/shared/presentation/util/multi_anim_ctrl_state.dart';
 
 class ActionsGroup extends StatefulWidget {
   const ActionsGroup({super.key});
 
   @override
-  State<ActionsGroup> createState() => _ActionsGroupState();
+  MultiAnimCtrlState createState() => _ActionsGroupState();
 }
 
-class _ActionsGroupState extends State<ActionsGroup> with RouteAware, TickerProviderStateMixin {
-  late final List<AnimationController> _controllers;
-
+class _ActionsGroupState extends MultiAnimCtrlState {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      locator.get<RouteObserver<ModalRoute>>().subscribe(this, ModalRoute.of(context)!);
-    });
-    _controllers = List.generate(4, (_) => AnimationController(vsync: this));
+    controllers = List.generate(4, (_) => AnimationController(vsync: this));
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    for (var controller in _controllers) {
-      controller.dispose();
-    }
-    super.dispose();
-  }
-
-  @override
-  void didPopNext() {
-    for (var controller in _controllers) {
-      controller.reset();
-      controller.forward();
-    }
-    super.didPopNext();
   }
 
   @override
@@ -56,7 +34,7 @@ class _ActionsGroupState extends State<ActionsGroup> with RouteAware, TickerProv
           icon: Icon(icon),
           label: Text(key).tr(),
         ),
-      ).animate(controller: _controllers[controller]).flip(
+      ).animate(controller: controllers[controller]).flip(
             delay: delay,
             curve: Curves.fastOutSlowIn,
           );
@@ -80,7 +58,7 @@ class _ActionsGroupState extends State<ActionsGroup> with RouteAware, TickerProv
                 icon: const Icon(Icons.cancel),
                 label: const Text(LocaleKeys.exit).tr(),
               ),
-            ).animate(controller: _controllers[3]).flip(
+            ).animate(controller: controllers[3]).flip(
                   delay: 1000.ms,
                   curve: Curves.fastOutSlowIn,
                 ),

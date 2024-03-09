@@ -1,42 +1,17 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:who_boogles_it/core/di/locator.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
+import 'package:who_boogles_it/shared/presentation/util/single_anim_ctrl_state.dart';
 
 class GameTitle extends StatefulWidget {
   const GameTitle({super.key});
 
   @override
-  State<GameTitle> createState() => _GameTitleState();
+  SingleAnimCtrlState createState() => _GameTitleState();
 }
 
-class _GameTitleState extends State<GameTitle> with RouteAware, SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      locator.get<RouteObserver<ModalRoute>>().subscribe(this, ModalRoute.of(context)!);
-    });
-    _controller = AnimationController(vsync: this);
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  void didPopNext() {
-    _controller.reset();
-    _controller.forward();
-    super.didPopNext();
-  }
-
+class _GameTitleState extends SingleAnimCtrlState {
   @override
   Widget build(BuildContext context) {
     const double fontSize = 42;
@@ -71,7 +46,7 @@ class _GameTitleState extends State<GameTitle> with RouteAware, SingleTickerProv
         ).tr(),
       ],
     )
-        .animate(controller: _controller)
+        .animate(controller: controller)
         .scale(
           duration: 800.ms,
           curve: Curves.fastOutSlowIn,
