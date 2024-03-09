@@ -72,7 +72,10 @@ class _GameTitleState extends State<GameTitle> with RouteAware, SingleTickerProv
       ],
     )
         .animate(controller: _controller)
-        .slideY(begin: .8, end: 0, duration: 1000.ms, curve: Curves.fastOutSlowIn)
-        .fadeIn(duration: 800.ms);
+        .scale(
+          duration: 800.ms,
+          curve: Curves.fastOutSlowIn,
+        )
+        .fadeIn(duration: 600.ms);
   }
 }
