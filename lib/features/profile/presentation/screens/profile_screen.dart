@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/features/profile/presentation/widgets/profile_summary.dart';
@@ -21,7 +22,10 @@ class ProfileScreen extends StatelessWidget {
               onPressed: () => context.pop(),
               icon: const Icon(Icons.arrow_back_ios),
               label: const Text(LocaleKeys.back).tr(),
-            ),
+            ).animate().flip(
+                  delay: 1400.ms,
+                  curve: Curves.fastOutSlowIn,
+                ),
           ),
         ],
       ),

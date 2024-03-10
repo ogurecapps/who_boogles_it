@@ -32,7 +32,7 @@ class _SettingsScreenState extends SingleAnimCtrlState {
                 controller: controller,
               )
               .flip(
-                delay: 1000.ms,
+                delay: 800.ms,
                 curve: Curves.fastOutSlowIn,
               ),
         ),

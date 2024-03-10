@@ -42,7 +42,7 @@ class _SettingsButtonsState extends MultiAnimCtrlState {
                     controller: controllers[0],
                   )
                   .flip(
-                    delay: 400.ms,
+                    delay: 200.ms,
                     curve: Curves.fastOutSlowIn,
                   ),
               space,
@@ -55,7 +55,7 @@ class _SettingsButtonsState extends MultiAnimCtrlState {
                     controller: controllers[1],
                   )
                   .flip(
-                    delay: 600.ms,
+                    delay: 400.ms,
                     curve: Curves.fastOutSlowIn,
                   ),
               space,
@@ -64,7 +64,7 @@ class _SettingsButtonsState extends MultiAnimCtrlState {
                     controller: controllers[2],
                   )
                   .flip(
-                    delay: 800.ms,
+                    delay: 600.ms,
                     curve: Curves.fastOutSlowIn,
                   ),
             ],

@@ -19,13 +19,16 @@ class AvatarAndName extends StatelessWidget {
             backgroundColor: Colors.white,
             radius: AppSize.profileAvatarSize / 2 + AppSize.buttonBorder,
             child: state is PlayerReadyState
-                ? state.avatar.animate().shimmer()
+                ? state.avatar.animate().shimmer(delay: 600.ms)
                 : Icon(
                     Icons.hourglass_top_rounded,
                     size: 70,
                     color: Colors.blueGrey[100],
                   ),
-          ),
+          ).animate().scale(
+                delay: 400.ms,
+                curve: Curves.fastOutSlowIn,
+              ),
           const SizedBox(height: AppSize.defaultSpace),
           SizedBox(
             width: AppSize.profileAvatarSize + 80,
@@ -39,8 +42,8 @@ class AvatarAndName extends StatelessWidget {
                 child: state is PlayerReadyState
                     ? Text(state.nickname, textAlign: TextAlign.center, style: style)
                         .animate()
-                        .slideY(begin: 0.3, end: 0, duration: 200.ms, curve: Curves.fastOutSlowIn)
-                        .fadeIn()
+                        .slideY(delay: 200.ms, begin: 0.3, end: 0, curve: Curves.fastOutSlowIn)
+                        .fadeIn(delay: 200.ms)
                     : Text('', textAlign: TextAlign.center, style: style),
               ),
             ),

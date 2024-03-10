@@ -47,10 +47,12 @@ class _GameTitleState extends SingleAnimCtrlState {
       ],
     )
         .animate(controller: controller)
-        .scale(
-          duration: 800.ms,
-          curve: Curves.fastOutSlowIn,
+        .scaleXY(
+          begin: 0.3,
+          delay: 800.ms,
+          duration: 1000.ms,
+          curve: Curves.elasticOut,
         )
-        .fadeIn(duration: 600.ms);
+        .fadeIn(delay: 800.ms, duration: 1000.ms);
   }
 }

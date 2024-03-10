@@ -50,9 +50,9 @@ class _ActionsGroupState extends MultiAnimCtrlState {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            buildNavButton('/game', Icons.pageview, LocaleKeys.start, 400.ms, 0),
-            buildNavButton('/profile', Icons.account_circle, LocaleKeys.profile, 600.ms, 1),
-            buildNavButton('/settings', Icons.settings, LocaleKeys.settings, 800.ms, 2),
+            buildNavButton('/game', Icons.pageview, LocaleKeys.start, 200.ms, 0),
+            buildNavButton('/profile', Icons.account_circle, LocaleKeys.profile, 400.ms, 1),
+            buildNavButton('/settings', Icons.settings, LocaleKeys.settings, 600.ms, 2),
             Visibility(
               visible: (kIsWeb
                   ? false
@@ -67,7 +67,7 @@ class _ActionsGroupState extends MultiAnimCtrlState {
                   controller: controllers[3],
                 )
                 .flip(
-                  delay: 1000.ms,
+                  delay: 800.ms,
                   curve: Curves.fastOutSlowIn,
                 ),
           ],
