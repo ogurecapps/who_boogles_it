@@ -69,7 +69,7 @@ const QuestionSchema = CollectionSchema(
   getId: _questionGetId,
   getLinks: _questionGetLinks,
   attach: _questionAttach,
-  version: '3.1.0',
+  version: '3.1.0+1',
 );
 
 int _questionEstimateSize(

@@ -1,10 +1,17 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
+import 'package:who_boogles_it/shared/presentation/util/single_anim_ctrl_state.dart';
 
-class GameTitle extends StatelessWidget {
+class GameTitle extends StatefulWidget {
   const GameTitle({super.key});
 
+  @override
+  SingleAnimCtrlState createState() => _GameTitleState();
+}
+
+class _GameTitleState extends SingleAnimCtrlState {
   @override
   Widget build(BuildContext context) {
     const double fontSize = 42;
@@ -38,6 +45,14 @@ class GameTitle extends StatelessWidget {
           ),
         ).tr(),
       ],
-    );
+    )
+        .animate(controller: controller)
+        .scaleXY(
+          begin: 0.3,
+          delay: 800.ms,
+          duration: 1000.ms,
+          curve: Curves.elasticOut,
+        )
+        .fadeIn(delay: 800.ms, duration: 1000.ms);
   }
 }

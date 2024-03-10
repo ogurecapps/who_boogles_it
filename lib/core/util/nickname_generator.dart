@@ -17,10 +17,11 @@ class NicknameGenerator {
       loadTranslations();
     }
 
-    var nickname = "${what[Random().nextInt(what.length)]}_${who[Random().nextInt(who.length)]}";
-    while (nickname == exclude) {
-      nickname = "${what[Random().nextInt(what.length)]}_${who[Random().nextInt(who.length)]}";
-    }
+    String nickname;
+    do {
+      nickname = "${what[Random().nextInt(what.length)]}-${who[Random().nextInt(who.length)]}";
+    } while (nickname == exclude);
+
     return nickname;
   }
 }

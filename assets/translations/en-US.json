@@ -8,7 +8,7 @@
     "back": "BACK",
     "nicknameLabel": "Nickname",
     "nicknameHint": "Enter your nickname",
-    "nicknameLimits": "Hint: available only letters, numbers, and symbol \"_\"",
+    "nicknameLimits": "Hint: allowed letters, numbers, and symbol \"-\"",
     "about": "ABOUT",
     "privacy": "PRIVACY POLICY",
     "en": "ENGLISH",

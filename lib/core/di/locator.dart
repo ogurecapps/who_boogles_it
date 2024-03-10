@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:who_boogles_it/core/database/local_database.dart';
 import 'package:who_boogles_it/core/database/local_database_impl.dart';
@@ -14,6 +15,7 @@ final locator = GetIt.I;
 Future<void> initSingletons() async {
   locator.registerLazySingleton<NicknameGenerator>(() => NicknameGenerator());
   locator.registerLazySingleton<LocalDatabase>(() => LocalDatabaseImpl());
+  locator.registerLazySingleton<RouteObserver<ModalRoute>>(() => RouteObserver<ModalRoute>());
 
   await locator<LocalDatabase>().initDb();
 }

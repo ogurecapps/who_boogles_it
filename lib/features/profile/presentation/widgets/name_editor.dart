@@ -23,7 +23,7 @@ class _NameEditorState extends State<NameEditor> {
     final state = BlocProvider.of<PlayerBloc>(context).state;
 
     if (state is PlayerReadyState) {
-      _startName = state.player.nickname;
+      _startName = state.nickname;
     } else {
       _startName = '';
     }
@@ -34,8 +34,8 @@ class _NameEditorState extends State<NameEditor> {
   }
 
   void onSubmitted(String text) {
-    if (_formKey.currentState!.validate() && text.trim() != _startName) {
-      context.read<PlayerBloc>().add(SetPlayerNameEvent(text.trim()));
+    if (_formKey.currentState!.validate() && text != _startName) {
+      context.read<PlayerBloc>().add(SetPlayerNameEvent(text));
     }
 
     Navigator.of(context).pop();
@@ -75,7 +75,7 @@ class _NameEditorState extends State<NameEditor> {
                 return null;
               },
               inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9_]')),
+                FilteringTextInputFormatter.allow(RegExp('[a-zA-Zа-яА-Я0-9-]')),
               ],
               decoration: InputDecoration(
                 labelText: LocaleKeys.nicknameLabel.tr(),
