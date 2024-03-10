@@ -19,7 +19,7 @@ dependencies:
   url_launcher: ^6.2.4
   flutter_bloc: ^8.1.4
   bloc: ^8.1.3
-  isar: ^3.1.0
+  isar: ^3.1.0  # web is not supported for now (4.0.0 with web support is prerelease)
   isar_flutter_libs: ^3.1.0
   multiavatar: ^0.1.5
   path_provider: ^2.1.2
