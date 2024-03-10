@@ -19,7 +19,7 @@ class NicknameGenerator {
 
     String nickname;
     do {
-      nickname = "${what[Random().nextInt(what.length)]}_${who[Random().nextInt(who.length)]}";
+      nickname = "${what[Random().nextInt(what.length)]}-${who[Random().nextInt(who.length)]}";
     } while (nickname == exclude);
 
     return nickname;

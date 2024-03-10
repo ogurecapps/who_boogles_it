@@ -34,7 +34,11 @@ class _ActionsGroupState extends MultiAnimCtrlState {
           icon: Icon(icon),
           label: Text(key).tr(),
         ),
-      ).animate(controller: controllers[controller]).flip(
+      )
+          .animate(
+            controller: controllers[controller],
+          )
+          .flip(
             delay: delay,
             curve: Curves.fastOutSlowIn,
           );
@@ -58,7 +62,11 @@ class _ActionsGroupState extends MultiAnimCtrlState {
                 icon: const Icon(Icons.cancel),
                 label: const Text(LocaleKeys.exit).tr(),
               ),
-            ).animate(controller: controllers[3]).flip(
+            )
+                .animate(
+                  controller: controllers[3],
+                )
+                .flip(
                   delay: 1000.ms,
                   curve: Curves.fastOutSlowIn,
                 ),

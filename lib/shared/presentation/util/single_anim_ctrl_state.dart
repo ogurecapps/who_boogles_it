@@ -20,11 +20,21 @@ class SingleAnimCtrlState extends State with RouteAware, SingleTickerProviderSta
     super.dispose();
   }
 
-  @override
-  void didPopNext() {
+  void _onScreenShow() {
     controller.reset();
     controller.forward();
+  }
+
+  @override
+  void didPopNext() {
+    _onScreenShow();
     super.didPopNext();
+  }
+
+  @override
+  void didPush() {
+    _onScreenShow();
+    super.didPush();
   }
 
   @override
