@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:who_boogles_it/core/di/locator.dart';
+import 'package:who_boogles_it/core/routes/custom_transition.dart';
 import 'package:who_boogles_it/features/game/presentation/screens/game_screen.dart';
 import 'package:who_boogles_it/features/home/presentation/screens/home_screen.dart';
 import 'package:who_boogles_it/features/profile/presentation/screens/profile_screen.dart';
@@ -20,21 +21,27 @@ class AppRouter {
         routes: <RouteBase>[
           GoRoute(
             path: 'game',
-            builder: (BuildContext context, GoRouterState state) {
-              return const GameScreen();
-            },
+            pageBuilder: (context, state) => CustomTransition.buildPage<void>(
+              context: context,
+              state: state,
+              page: const GameScreen(),
+            ),
           ),
           GoRoute(
             path: 'profile',
-            builder: (BuildContext context, GoRouterState state) {
-              return const ProfileScreen();
-            },
+            pageBuilder: (context, state) => CustomTransition.buildPage<void>(
+              context: context,
+              state: state,
+              page: const ProfileScreen(),
+            ),
           ),
           GoRoute(
             path: 'settings',
-            builder: (BuildContext context, GoRouterState state) {
-              return const SettingsScreen();
-            },
+            pageBuilder: (context, state) => CustomTransition.buildPage<void>(
+              context: context,
+              state: state,
+              page: const SettingsScreen(),
+            ),
           ),
         ],
       ),

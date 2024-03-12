@@ -73,6 +73,9 @@ class _SettingsButtonsState extends MultiAnimCtrlState {
       ),
     );
   }
+
+  @override
+  void didPopNext() {} //No animations play when we close a list of languages
 }
 
 Future<void> onPrivacyPressed() async {

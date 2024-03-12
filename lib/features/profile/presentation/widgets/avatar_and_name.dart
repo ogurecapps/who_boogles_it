@@ -47,7 +47,7 @@ class AvatarAndName extends StatelessWidget {
                     : Text('', textAlign: TextAlign.center, style: style),
               ),
             ),
-          ).animate().fadeIn(delay: 100.ms)
+          ).animate().fadeIn(delay: 200.ms)
         ],
       );
     });

@@ -39,4 +39,7 @@ class _SettingsScreenState extends SingleAnimCtrlState {
       ]),
     );
   }
+
+  @override
+  void didPopNext() {} // No animations play when we close a list of languages
 }
