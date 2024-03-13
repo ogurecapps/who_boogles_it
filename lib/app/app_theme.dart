@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 
 class AppTheme {
+  static final BoxShadow defaultBoxShadow = BoxShadow(
+    color: Colors.black.withOpacity(0.6),
+    blurRadius: 2,
+    offset: const Offset(1, 1),
+  );
+
   ThemeData buildThemeData() {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: Colors.blue,

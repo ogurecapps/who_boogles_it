@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:who_boogles_it/app/app_size.dart';
+import 'package:who_boogles_it/app/app_theme.dart';
 import 'package:who_boogles_it/features/profile/presentation/bloc/player_bloc.dart';
 import 'package:who_boogles_it/features/profile/presentation/widgets/level_grades_tip.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
@@ -25,6 +26,7 @@ class LevelTitle extends StatelessWidget {
               color: state is PlayerReadyState ? state.levelGrade : Colors.white,
               borderRadius: const BorderRadius.all(Radius.circular(2)),
               border: Border.all(color: Colors.white, width: AppSize.buttonBorder),
+              boxShadow: [AppTheme.defaultBoxShadow],
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:who_boogles_it/app/app_size.dart';
+import 'package:who_boogles_it/app/app_theme.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
 
 class ProfileHint extends StatelessWidget {
@@ -13,9 +14,8 @@ class ProfileHint extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: Theme.of(context).secondaryHeaderColor,
-          borderRadius: const BorderRadius.all(
-            Radius.circular(6),
-          ),
+          borderRadius: const BorderRadius.all(Radius.circular(6)),
+          boxShadow: [AppTheme.defaultBoxShadow],
         ),
         child: Padding(
           padding: const EdgeInsets.all(6),
