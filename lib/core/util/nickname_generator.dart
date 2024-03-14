@@ -17,11 +17,23 @@ class NicknameGenerator {
       loadTranslations();
     }
 
-    String nickname;
-    do {
-      nickname = "${what[Random().nextInt(what.length)]}-${who[Random().nextInt(who.length)]}";
-    } while (nickname == exclude);
+    var exWhat = '', exWho = '';
 
-    return nickname;
+    if (exclude != '') {
+      var del = exclude.indexOf('-');
+      // Contains, not first, not last
+      if ((del > 0) && ((del + 1) < exclude.length)) {
+        exWhat = exclude.substring(0, del);
+        exWho = exclude.substring(del + 1);
+      }
+    }
+
+    String rWhat, rWho;
+    do {
+      rWhat = what[Random().nextInt(what.length)];
+      rWho = who[Random().nextInt(who.length)];
+    } while (rWhat == exWhat || rWho == exWho);
+
+    return '$rWhat-$rWho';
   }
 }
