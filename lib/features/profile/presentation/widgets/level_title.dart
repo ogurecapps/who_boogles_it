@@ -33,10 +33,7 @@ class LevelTitle extends StatelessWidget {
               child: Text(
                 state is PlayerReadyState ? '${LocaleKeys.level.tr()} ${state.level}' : '',
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
+                style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
           ),

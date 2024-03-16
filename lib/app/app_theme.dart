@@ -17,6 +17,29 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: colorScheme,
+      textTheme: TextTheme(
+        headlineLarge: TextStyle(
+          fontFamily: 'SofiaSans',
+          color: colorScheme.primary,
+          fontSize: 26,
+          fontWeight: FontWeight.bold,
+        ),
+        titleSmall: const TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+        ),
+        bodySmall: const TextStyle(
+          fontFamily: 'SofiaSans',
+          color: Colors.blueGrey,
+          fontSize: 14,
+        ),
+        bodyMedium: TextStyle(
+          fontFamily: 'SofiaSans',
+          color: colorScheme.primary,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
           textStyle: const MaterialStatePropertyAll(
