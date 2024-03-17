@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:who_boogles_it/app/app_color.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/app/app_theme.dart';
 import 'package:who_boogles_it/features/profile/presentation/bloc/player_bloc.dart';
@@ -23,9 +24,9 @@ class LevelTitle extends StatelessWidget {
               }),
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: state is PlayerReadyState ? state.levelGrade : Colors.white,
+              color: state is PlayerReadyState ? state.levelGrade : AppColor.colorScheme.onPrimary,
               borderRadius: const BorderRadius.all(Radius.circular(2)),
-              border: Border.all(color: Colors.white, width: AppSize.buttonBorder),
+              border: Border.all(color: AppColor.colorScheme.onPrimary, width: AppSize.buttonBorder),
               boxShadow: [AppTheme.defaultBoxShadow],
             ),
             child: Padding(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:who_boogles_it/app/app_color.dart';
 import 'package:who_boogles_it/app/app_theme.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/answer_plate.dart';
 
@@ -11,7 +12,7 @@ class GameBoard extends StatelessWidget {
       width: double.infinity,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColor.colorScheme.onPrimary,
           borderRadius: const BorderRadius.all(Radius.circular(6)),
           boxShadow: [AppTheme.defaultBoxShadow],
         ),
