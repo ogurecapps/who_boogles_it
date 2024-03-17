@@ -34,17 +34,19 @@ class _AnswerPlateState extends State<AnswerPlate> {
         child: Center(
           child: DecoratedBox(
             decoration: BoxDecoration(
+              color: const Color(0xff39b8c2),
               shape: BoxShape.circle,
               border: Border.all(
                 color: Theme.of(context).primaryColor,
                 width: AppSize.buttonBorder,
               ),
             ),
-            child: const SizedBox(
-              width: 19,
+            child: SizedBox(
+              width: 23,
               child: Text(
-                '1',
+                widget.number.toString(),
                 textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
           ),

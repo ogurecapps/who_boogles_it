@@ -47,7 +47,7 @@ class AvatarAndName extends StatelessWidget {
                     ? Text(
                         state.nickname,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headlineLarge,
+                        style: Theme.of(context).textTheme.titleLarge,
                       )
                         .animate()
                         .slideY(delay: 200.ms, begin: 0.3, end: 0, curve: Curves.fastOutSlowIn)
@@ -55,7 +55,7 @@ class AvatarAndName extends StatelessWidget {
                     : Text(
                         '',
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headlineLarge,
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
               ),
             ),

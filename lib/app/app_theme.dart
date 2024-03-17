@@ -8,7 +8,7 @@ class AppTheme {
     offset: const Offset(1, 1),
   );
 
-  ThemeData buildThemeData() {
+  static ThemeData get lightTheme {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: Colors.blue,
       brightness: Brightness.light,
@@ -18,7 +18,7 @@ class AppTheme {
       useMaterial3: true,
       colorScheme: colorScheme,
       textTheme: TextTheme(
-        headlineLarge: TextStyle(
+        titleLarge: TextStyle(
           fontFamily: 'SofiaSans',
           color: colorScheme.primary,
           fontSize: 26,
@@ -26,7 +26,7 @@ class AppTheme {
         ),
         titleSmall: const TextStyle(
           color: Colors.white,
-          fontSize: 18,
+          fontSize: 17,
         ),
         bodySmall: const TextStyle(
           fontFamily: 'SofiaSans',
