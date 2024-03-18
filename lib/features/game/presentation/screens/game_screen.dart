@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/game_board.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/search_field.dart';
+import 'package:who_boogles_it/features/game/presentation/widgets/status_text.dart';
 import 'package:who_boogles_it/shared/presentation/screens/scaffold_wrapper.dart';
 
 class GameScreen extends StatelessWidget {
@@ -13,8 +14,10 @@ class GameScreen extends StatelessWidget {
       body: Column(
         children: [
           SearchField(),
-          SizedBox(height: AppSize.defaultSpace),
+          SizedBox(height: AppSize.defaultSpace / 2),
           GameBoard(),
+          SizedBox(height: AppSize.defaultSpace / 2),
+          StatusText(),
         ],
       ),
     );

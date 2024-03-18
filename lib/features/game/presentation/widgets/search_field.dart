@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:who_boogles_it/app/app_color.dart';
 import 'package:who_boogles_it/app/app_theme.dart';
 
 class SearchField extends StatelessWidget {
@@ -11,8 +10,8 @@ class SearchField extends StatelessWidget {
       width: double.infinity,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: AppColor.colorScheme.onPrimary,
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          color: Theme.of(context).colorScheme.onPrimary,
+          borderRadius: AppTheme.defaultRadius,
           boxShadow: [AppTheme.defaultBoxShadow],
         ),
         child: Padding(

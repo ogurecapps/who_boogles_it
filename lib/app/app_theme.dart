@@ -9,6 +9,8 @@ class AppTheme {
     offset: const Offset(1, 1),
   );
 
+  static const BorderRadius defaultRadius = BorderRadius.all(Radius.circular(6));
+
   static ThemeData get light => ThemeData(
         fontFamily: 'SofiaSans',
         useMaterial3: true,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:who_boogles_it/app/app_color.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 
 class AnswerPlate extends StatefulWidget {
@@ -27,7 +26,14 @@ class _AnswerPlateState extends State<AnswerPlate> {
     return Expanded(
       child: DecoratedBox(
         decoration: BoxDecoration(
-            color: Theme.of(context).secondaryHeaderColor,
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+                Theme.of(context).colorScheme.surfaceTint,
+                Theme.of(context).colorScheme.secondaryContainer,
+              ],
+            ),
             border: Border.all(
               color: Theme.of(context).primaryColor,
               width: AppSize.buttonBorder,
@@ -35,10 +41,10 @@ class _AnswerPlateState extends State<AnswerPlate> {
         child: Center(
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: AppColor.colorScheme.outline,
+              color: Theme.of(context).primaryColor,
               shape: BoxShape.circle,
               border: Border.all(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).secondaryHeaderColor,
                 width: AppSize.buttonBorder,
               ),
             ),

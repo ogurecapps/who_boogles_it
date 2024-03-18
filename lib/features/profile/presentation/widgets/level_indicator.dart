@@ -19,7 +19,7 @@ class LevelIndicator extends StatelessWidget {
           child: DecoratedBox(
             decoration: BoxDecoration(
               color: Theme.of(context).secondaryHeaderColor,
-              borderRadius: const BorderRadius.all(Radius.circular(6)),
+              borderRadius: AppTheme.defaultRadius,
               boxShadow: [AppTheme.defaultBoxShadow],
             ),
             child: Padding(

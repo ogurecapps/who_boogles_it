@@ -32,7 +32,7 @@ class _GameTitleState extends SingleAnimCtrlState {
               foreground: Paint()
                 ..style = PaintingStyle.stroke
                 ..strokeWidth = borderSize
-                ..color = AppColor.colorScheme.onPrimary),
+                ..color = Theme.of(context).colorScheme.onPrimary),
         ).tr(),
         const Text(
           LocaleKeys.gameTitle,
