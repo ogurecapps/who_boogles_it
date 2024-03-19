@@ -17,7 +17,7 @@ class GameBoard extends StatelessWidget {
             padding: const EdgeInsets.only(top: 18),
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.onInverseSurface,
+                color: Theme.of(context).secondaryHeaderColor,
                 borderRadius: AppTheme.defaultRadius,
                 boxShadow: [AppTheme.defaultBoxShadow],
               ),

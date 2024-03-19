@@ -8,16 +8,21 @@ class StatusText extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
+      height: 20,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: Theme.of(context).secondaryHeaderColor,
+          color: Theme.of(context).colorScheme.onPrimary,
           borderRadius: AppTheme.defaultRadius,
           boxShadow: [AppTheme.defaultBoxShadow],
         ),
-        child: Text(
-          'Раунд 1',
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodySmall,
+        child: Padding(
+          padding: const EdgeInsets.all(0),
+          child: Center(
+            child: Text(
+              'Round 1',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ),
         ),
       ),
     );
