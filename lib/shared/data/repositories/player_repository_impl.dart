@@ -3,22 +3,22 @@ import 'package:who_boogles_it/shared/data/datasource/player_local_datasource.da
 import 'package:who_boogles_it/shared/domain/repositories/player_repository.dart';
 
 class PlayerRepositoryImpl extends PlayerRepository {
-  PlayerLocalDatasource playerLocalDatasource;
+  PlayerLocalDatasource localDatasource;
 
-  PlayerRepositoryImpl({required this.playerLocalDatasource});
+  PlayerRepositoryImpl({required this.localDatasource});
 
   @override
   Future<Player> getEnemy() {
-    return playerLocalDatasource.getEnemy();
+    return localDatasource.getEnemy();
   }
 
   @override
   Future<Player> getMe() {
-    return playerLocalDatasource.getMe();
+    return localDatasource.getMe();
   }
 
   @override
   Future<void> putPlayer(Player player) {
-    return playerLocalDatasource.putPlayer(player);
+    return localDatasource.putPlayer(player);
   }
 }

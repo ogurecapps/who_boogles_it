@@ -27,21 +27,21 @@ class GameBoard extends StatelessWidget {
                   children: [
                     SizedBox(height: 6),
                     Row(children: [
-                      AnswerPlate(number: 1, text: 'девушку', points: 100),
+                      AnswerPlate(number: 1, text: '', points: 100),
                       SizedBox(width: 6),
-                      AnswerPlate(number: 2, text: 'подругу', points: 80),
+                      AnswerPlate(number: 2, text: '', points: 80),
                     ]),
                     SizedBox(height: 6),
                     Row(children: [
-                      AnswerPlate(number: 3, text: 'собаку', points: 40),
+                      AnswerPlate(number: 3, text: '', points: 40),
                       SizedBox(width: 6),
-                      AnswerPlate(number: 4, text: 'компанию', points: 20),
+                      AnswerPlate(number: 4, text: '', points: 20),
                     ]),
                     SizedBox(height: 6),
                     Row(children: [
-                      AnswerPlate(number: 5, text: 'кошку', points: 10),
+                      AnswerPlate(number: 5, text: '', points: 10),
                       SizedBox(width: 6),
-                      AnswerPlate(number: 6, text: 'песню', points: 5),
+                      AnswerPlate(number: 6, text: '', points: 5),
                     ]),
                   ],
                 ),

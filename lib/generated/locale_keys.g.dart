@@ -28,5 +28,6 @@ abstract class  LocaleKeys {
   static const grade_4 = 'grade_4';
   static const grade_5 = 'grade_5';
   static const gradesHintTitle = 'gradesHintTitle';
+  static const entryHint = 'entryHint';
 
 }

@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:who_boogles_it/app/app_size.dart';
+import 'package:who_boogles_it/generated/locale_keys.g.dart';
 
 class EntryField extends StatelessWidget {
   const EntryField({super.key});
@@ -29,13 +31,15 @@ class EntryField extends StatelessWidget {
               const SizedBox(width: AppSize.defaultSpace),
               Expanded(
                 child: TextFormField(
+                  maxLength: 18,
                   onFieldSubmitted: (value) {},
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp('[a-zA-Zа-яА-Я]')),
                   ],
-                  decoration: const InputDecoration(
-                    hintText: 'Ваш ответ одним словом',
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    hintText: LocaleKeys.entryHint.tr(),
+                    counterText: '',
+                    border: const OutlineInputBorder(),
                   ),
                 ),
               ),

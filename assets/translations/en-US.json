@@ -25,5 +25,6 @@
     "grade_3":" - Expert (level 21-30)",
     "grade_4":" - Elite (level 31-44)",
     "grade_5":" - Director of Boogle (level 45+)",
-    "gradesHintTitle": "The colour differentiation of levels"
+    "gradesHintTitle": "The colour differentiation of levels",
+    "entryHint": "Your answer in a word"
 }

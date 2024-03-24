@@ -18,10 +18,7 @@ class StatusText extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(0),
           child: Center(
-            child: Text(
-              'Round 1',
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
+            child: Text('', style: Theme.of(context).textTheme.bodySmall),
           ),
         ),
       ),
