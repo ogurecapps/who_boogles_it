@@ -3,6 +3,13 @@ part of 'game_bloc.dart';
 sealed class GameState extends Equatable {
   const GameState();
 
+  static const points = [
+    [140, 80, 40, 20, 10, 5],
+    [220, 140, 80, 40, 20, 10],
+    [300, 200, 120, 60, 30, 15],
+    [20, 40, 80, 160, 260, 380]
+  ];
+
   @override
   List<Object> get props => [];
 }
@@ -11,8 +18,8 @@ final class GameInitialState extends GameState {}
 
 final class GameReadyState extends GameState {
   final String question;
-  final List<String> rightAnswers;
-  final List<String> wrongAnswers;
+  final Set<String> rightAnswers;
+  final Set<String> wrongAnswers;
 
   const GameReadyState(this.question, this.rightAnswers, this.wrongAnswers);
 

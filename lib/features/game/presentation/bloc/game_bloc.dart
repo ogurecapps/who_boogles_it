@@ -20,7 +20,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     try {
       final question = await _getQuestionUseCase.execute(event.langCode);
       await Future.delayed(400.ms);
-      emit(GameReadyState(question.text, question.rightAnswers, question.wrongAnswers));
+      emit(GameReadyState(question.text, question.rightAnswers.toSet(), question.wrongAnswers.toSet()));
     } catch (e) {
       log(e.toString());
     }

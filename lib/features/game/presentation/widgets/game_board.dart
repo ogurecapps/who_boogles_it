@@ -1,75 +1,90 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/app/app_theme.dart';
+import 'package:who_boogles_it/features/game/presentation/bloc/game_bloc.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/answer_plate.dart';
 
 class GameBoard extends StatelessWidget {
   const GameBoard({super.key});
 
+  List<Widget> buildAnswersTable(GameReadyState state) {
+    var round = 0; // Read from state?
+    List<Widget> table = [];
+    const space = SizedBox(width: 6, height: 6);
+    var index = 0;
+
+    for (var i = 0; i < 3; i++) {
+      // Rows
+      List<Widget> widgetsRow = [];
+      for (var j = 0; j < 2; j++) {
+        // Columns
+        widgetsRow.add(
+          AnswerPlate(
+              number: index + 1,
+              text: state.rightAnswers.elementAt(index),
+              points: GameState.points[round][index]),
+        );
+        if (j == 0) widgetsRow.add(space);
+        index++;
+      }
+      table.add(space);
+      table.add(Row(children: widgetsRow));
+    }
+
+    return table;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 128,
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 18),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: Theme.of(context).secondaryHeaderColor,
-                borderRadius: AppTheme.defaultRadius,
-                boxShadow: [AppTheme.defaultBoxShadow],
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(6),
-                child: Column(
-                  children: [
-                    SizedBox(height: 6),
-                    Row(children: [
-                      AnswerPlate(number: 1, text: '', points: 100),
-                      SizedBox(width: 6),
-                      AnswerPlate(number: 2, text: '', points: 80),
-                    ]),
-                    SizedBox(height: 6),
-                    Row(children: [
-                      AnswerPlate(number: 3, text: '', points: 40),
-                      SizedBox(width: 6),
-                      AnswerPlate(number: 4, text: '', points: 20),
-                    ]),
-                    SizedBox(height: 6),
-                    Row(children: [
-                      AnswerPlate(number: 5, text: '', points: 10),
-                      SizedBox(width: 6),
-                      AnswerPlate(number: 6, text: '', points: 5),
-                    ]),
-                  ],
+    return BlocBuilder<GameBloc, GameState>(
+      buildWhen: (previous, current) => current is GameReadyState,
+      builder: (context, state) {
+        return SizedBox(
+          width: double.infinity,
+          height: 128,
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 18),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).secondaryHeaderColor,
+                    borderRadius: AppTheme.defaultRadius,
+                    boxShadow: [AppTheme.defaultBoxShadow],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(6),
+                    child: Column(
+                      children: state is GameReadyState ? buildAnswersTable(state) : [],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: DecoratedBox(
-                decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    boxShadow: [AppTheme.defaultBoxShadow],
-                    borderRadius: const BorderRadius.all(Radius.circular(2)),
-                    border: Border.all(
-                      color: Theme.of(context).secondaryHeaderColor,
-                      width: AppSize.buttonBorder,
+              Align(
+                alignment: Alignment.topCenter,
+                child: DecoratedBox(
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        boxShadow: [AppTheme.defaultBoxShadow],
+                        borderRadius: const BorderRadius.all(Radius.circular(2)),
+                        border: Border.all(
+                          color: Theme.of(context).secondaryHeaderColor,
+                          width: AppSize.buttonBorder,
+                        )),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        '0000',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
                     )),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 6),
-                  child: Text(
-                    '000',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                )),
-          )
-        ],
-      ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }
