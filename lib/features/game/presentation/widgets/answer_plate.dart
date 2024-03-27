@@ -17,12 +17,14 @@ class _AnswerPlateState extends State<AnswerPlate> {
 
   @override
   void initState() {
-    isOpen = true;
+    isOpen = widget.number.isOdd;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final BorderSide side = BorderSide(color: Theme.of(context).primaryColor, width: AppSize.buttonBorder);
+
     final Widget closedSide = Center(
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -46,13 +48,32 @@ class _AnswerPlateState extends State<AnswerPlate> {
 
     final Widget openedSide = Row(
       children: [
-        Text(
-          widget.text,
-          style: Theme.of(context).textTheme.titleSmall,
+        Expanded(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.secondaryContainer,
+              border: Border(left: side, top: side, bottom: side),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 6),
+              child: Text(
+                widget.text,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+          ),
         ),
-        Text(
-          widget.points.toString(),
-          style: Theme.of(context).textTheme.titleSmall,
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: Text(
+              widget.points.toString(),
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+          ),
         ),
       ],
     );
@@ -60,18 +81,19 @@ class _AnswerPlateState extends State<AnswerPlate> {
     return Expanded(
       child: DecoratedBox(
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              colors: [
-                Theme.of(context).colorScheme.surfaceTint,
-                Theme.of(context).colorScheme.secondaryContainer,
-              ],
-            ),
-            border: Border.all(
-              color: Theme.of(context).primaryColor,
-              width: AppSize.buttonBorder,
-            )),
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Theme.of(context).colorScheme.surfaceTint,
+              Theme.of(context).colorScheme.secondaryContainer,
+            ],
+          ),
+          border: Border.all(
+            color: Theme.of(context).primaryColor,
+            width: AppSize.buttonBorder,
+          ),
+        ),
         child: isOpen ? openedSide : closedSide,
       ),
     );
