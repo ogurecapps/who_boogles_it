@@ -6,10 +6,10 @@ import 'package:who_boogles_it/core/models/player.dart';
 import 'package:who_boogles_it/core/util/nickname_generator.dart';
 import 'package:who_boogles_it/shared/domain/repositories/player_repository.dart';
 
-class SetPlayerNameUseCase {
+class SetMyNameUseCase {
   final PlayerRepository repository;
 
-  SetPlayerNameUseCase({required this.repository});
+  SetMyNameUseCase({required this.repository});
 
   Future<Player> execute({required String name}) async {
     var player = await repository.getMe();

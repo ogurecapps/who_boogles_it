@@ -9,8 +9,8 @@ class GetPlayerUseCase {
 
   GetPlayerUseCase({required this.repository});
 
-  Future<Player> execute() async {
-    return (await repository.getMe())
-        .buildAvatar(const Size(AppSize.profileAvatarSize, AppSize.profileAvatarSize));
+  Future<Player> execute(bool isMe) async {
+    return (isMe ? await repository.getMe() : await repository.getEnemy())
+        .buildAvatar(const Size(AppSize.gameAvatarSize, AppSize.gameAvatarSize));
   }
 }

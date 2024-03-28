@@ -7,9 +7,10 @@ import 'package:who_boogles_it/features/game/data/datasource/question_local_data
 import 'package:who_boogles_it/features/game/data/datasource/question_local_datasource_impl.dart';
 import 'package:who_boogles_it/features/game/data/repositories/question_repository_impl.dart';
 import 'package:who_boogles_it/features/game/domain/repositories/question_repository.dart';
+import 'package:who_boogles_it/features/game/domain/use_cases/get_player_use_case.dart';
 import 'package:who_boogles_it/features/game/domain/use_cases/get_question_use_case.dart';
-import 'package:who_boogles_it/features/profile/domain/use_cases/get_player_use_case.dart';
-import 'package:who_boogles_it/features/profile/domain/use_cases/set_player_name_use_case.dart';
+import 'package:who_boogles_it/features/profile/domain/use_cases/get_me_use_case.dart';
+import 'package:who_boogles_it/features/profile/domain/use_cases/set_my_name_use_case.dart';
 import 'package:who_boogles_it/shared/data/datasource/player_local_datasource.dart';
 import 'package:who_boogles_it/shared/data/datasource/player_local_datasource_impl.dart';
 import 'package:who_boogles_it/shared/data/repositories/player_repository_impl.dart';
@@ -40,10 +41,11 @@ void provideRepositories() {
 }
 
 void provideUseCases() {
+  locator.registerFactory<GetMeUseCase>(() => GetMeUseCase(repository: locator.get<PlayerRepository>()));
   locator
-      .registerFactory<GetPlayerUseCase>(() => GetPlayerUseCase(repository: locator.get<PlayerRepository>()));
-  locator.registerFactory<SetPlayerNameUseCase>(
-      () => SetPlayerNameUseCase(repository: locator.get<PlayerRepository>()));
+      .registerFactory<SetMyNameUseCase>(() => SetMyNameUseCase(repository: locator.get<PlayerRepository>()));
   locator.registerFactory<GetQuestionUseCase>(
       () => GetQuestionUseCase(repository: locator.get<QuestionRepository>()));
+  locator
+      .registerFactory<GetPlayerUseCase>(() => GetPlayerUseCase(repository: locator.get<PlayerRepository>()));
 }

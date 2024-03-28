@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 
 class AnswerPlate extends StatefulWidget {
   final int number;
   final String text;
   final int points;
+  final Duration startDelay;
 
-  const AnswerPlate({super.key, required this.number, required this.text, required this.points});
+  const AnswerPlate({
+    super.key,
+    required this.number,
+    required this.text,
+    required this.points,
+    required this.startDelay,
+  });
 
   @override
   State<AnswerPlate> createState() => _AnswerPlateState();
@@ -17,7 +25,7 @@ class _AnswerPlateState extends State<AnswerPlate> {
 
   @override
   void initState() {
-    isOpen = widget.number.isOdd;
+    isOpen = false;
     super.initState();
   }
 
@@ -96,6 +104,6 @@ class _AnswerPlateState extends State<AnswerPlate> {
         ),
         child: isOpen ? openedSide : closedSide,
       ),
-    );
+    ).animate().flip(delay: widget.startDelay, curve: Curves.fastOutSlowIn);
   }
 }

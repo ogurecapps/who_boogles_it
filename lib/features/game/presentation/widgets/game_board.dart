@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/app/app_theme.dart';
@@ -13,6 +14,8 @@ class GameBoard extends StatelessWidget {
     List<Widget> table = [];
     const space = SizedBox(width: 6, height: 6);
     var index = 0;
+    var delay = 400;
+    var delayStep = 100;
 
     for (var i = 0; i < 3; i++) {
       // Rows
@@ -21,12 +24,15 @@ class GameBoard extends StatelessWidget {
         // Columns
         widgetsRow.add(
           AnswerPlate(
-              number: index + 1,
-              text: state.rightAnswers.elementAt(index),
-              points: GameState.points[round][index]),
+            number: index + 1,
+            text: state.rightAnswers.elementAt(index),
+            points: GameState.points[round][index],
+            startDelay: Duration(milliseconds: delay),
+          ),
         );
         if (j == 0) widgetsRow.add(space);
         index++;
+        delay += delayStep;
       }
       table.add(space);
       table.add(Row(children: widgetsRow));
@@ -64,26 +70,33 @@ class GameBoard extends StatelessWidget {
               Align(
                 alignment: Alignment.topCenter,
                 child: DecoratedBox(
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        boxShadow: [AppTheme.defaultBoxShadow],
-                        borderRadius: const BorderRadius.all(Radius.circular(2)),
-                        border: Border.all(
-                          color: Theme.of(context).secondaryHeaderColor,
-                          width: AppSize.buttonBorder,
-                        )),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: Text(
-                        '0000',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
-                    )),
-              )
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      boxShadow: [AppTheme.defaultBoxShadow],
+                      borderRadius: const BorderRadius.all(Radius.circular(2)),
+                      border: Border.all(
+                        color: Theme.of(context).secondaryHeaderColor,
+                        width: AppSize.buttonBorder,
+                      )),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                    child: Text(
+                      '0000',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  ),
+                ),
+              ).animate().slideY(
+                    delay: 400.ms,
+                    duration: 400.ms,
+                    begin: .1,
+                    end: 0,
+                    curve: Curves.fastOutSlowIn,
+                  )
             ],
           ),
-        );
+        ).animate().fadeIn(delay: 400.ms, duration: 400.ms);
       },
     );
   }

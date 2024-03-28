@@ -20,8 +20,17 @@ final class GameReadyState extends GameState {
   final String question;
   final Set<String> rightAnswers;
   final Set<String> wrongAnswers;
+  final Player me;
+  final Player enemy;
+  final int roundBank = 0;
 
-  const GameReadyState(this.question, this.rightAnswers, this.wrongAnswers);
+  const GameReadyState(
+    this.question,
+    this.rightAnswers,
+    this.wrongAnswers,
+    this.me,
+    this.enemy,
+  );
 
   @override
   List<Object> get props => [question];
