@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/app/app_theme.dart';
 import 'package:who_boogles_it/features/game/presentation/bloc/game_bloc.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/answer_plate.dart';
+import 'package:who_boogles_it/features/game/presentation/widgets/scoreboard.dart';
 
 class GameBoard extends StatelessWidget {
   const GameBoard({super.key});
@@ -44,7 +44,7 @@ class GameBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GameBloc, GameState>(
-      buildWhen: (previous, current) => current is GameReadyState,
+      buildWhen: (previous, current) => previous is GameInitialState,
       builder: (context, state) {
         return SizedBox(
           width: double.infinity,
@@ -67,26 +67,9 @@ class GameBoard extends StatelessWidget {
                   ),
                 ),
               ),
-              Align(
+              const Align(
                 alignment: Alignment.topCenter,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      boxShadow: [AppTheme.defaultBoxShadow],
-                      borderRadius: const BorderRadius.all(Radius.circular(2)),
-                      border: Border.all(
-                        color: Theme.of(context).secondaryHeaderColor,
-                        width: AppSize.buttonBorder,
-                      )),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 6),
-                    child: Text(
-                      '0000',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                  ),
-                ),
+                child: Scoreboard(),
               ).animate().slideY(
                     delay: 400.ms,
                     duration: 400.ms,

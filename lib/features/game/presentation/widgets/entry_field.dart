@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:who_boogles_it/app/app_size.dart';
+import 'package:who_boogles_it/app/app_theme.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
 
 class EntryField extends StatelessWidget {
@@ -15,6 +16,7 @@ class EntryField extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.background,
+          boxShadow: [AppTheme.defaultBoxShadow],
         ),
         child: Padding(
           padding: const EdgeInsets.all(AppSize.defaultSpace),
