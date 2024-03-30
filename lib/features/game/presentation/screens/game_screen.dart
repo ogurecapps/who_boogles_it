@@ -58,7 +58,7 @@ class GameScreen extends StatelessWidget {
                           delay: 800.ms,
                           duration: 400.ms,
                         ),
-                    const SizedBox(height: AppSize.defaultSpace),
+                    const SizedBox(height: 20),
                     Row(children: [const PlayerView(isMe: false), Expanded(child: Container())]),
                     Row(children: [Expanded(child: Container()), const PlayerView(isMe: true)]),
                   ],
