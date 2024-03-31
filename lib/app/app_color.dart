@@ -9,7 +9,7 @@ class AppColor {
   );
 
   static const grades = [
-    Color(0xff818181),
+    Color(0xff555555),
     Color(0xffed5761),
     Color(0xff0f8b61),
     Color(0xff2a60c9),
@@ -19,6 +19,7 @@ class AppColor {
 
   static const titleColor = Color(0xffed5761);
   static const pageColor = Color(0xfffcf5e4);
+  static const bubbleColor = Color(0xffe3fee0);
 
   static ColorScheme get colorScheme => const ColorScheme(
         brightness: Brightness.light,

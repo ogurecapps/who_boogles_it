@@ -28,7 +28,7 @@ class AppTheme {
           ),
           bodySmall: TextStyle(
             fontFamily: 'SofiaSans',
-            color: AppColor.colorScheme.secondary,
+            color: AppColor.colorScheme.outline,
             fontSize: 14,
           ),
           bodyMedium: TextStyle(

@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/features/game/presentation/bloc/game_bloc.dart';
+import 'package:who_boogles_it/features/game/presentation/widgets/chat_bubble.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/entry_field.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/game_board.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/player_view.dart';
@@ -58,9 +59,41 @@ class GameScreen extends StatelessWidget {
                           delay: 800.ms,
                           duration: 400.ms,
                         ),
-                    const SizedBox(height: 20),
-                    Row(children: [const PlayerView(isMe: false), Expanded(child: Container())]),
-                    Row(children: [Expanded(child: Container()), const PlayerView(isMe: true)]),
+                    const SizedBox(height: 25),
+                    Row(children: [
+                      const PlayerView(isMe: false),
+                      const ChatBubble(isMe: false),
+                      Expanded(child: Container()),
+                    ])
+                        .animate()
+                        .slideX(
+                          delay: 1000.ms,
+                          duration: 400.ms,
+                          begin: -0.1,
+                          end: 0,
+                          curve: Curves.fastOutSlowIn,
+                        )
+                        .fadeIn(
+                          delay: 1000.ms,
+                          duration: 400.ms,
+                        ),
+                    Row(children: [
+                      Expanded(child: Container()),
+                      const ChatBubble(isMe: true),
+                      const PlayerView(isMe: true),
+                    ])
+                        .animate()
+                        .slideX(
+                          delay: 1000.ms,
+                          duration: 400.ms,
+                          begin: 0.1,
+                          end: 0,
+                          curve: Curves.fastOutSlowIn,
+                        )
+                        .fadeIn(
+                          delay: 1000.ms,
+                          duration: 400.ms,
+                        ),
                   ],
                 ),
               ),
