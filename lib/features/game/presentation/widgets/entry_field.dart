@@ -36,7 +36,7 @@ class _EntryFieldState extends State<EntryField> with SingleTickerProviderStateM
     if (text != '') {
       setState(() => _readOnly = true);
       _controller.reverse();
-      context.read<GameBloc>().add(PlayerSaysEvent(text));
+      context.read<GameBloc>().add(PlayerSaysEvent(text.toUpperCase()));
     }
   }
 

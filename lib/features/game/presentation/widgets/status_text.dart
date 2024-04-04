@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/app/app_theme.dart';
@@ -12,21 +11,11 @@ class StatusText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget getStatus(GameState state) {
-      final TextStyle? style = Theme.of(context).textTheme.bodySmall;
+    final TextStyle? textStyle = Theme.of(context).textTheme.bodySmall;
 
+    Widget getStatus(GameState state) {
       return switch (state) {
-        PlayerTurnState() => Text('${LocaleKeys.startTurn.tr()} ${state.nickname}', style: style)
-            .animate()
-            .slideY(
-              duration: 400.ms,
-              begin: 0.5,
-              end: 0,
-              curve: Curves.fastOutSlowIn,
-            )
-            .fadeIn(
-              duration: 400.ms,
-            ),
+        PlayerTurnState() => Text('${LocaleKeys.startTurn.tr()} ${state.nickname}', style: textStyle),
         _ => const LinearProgressIndicator(),
       };
     }

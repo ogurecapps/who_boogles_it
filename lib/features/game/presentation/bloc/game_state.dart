@@ -18,8 +18,8 @@ final class GameInitialState extends GameState {}
 
 final class GameReadyState extends GameState {
   final String question;
-  final Set<String> rightAnswers;
-  final Set<String> wrongAnswers;
+  final List<String> rightAnswers;
+  final List<String> wrongAnswers;
   final Player me;
   final Player enemy;
 
@@ -42,4 +42,9 @@ final class PlayerTurnState extends GameState {
 final class PlayerAnswerState extends GameState {
   final String answer;
   const PlayerAnswerState(this.answer);
+}
+
+final class CheckAnswerState extends GameState {
+  final String answer;
+  const CheckAnswerState(this.answer);
 }

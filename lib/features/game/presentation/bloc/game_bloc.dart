@@ -21,8 +21,10 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<PlayerSaysEvent>(_playerSays);
   }
 
-  void _playerSays(PlayerSaysEvent event, Emitter<GameState> emit) {
+  Future<void> _playerSays(PlayerSaysEvent event, Emitter<GameState> emit) async {
     emit(PlayerAnswerState(event.answer));
+    await Future.delayed(2000.ms);
+    emit(CheckAnswerState(event.answer)); // Need delay before showing the result
   }
 
   Future<void> _loadGameData(LoadGameEvent event, Emitter<GameState> emit) async {
@@ -42,8 +44,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     await Future.delayed(400.ms);
     emit(GameReadyState(
       question.text,
-      question.rightAnswers.toSet(),
-      question.wrongAnswers.toSet(),
+      question.rightAnswers,
+      question.wrongAnswers,
       me,
       enemy,
     ));
