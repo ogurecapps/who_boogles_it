@@ -22,7 +22,6 @@ final class GameReadyState extends GameState {
   final Set<String> wrongAnswers;
   final Player me;
   final Player enemy;
-  final int roundBank = 0;
 
   const GameReadyState(
     this.question,
@@ -31,7 +30,16 @@ final class GameReadyState extends GameState {
     this.me,
     this.enemy,
   );
+}
 
-  @override
-  List<Object> get props => [question];
+final class GameErrorState extends GameState {}
+
+final class PlayerTurnState extends GameState {
+  final String nickname;
+  const PlayerTurnState(this.nickname);
+}
+
+final class PlayerAnswerState extends GameState {
+  final String answer;
+  const PlayerAnswerState(this.answer);
 }

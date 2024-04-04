@@ -10,7 +10,9 @@ sealed class GameEvent extends Equatable {
 final class LoadGameEvent extends GameEvent {
   final String langCode;
   const LoadGameEvent(this.langCode);
+}
 
-  @override
-  List<Object> get props => [langCode];
+final class PlayerSaysEvent extends GameEvent {
+  final String answer;
+  const PlayerSaysEvent(this.answer);
 }

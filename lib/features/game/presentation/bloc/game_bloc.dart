@@ -18,6 +18,11 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   GameBloc() : super(GameInitialState()) {
     on<LoadGameEvent>(_loadGameData);
+    on<PlayerSaysEvent>(_playerSays);
+  }
+
+  void _playerSays(PlayerSaysEvent event, Emitter<GameState> emit) {
+    emit(PlayerAnswerState(event.answer));
   }
 
   Future<void> _loadGameData(LoadGameEvent event, Emitter<GameState> emit) async {
@@ -27,6 +32,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       question = await _getQuestionUseCase.execute(event.langCode);
     } catch (e) {
       log(e.toString());
+      emit(GameErrorState());
       return;
     }
 
@@ -41,5 +47,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       me,
       enemy,
     ));
+
+    await Future.delayed(2300.ms);
+    emit(PlayerTurnState(me.nickname));
   }
 }

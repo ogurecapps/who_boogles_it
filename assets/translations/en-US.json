@@ -26,5 +26,7 @@
     "grade_4":" - Elite (level 31-44)",
     "grade_5":" - Director of Boogle (level 45+)",
     "gradesHintTitle": "The colour differentiation of levels",
-    "entryHint": "Your answer in a word"
+    "entryHint": "Your answer in a word",
+    "error": "Oops! Something went wrong. Please, check the Internet connection and try to restart the game",
+    "startTurn": "The turn of"
 }
