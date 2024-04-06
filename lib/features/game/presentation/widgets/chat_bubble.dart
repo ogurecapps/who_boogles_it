@@ -44,7 +44,7 @@ class _ChatBubbleState extends State<ChatBubble> with SingleTickerProviderStateM
           });
         }
       },
-      buildWhen: (previous, current) => previous is GameInitialState,
+      buildWhen: (previous, current) => current is GameReadyState,
       builder: (context, state) {
         if (state is GameReadyState) {
           final Player player = widget.isMe ? state.me : state.enemy;

@@ -36,13 +36,14 @@ class _EntryFieldState extends State<EntryField> with SingleTickerProviderStateM
     if (text != '') {
       setState(() => _readOnly = true);
       _controller.reverse();
-      context.read<GameBloc>().add(PlayerSaysEvent(text.toUpperCase()));
+      context.read<GameBloc>().add(PlayerSaysEvent(text));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<GameBloc, GameState>(
+      listenWhen: (previous, current) => current is PlayerTurnState,
       listener: (context, state) {
         if (state is PlayerTurnState) {
           _controller.forward();

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,15 +6,8 @@ import 'package:who_boogles_it/features/game/presentation/bloc/game_bloc.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/answer_plate.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/scoreboard.dart';
 
-class GameBoard extends StatefulWidget {
+class GameBoard extends StatelessWidget {
   const GameBoard({super.key});
-
-  @override
-  State<GameBoard> createState() => _GameBoardState();
-}
-
-class _GameBoardState extends State<GameBoard> {
-  late final Map<String, bool> answers;
 
   List<Widget> buildAnswersTable(GameReadyState state) {
     var round = 0; // Read from state?
@@ -24,7 +15,7 @@ class _GameBoardState extends State<GameBoard> {
     const space = SizedBox(width: 6, height: 6);
     var index = 0;
     var delay = 400;
-    var delayStep = 100;
+    var delayStep = 200;
 
     for (var i = 0; i < 3; i++) {
       // Rows
@@ -52,26 +43,8 @@ class _GameBoardState extends State<GameBoard> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<GameBloc, GameState>(
+    return BlocBuilder<GameBloc, GameState>(
       buildWhen: (previous, current) => current is GameReadyState,
-      listenWhen: (previous, current) => current is GameReadyState || current is CheckAnswerState,
-      listener: (context, state) {
-        if (state is GameReadyState) {
-          answers = {for (String a in state.rightAnswers) a.toUpperCase(): false};
-        } else if (state is CheckAnswerState) {
-          if (answers[state.answer] != null && answers[state.answer] == false) {
-            answers[state.answer] = true;
-            log('It is right answer');
-            // Open answer
-            // Set status
-            // Increase points
-          } else {
-            log('It is wrong answer');
-            // Set status
-            // Start enemy turn
-          }
-        }
-      },
       builder: (context, state) {
         return SizedBox(
           width: double.infinity,

@@ -11,7 +11,7 @@ class SearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GameBloc, GameState>(
-      buildWhen: (previous, current) => previous is GameInitialState,
+      buildWhen: (previous, current) => current is GameReadyState,
       builder: (context, state) {
         return SizedBox(
           width: double.infinity,
