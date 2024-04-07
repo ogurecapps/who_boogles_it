@@ -125,8 +125,12 @@ class _AnswerPlateState extends State<AnswerPlate> with SingleTickerProviderStat
       listenWhen: (previous, current) => current is CheckAnswerState,
       listener: (context, state) {
         if (state is CheckAnswerState) {
-          if (!_isOpen && state.answer.toUpperCase() == widget.text.toUpperCase()) {
-            answerIsCorrect(state);
+          if (state.answer.toUpperCase() == widget.text.toUpperCase()) {
+            if (_isOpen) {
+              context.read<GameBloc>().add(ProcessAnswerEvent(0, state.me, state.enemy));
+            } else {
+              answerIsCorrect(state);
+            }
           }
         }
       },
