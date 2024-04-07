@@ -22,6 +22,7 @@ final class GameReadyState extends GameState {
   final List<String> wrongAnswers;
   final Player me;
   final Player enemy;
+  final int round;
 
   const GameReadyState(
     this.question,
@@ -29,22 +30,56 @@ final class GameReadyState extends GameState {
     this.wrongAnswers,
     this.me,
     this.enemy,
+    this.round,
   );
 }
 
 final class GameErrorState extends GameState {}
 
 final class PlayerTurnState extends GameState {
-  final String nickname;
-  const PlayerTurnState(this.nickname);
+  final Player me;
+  final Player enemy;
+  final bool isMe;
+
+  const PlayerTurnState(
+    this.me,
+    this.enemy,
+    this.isMe,
+  );
 }
 
-final class PlayerAnswerState extends GameState {
+final class SayAnswerState extends GameState {
   final String answer;
-  const PlayerAnswerState(this.answer);
+  final Player me;
+  final Player enemy;
+
+  const SayAnswerState(
+    this.answer,
+    this.me,
+    this.enemy,
+  );
 }
 
 final class CheckAnswerState extends GameState {
   final String answer;
-  const CheckAnswerState(this.answer);
+  final Player me;
+  final Player enemy;
+
+  const CheckAnswerState(
+    this.answer,
+    this.me,
+    this.enemy,
+  );
+}
+
+final class ProcessAnswerState extends GameState {
+  final int points;
+  final Player me;
+  final Player enemy;
+
+  const ProcessAnswerState(
+    this.points,
+    this.me,
+    this.enemy,
+  );
 }

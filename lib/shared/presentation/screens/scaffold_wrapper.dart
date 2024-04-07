@@ -26,7 +26,7 @@ class ScaffoldWrapper extends StatelessWidget {
     } else if (background is DecorationImage) {
       backImage = background as DecorationImage?;
     } else {
-      backClass = (background ?? const AbstractBackground()) as Widget?; // default
+      backClass = (background ?? const AbstractBackground(brightness: 0.15)) as Widget?; // default
     }
 
     return Scaffold(

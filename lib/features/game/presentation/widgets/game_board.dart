@@ -6,11 +6,17 @@ import 'package:who_boogles_it/features/game/presentation/bloc/game_bloc.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/answer_plate.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/scoreboard.dart';
 
-class GameBoard extends StatelessWidget {
+class GameBoard extends StatefulWidget {
   const GameBoard({super.key});
 
+  @override
+  State<GameBoard> createState() => _GameBoardState();
+}
+
+class _GameBoardState extends State<GameBoard> {
+  Set<String> answers = {};
+
   List<Widget> buildAnswersTable(GameReadyState state) {
-    var round = 0; // Read from state?
     List<Widget> table = [];
     const space = SizedBox(width: 6, height: 6);
     var index = 0;
@@ -26,11 +32,15 @@ class GameBoard extends StatelessWidget {
           AnswerPlate(
             number: index + 1,
             text: state.rightAnswers.elementAt(index),
-            points: GameState.points[round][index],
+            points: GameState.points[state.round][index],
             startDelay: Duration(milliseconds: delay),
           ),
         );
+
+        answers.add(state.rightAnswers.elementAt(index).toUpperCase());
+
         if (j == 0) widgetsRow.add(space);
+
         index++;
         delay += delayStep;
       }
@@ -43,7 +53,14 @@ class GameBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GameBloc, GameState>(
+    return BlocConsumer<GameBloc, GameState>(
+      listenWhen: (previous, current) => current is CheckAnswerState,
+      listener: (BuildContext context, GameState state) {
+        if (state is CheckAnswerState && !answers.contains(state.answer.toUpperCase())) {
+          // Wrong answer
+          context.read<GameBloc>().add(ProcessAnswerEvent(0, state.me, state.enemy));
+        }
+      },
       buildWhen: (previous, current) => current is GameReadyState,
       builder: (context, state) {
         return SizedBox(

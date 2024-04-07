@@ -15,8 +15,14 @@ class StatusText extends StatelessWidget {
 
     Widget getStatus(GameState state) {
       return switch (state) {
-        PlayerTurnState() => Text('${LocaleKeys.startTurn.tr()} ${state.nickname}', style: textStyle),
-        _ => const LinearProgressIndicator(),
+        PlayerTurnState() => Text(
+            '${LocaleKeys.startTurn.tr()} ${state.isMe ? state.me.nickname : state.enemy.nickname}',
+            style: textStyle),
+        SayAnswerState() || CheckAnswerState() => const LinearProgressIndicator(),
+        ProcessAnswerState() => Text(
+            state.points != 0 ? LocaleKeys.answerIsCorrect.tr() : LocaleKeys.answerIsWrong.tr(),
+            style: textStyle),
+        _ => Text(LocaleKeys.round_1.tr(), style: textStyle),
       };
     }
 

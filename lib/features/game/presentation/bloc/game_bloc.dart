@@ -19,12 +19,19 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   GameBloc() : super(GameInitialState()) {
     on<LoadGameEvent>(_loadGameData);
     on<PlayerSaysEvent>(_playerSays);
+    on<ProcessAnswerEvent>(_processAnswer);
+  }
+
+  Future<void> _processAnswer(ProcessAnswerEvent event, Emitter<GameState> emit) async {
+    emit(ProcessAnswerState(event.points, event.me, event.enemy));
+    await Future.delayed(2000.ms);
+    emit(PlayerTurnState(event.me, event.enemy, event.points != 0));
   }
 
   Future<void> _playerSays(PlayerSaysEvent event, Emitter<GameState> emit) async {
-    emit(PlayerAnswerState(event.answer));
-    await Future.delayed(2000.ms);
-    emit(CheckAnswerState(event.answer)); // Need delay before showing the result
+    emit(SayAnswerState(event.answer, event.me, event.enemy));
+    await Future.delayed(2500.ms);
+    emit(CheckAnswerState(event.answer, event.me, event.enemy)); // Need delay before showing the result
   }
 
   Future<void> _loadGameData(LoadGameEvent event, Emitter<GameState> emit) async {
@@ -48,9 +55,10 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       question.wrongAnswers,
       me,
       enemy,
+      0,
     ));
 
-    await Future.delayed(2300.ms);
-    emit(PlayerTurnState(me.nickname));
+    await Future.delayed(2500.ms);
+    emit(PlayerTurnState(me, enemy, true));
   }
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
 import 'package:who_boogles_it/app/app_color.dart';
 
 /// Literally abstract, like abstract art
 class AbstractBackground extends StatelessWidget {
-  const AbstractBackground({super.key});
+  final float brightness;
+  const AbstractBackground({super.key, this.brightness = 0});
 
   static final List<({int rootFlex, List<({int flex, List<Color> colors})> boxes})> blueprint = [
     (
@@ -57,8 +59,21 @@ class AbstractBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [for (var column in blueprint) buildColumn(column.rootFlex, column.boxes)],
-    );
+    return Builder(builder: (context) {
+      return Stack(
+        children: [
+          Row(
+            children: [for (var column in blueprint) buildColumn(column.rootFlex, column.boxes)],
+          ),
+          SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: ColoredBox(
+              color: Colors.white.withOpacity(brightness),
+            ),
+          ),
+        ],
+      );
+    });
   }
 }

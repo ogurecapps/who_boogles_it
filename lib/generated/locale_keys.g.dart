@@ -31,5 +31,10 @@ abstract class  LocaleKeys {
   static const entryHint = 'entryHint';
   static const error = 'error';
   static const startTurn = 'startTurn';
+  static const round_1 = 'round_1';
+  static const round_2 = 'round_2';
+  static const round_3 = 'round_3';
+  static const answerIsCorrect = 'answerIsCorrect';
+  static const answerIsWrong = 'answerIsWrong';
 
 }

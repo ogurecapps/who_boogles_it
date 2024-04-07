@@ -36,12 +36,17 @@ class _ChatBubbleState extends State<ChatBubble> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     return BlocConsumer<GameBloc, GameState>(
       listener: (context, state) {
-        if (state is PlayerAnswerState && widget.isMe) {
+        if (state is SayAnswerState && widget.isMe) {
           _controller.forward();
           setState(() {
             _visible = true;
             _text = state.answer;
           });
+        } else if (state is PlayerTurnState && state.isMe == widget.isMe && _visible) {
+          _controller.reverse().then((value) => setState(() {
+                _visible = false;
+                _text = '';
+              }));
         }
       },
       buildWhen: (previous, current) => current is GameReadyState,

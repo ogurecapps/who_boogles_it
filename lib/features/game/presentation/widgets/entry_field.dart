@@ -19,6 +19,7 @@ class EntryField extends StatefulWidget {
 class _EntryFieldState extends State<EntryField> with SingleTickerProviderStateMixin {
   bool _readOnly = true;
   late final AnimationController _controller;
+  final TextEditingController _textController = TextEditingController();
 
   @override
   void initState() {
@@ -29,78 +30,88 @@ class _EntryFieldState extends State<EntryField> with SingleTickerProviderStateM
   @override
   void dispose() {
     _controller.dispose();
+    _textController.dispose();
     super.dispose();
   }
 
-  void onSubmitted(String text) {
-    if (text != '') {
-      setState(() => _readOnly = true);
+  void onSubmitted(PlayerTurnState state) {
+    if (_textController.text != '') {
+      context.read<GameBloc>().add(PlayerSaysEvent(_textController.text, state.me, state.enemy));
+
+      setState(() {
+        _readOnly = true;
+        _textController.text = '';
+      });
+
       _controller.reverse();
-      context.read<GameBloc>().add(PlayerSaysEvent(text));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<GameBloc, GameState>(
+    return BlocConsumer<GameBloc, GameState>(
       listenWhen: (previous, current) => current is PlayerTurnState,
       listener: (context, state) {
-        if (state is PlayerTurnState) {
+        if (state is PlayerTurnState && state.isMe) {
           _controller.forward();
           setState(() => _readOnly = false);
         }
       },
-      child: SizedBox(
-        width: double.infinity,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.background,
-            boxShadow: [AppTheme.defaultBoxShadow],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(AppSize.defaultSpace),
-            child: Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () => context.pop(),
-                  style: ElevatedButton.styleFrom(
-                    shape: const CircleBorder(),
-                    padding: EdgeInsets.zero,
-                    minimumSize: const Size.square(48),
+      buildWhen: (previous, current) => current is PlayerTurnState,
+      builder: (context, state) {
+        return SizedBox(
+          width: double.infinity,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.background,
+              boxShadow: [AppTheme.defaultBoxShadow],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(AppSize.defaultSpace),
+              child: Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () => context.pop(),
+                    style: ElevatedButton.styleFrom(
+                      shape: const CircleBorder(),
+                      padding: EdgeInsets.zero,
+                      minimumSize: const Size.square(48),
+                    ),
+                    child: const Icon(Icons.logout),
                   ),
-                  child: const Icon(Icons.logout),
-                ),
-                const SizedBox(width: AppSize.defaultSpace),
-                Expanded(
-                  child: TextFormField(
-                    readOnly: _readOnly,
-                    maxLength: 18,
-                    onFieldSubmitted: (value) => onSubmitted(value),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp('[a-zA-Zа-яА-Я]')),
-                    ],
-                    decoration: InputDecoration(
-                      hintText: LocaleKeys.entryHint.tr(),
-                      counterText: '',
-                      border: const OutlineInputBorder(),
+                  const SizedBox(width: AppSize.defaultSpace),
+                  Expanded(
+                    child: TextFormField(
+                      readOnly: _readOnly,
+                      controller: _textController,
+                      maxLength: 18,
+                      onFieldSubmitted: (value) => onSubmitted(state as PlayerTurnState),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp('[a-zA-Zа-яА-Я]')),
+                      ],
+                      decoration: InputDecoration(
+                        hintText: LocaleKeys.entryHint.tr(),
+                        counterText: '',
+                        border: const OutlineInputBorder(),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ),
-    )
-        .animate(
-          autoPlay: false,
-          controller: _controller,
         )
-        .slideY(
-          duration: 800.ms,
-          begin: 1,
-          end: 0,
-          curve: Curves.fastOutSlowIn,
-        );
+            .animate(
+              autoPlay: false,
+              controller: _controller,
+            )
+            .slideY(
+              duration: 800.ms,
+              begin: 1,
+              end: 0,
+              curve: Curves.fastOutSlowIn,
+            );
+      },
+    );
   }
 }

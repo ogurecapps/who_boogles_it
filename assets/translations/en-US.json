@@ -28,5 +28,10 @@
     "gradesHintTitle": "The colour differentiation of levels",
     "entryHint": "Your answer in a word",
     "error": "Oops! Something went wrong. Please, check the Internet connection and try to restart the game",
-    "startTurn": "The turn of"
+    "startTurn": "The turn of",
+    "round_1": "Round 1. Simple game",
+    "round_2": "Round 2. Double game",
+    "round_3": "Round 3. Vice versa game",
+    "answerIsCorrect": "This is right answer!",
+    "answerIsWrong": "No such answer :("
 }

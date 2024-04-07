@@ -12,7 +12,7 @@ class PlayerView extends StatelessWidget {
   const PlayerView({super.key, required this.isMe});
 
   Widget addHeart(int index) {
-    var delay = 1400;
+    var delay = 1500;
     return const Icon(size: 18, Icons.favorite, color: AppColor.titleColor).animate().scaleXY(
           delay: Duration(milliseconds: delay + index * 300),
           duration: 400.ms,
@@ -41,9 +41,9 @@ class PlayerView extends StatelessWidget {
                   child: isMe ? state.me.avatar : state.enemy.avatar,
                 ),
               ),
-              const Positioned(
+              Positioned(
                 top: 55,
-                child: Scoreboard(),
+                child: Scoreboard(type: isMe ? ScoreboardType.me : ScoreboardType.enemy),
               )
                   .animate()
                   .slideY(

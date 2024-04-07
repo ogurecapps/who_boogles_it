@@ -40,6 +40,15 @@ class _AnswerPlateState extends State<AnswerPlate> with SingleTickerProviderStat
     super.dispose();
   }
 
+  void answerIsCorrect(CheckAnswerState state) {
+    _controller.reverse().then((value) => setState(() {
+          _isOpen = true;
+          _delay = 0.ms;
+          _controller.forward();
+          context.read<GameBloc>().add(ProcessAnswerEvent(widget.points, state.me, state.enemy));
+        }));
+  }
+
   @override
   Widget build(BuildContext context) {
     final Widget closedSide = DecoratedBox(
@@ -117,11 +126,7 @@ class _AnswerPlateState extends State<AnswerPlate> with SingleTickerProviderStat
       listener: (context, state) {
         if (state is CheckAnswerState) {
           if (!_isOpen && state.answer.toUpperCase() == widget.text.toUpperCase()) {
-            _controller.reverse().then((value) => setState(() {
-                  _isOpen = true;
-                  _delay = 0.ms;
-                  _controller.forward();
-                }));
+            answerIsCorrect(state);
           }
         }
       },
