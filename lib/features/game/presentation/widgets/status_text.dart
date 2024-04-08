@@ -34,8 +34,7 @@ class _StatusTextState extends State<StatusText> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     String getStatusText(GameState state) {
       return switch (state) {
-        PlayerTurnState() =>
-          '${LocaleKeys.startTurn.tr()} ${state.isMe ? state.me.nickname : state.enemy.nickname}',
+        PlayerTurnState() => '${LocaleKeys.startTurn.tr()} ${state.name}',
         SayAnswerState() || CheckAnswerState() => 'ProgressIndicator',
         ProcessAnswerState() =>
           state.points != 0 ? LocaleKeys.answerIsCorrect.tr() : LocaleKeys.answerIsWrong.tr(),

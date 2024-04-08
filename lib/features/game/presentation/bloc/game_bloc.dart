@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -13,6 +11,17 @@ part 'game_event.dart';
 part 'game_state.dart';
 
 class GameBloc extends Bloc<GameEvent, GameState> {
+  static const points = [
+    [140, 80, 40, 20, 10, 5],
+    [220, 140, 80, 40, 20, 10],
+    [300, 200, 120, 60, 30, 15],
+    [20, 40, 80, 160, 260, 380]
+  ];
+
+  late Player me;
+  late Player enemy;
+  int round = 0;
+
   final GetQuestionUseCase _getQuestionUseCase = locator.get<GetQuestionUseCase>();
   final GetPlayerUseCase _getPlayerUseCase = locator.get<GetPlayerUseCase>();
 
@@ -23,30 +32,29 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   Future<void> _processAnswer(ProcessAnswerEvent event, Emitter<GameState> emit) async {
-    emit(ProcessAnswerState(event.points, event.me, event.enemy));
+    emit(ProcessAnswerState(event.points));
     await Future.delayed(2000.ms);
-    emit(PlayerTurnState(event.me, event.enemy, event.points != 0));
+    emit(PlayerTurnState(event.points != 0, event.points != 0 ? me.nickname : enemy.nickname));
   }
 
   Future<void> _playerSays(PlayerSaysEvent event, Emitter<GameState> emit) async {
-    emit(SayAnswerState(event.answer, event.me, event.enemy));
+    emit(SayAnswerState(event.answer));
     await Future.delayed(2500.ms);
-    emit(CheckAnswerState(event.answer, event.me, event.enemy)); // Need delay before showing the result
+    emit(CheckAnswerState(event.answer)); // Need delay before showing the result
   }
 
   Future<void> _loadGameData(LoadGameEvent event, Emitter<GameState> emit) async {
-    late Question question;
+    Question question;
 
     try {
       question = await _getQuestionUseCase.execute(event.langCode);
     } catch (e) {
-      log(e.toString());
       emit(GameErrorState());
       return;
     }
 
-    Player me = await _getPlayerUseCase.execute(true);
-    Player enemy = await _getPlayerUseCase.execute(false);
+    me = await _getPlayerUseCase.execute(true);
+    enemy = await _getPlayerUseCase.execute(false);
 
     await Future.delayed(400.ms);
     emit(GameReadyState(
@@ -55,10 +63,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       question.wrongAnswers,
       me,
       enemy,
-      0,
     ));
 
     await Future.delayed(2500.ms);
-    emit(PlayerTurnState(me, enemy, true));
+    emit(PlayerTurnState(true, me.nickname));
   }
 }

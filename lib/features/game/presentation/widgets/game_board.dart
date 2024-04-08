@@ -21,7 +21,8 @@ class _GameBoardState extends State<GameBoard> {
     const space = SizedBox(width: 6, height: 6);
     var index = 0;
     var delay = 400;
-    var delayStep = 200;
+    const delayStep = 200;
+    final round = context.read<GameBloc>().round;
 
     for (var i = 0; i < 3; i++) {
       // Rows
@@ -32,7 +33,7 @@ class _GameBoardState extends State<GameBoard> {
           AnswerPlate(
             number: index + 1,
             text: state.rightAnswers.elementAt(index),
-            points: GameState.points[state.round][index],
+            points: GameBloc.points[round][index],
             startDelay: Duration(milliseconds: delay),
           ),
         );
@@ -58,7 +59,7 @@ class _GameBoardState extends State<GameBoard> {
       listener: (BuildContext context, GameState state) {
         if (state is CheckAnswerState && !answers.contains(state.answer.toUpperCase())) {
           // Wrong answer
-          context.read<GameBloc>().add(ProcessAnswerEvent(0, state.me, state.enemy));
+          context.read<GameBloc>().add(const ProcessAnswerEvent(0));
         }
       },
       buildWhen: (previous, current) => current is GameReadyState,

@@ -36,7 +36,7 @@ class _EntryFieldState extends State<EntryField> with SingleTickerProviderStateM
 
   void onSubmitted(PlayerTurnState state) {
     if (_textController.text != '') {
-      context.read<GameBloc>().add(PlayerSaysEvent(_textController.text, state.me, state.enemy));
+      context.read<GameBloc>().add(PlayerSaysEvent(_textController.text));
 
       setState(() {
         _readOnly = true;
