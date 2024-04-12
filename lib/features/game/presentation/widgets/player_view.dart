@@ -7,22 +7,76 @@ import 'package:who_boogles_it/app/app_theme.dart';
 import 'package:who_boogles_it/features/game/presentation/bloc/game_bloc.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/scoreboard.dart';
 
-class PlayerView extends StatelessWidget {
+class PlayerView extends StatefulWidget {
   final bool isMe;
+
   const PlayerView({super.key, required this.isMe});
 
-  Widget addHeart(int index) {
-    var delay = 1500;
-    return const Icon(size: 18, Icons.favorite, color: AppColor.titleColor).animate().scaleXY(
-          delay: Duration(milliseconds: delay + index * 300),
-          duration: 400.ms,
-          curve: Curves.elasticOut,
-        );
+  @override
+  State<PlayerView> createState() => _PlayerViewState();
+}
+
+class _PlayerViewState extends State<PlayerView> with TickerProviderStateMixin {
+  int _lifes = 3;
+  late List<AnimationController> _controllers;
+
+  @override
+  void initState() {
+    _controllers = List.generate(3, (_) => AnimationController(vsync: this));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GameBloc, GameState>(
+    Widget addHeart(int index) {
+      var delay = 1500;
+
+      return Stack(
+        children: [
+          Icon(size: 18, Icons.favorite, color: Theme.of(context).colorScheme.outline),
+          const Icon(size: 18, Icons.favorite, color: AppColor.titleColor)
+              .animate() // Showing
+              .scaleXY(
+                delay: Duration(milliseconds: delay + index * 300),
+                duration: 400.ms,
+                curve: Curves.elasticOut,
+              )
+              .animate(autoPlay: false, controller: _controllers[index]) // Removing
+              .slideY(
+                duration: 2000.ms,
+                curve: Curves.fastOutSlowIn,
+                end: -2.2,
+              )
+              .fadeOut(
+                duration: 2400.ms,
+                curve: Curves.fastOutSlowIn,
+              )
+        ],
+      );
+    }
+
+    return BlocConsumer<GameBloc, GameState>(
+      listenWhen: (previous, current) => current is ProcessAnswerState,
+      listener: (context, state) {
+        if (state is ProcessAnswerState && widget.isMe) {
+          if (state.points == 0) {
+            _controllers[_lifes - 1].forward().then((value) {
+              _lifes--;
+              if (_lifes == 0) {
+                // Game over
+              }
+            });
+          }
+        }
+      },
       buildWhen: (previous, current) => current is GameReadyState,
       builder: (context, state) {
         if (state is GameReadyState) {
@@ -38,12 +92,12 @@ class PlayerView extends StatelessWidget {
                 child: CircleAvatar(
                   backgroundColor: Theme.of(context).colorScheme.onPrimary,
                   radius: AppSize.gameAvatarSize / 2 + AppSize.buttonBorder,
-                  child: isMe ? state.me.avatar : state.enemy.avatar,
+                  child: widget.isMe ? state.me.avatar : state.enemy.avatar,
                 ),
               ),
               Positioned(
                 top: 55,
-                child: Scoreboard(type: isMe ? ScoreboardType.me : ScoreboardType.enemy),
+                child: Scoreboard(type: widget.isMe ? ScoreboardType.me : ScoreboardType.enemy),
               )
                   .animate()
                   .slideY(
