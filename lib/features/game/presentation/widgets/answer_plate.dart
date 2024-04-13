@@ -6,14 +6,14 @@ import 'package:who_boogles_it/features/game/presentation/bloc/game_bloc.dart';
 
 class AnswerPlate extends StatefulWidget {
   final int number;
-  final String text;
+  final Set<String> answer; // May contain synonyms
   final int points;
   final Duration startDelay;
 
   const AnswerPlate({
     super.key,
     required this.number,
-    required this.text,
+    required this.answer,
     required this.points,
     required this.startDelay,
   });
@@ -102,7 +102,7 @@ class _AnswerPlateState extends State<AnswerPlate> with SingleTickerProviderStat
             child: Padding(
               padding: const EdgeInsets.only(left: 6),
               child: Text(
-                widget.text,
+                widget.answer.first,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
@@ -125,7 +125,7 @@ class _AnswerPlateState extends State<AnswerPlate> with SingleTickerProviderStat
       listenWhen: (previous, current) => current is CheckAnswerState,
       listener: (context, state) {
         if (state is CheckAnswerState) {
-          if (state.answer.toUpperCase() == widget.text.toUpperCase()) {
+          if (widget.answer.contains(state.answer.toLowerCase())) {
             if (_isOpen) {
               context.read<GameBloc>().add(const ProcessAnswerEvent(0));
             } else {

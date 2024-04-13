@@ -14,7 +14,7 @@ class GameBoard extends StatefulWidget {
 }
 
 class _GameBoardState extends State<GameBoard> {
-  Set<String> answers = {};
+  Set<String> allAnswers = {};
 
   List<Widget> buildAnswersTable(GameReadyState state) {
     List<Widget> table = [];
@@ -29,22 +29,24 @@ class _GameBoardState extends State<GameBoard> {
       List<Widget> widgetsRow = [];
       for (var j = 0; j < 2; j++) {
         // Columns
+        var answer = state.rightAnswers.elementAt(index).toLowerCase().split(',').toSet();
+        allAnswers.addAll(answer);
+
         widgetsRow.add(
           AnswerPlate(
             number: index + 1,
-            text: state.rightAnswers.elementAt(index),
+            answer: answer,
             points: GameBloc.points[round][index],
             startDelay: Duration(milliseconds: delay),
           ),
         );
-
-        answers.add(state.rightAnswers.elementAt(index).toUpperCase());
 
         if (j == 0) widgetsRow.add(space);
 
         index++;
         delay += delayStep;
       }
+
       table.add(space);
       table.add(Row(children: widgetsRow));
     }
@@ -57,7 +59,7 @@ class _GameBoardState extends State<GameBoard> {
     return BlocConsumer<GameBloc, GameState>(
       listenWhen: (previous, current) => current is CheckAnswerState,
       listener: (BuildContext context, GameState state) {
-        if (state is CheckAnswerState && !answers.contains(state.answer.toUpperCase())) {
+        if (state is CheckAnswerState && !allAnswers.contains(state.answer.toLowerCase())) {
           // Wrong answer
           context.read<GameBloc>().add(const ProcessAnswerEvent(0));
         }

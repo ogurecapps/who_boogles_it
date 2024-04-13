@@ -47,7 +47,7 @@ class _ChatBubbleState extends State<ChatBubble> with SingleTickerProviderStateM
                 _visible = false;
                 _text = '';
               }));
-        }
+        } else if (state is EnemyWritingState && !widget.isMe) {}
       },
       buildWhen: (previous, current) => current is GameReadyState,
       builder: (context, state) {

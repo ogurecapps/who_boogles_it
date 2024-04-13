@@ -33,8 +33,16 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   Future<void> _processAnswer(ProcessAnswerEvent event, Emitter<GameState> emit) async {
     emit(ProcessAnswerState(event.points));
+
     await Future.delayed(2000.ms);
-    emit(PlayerTurnState(event.points != 0, event.points != 0 ? me.nickname : enemy.nickname));
+
+    var playerTurn = event.points != 0;
+    emit(PlayerTurnState(playerTurn, playerTurn ? me.nickname : enemy.nickname));
+
+    if (!playerTurn) {
+      await Future.delayed(1000.ms);
+      emit(EnemyWritingState());
+    }
   }
 
   Future<void> _playerSays(PlayerSaysEvent event, Emitter<GameState> emit) async {

@@ -43,13 +43,13 @@ class _PlayerViewState extends State<PlayerView> with TickerProviderStateMixin {
         children: [
           Icon(size: 18, Icons.favorite, color: Theme.of(context).colorScheme.outline),
           const Icon(size: 18, Icons.favorite, color: AppColor.titleColor)
-              .animate() // Showing
+              .animate() // Showing (auto)
               .scaleXY(
                 delay: Duration(milliseconds: delay + index * 300),
                 duration: 400.ms,
                 curve: Curves.elasticOut,
               )
-              .animate(autoPlay: false, controller: _controllers[index]) // Removing
+              .animate(autoPlay: false, controller: _controllers[index]) // Removing (on wrong answer)
               .slideY(
                 duration: 2000.ms,
                 curve: Curves.fastOutSlowIn,
