@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -20,6 +22,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   late Player me;
   late Player enemy;
+  late List<String> rightAnswers;
+  late List<String> wrongAnswers;
+
   int round = 0;
 
   final GetQuestionUseCase _getQuestionUseCase = locator.get<GetQuestionUseCase>();
@@ -42,11 +47,29 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     if (!playerTurn) {
       await Future.delayed(1000.ms);
       emit(EnemyWritingState());
+
+      var isWin = Random().nextInt(100) > 60;
+      var answer = '';
+
+      if (isWin) {
+        var index = Random().nextInt(rightAnswers.length);
+        answer = rightAnswers[index];
+        answer = answer.split(',')[0];
+        rightAnswers.removeAt(index);
+      } else {
+        var index = Random().nextInt(wrongAnswers.length);
+        answer = wrongAnswers[index];
+        wrongAnswers.removeAt(index);
+      }
+
+      await Future.delayed(Duration(milliseconds: answer.length * 300));
+
+      emit(SayAnswerState(answer, false));
     }
   }
 
   Future<void> _playerSays(PlayerSaysEvent event, Emitter<GameState> emit) async {
-    emit(SayAnswerState(event.answer));
+    emit(SayAnswerState(event.answer, true));
     await Future.delayed(2500.ms);
     emit(CheckAnswerState(event.answer)); // Need delay before showing the result
   }
@@ -63,6 +86,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
     me = await _getPlayerUseCase.execute(true);
     enemy = await _getPlayerUseCase.execute(false);
+    // mutable lists
+    rightAnswers = List.from(question.rightAnswers);
+    wrongAnswers = List.from(question.wrongAnswers);
 
     await Future.delayed(400.ms);
     emit(GameReadyState(

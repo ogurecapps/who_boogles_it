@@ -35,6 +35,7 @@ class _StatusTextState extends State<StatusText> with SingleTickerProviderStateM
     String getStatusText(GameState state) {
       return switch (state) {
         PlayerTurnState() => '${LocaleKeys.startTurn.tr()} ${state.name}',
+        EnemyWritingState() => _text, // Skip status change
         SayAnswerState() || CheckAnswerState() => 'ProgressIndicator',
         ProcessAnswerState() =>
           state.points != 0 ? LocaleKeys.answerIsCorrect.tr() : LocaleKeys.answerIsWrong.tr(),

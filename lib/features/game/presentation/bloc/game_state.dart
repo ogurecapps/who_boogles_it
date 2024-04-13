@@ -37,9 +37,10 @@ final class PlayerTurnState extends GameState {
 final class EnemyWritingState extends GameState {}
 
 final class SayAnswerState extends GameState {
+  final bool isMe;
   final String answer;
 
-  const SayAnswerState(this.answer);
+  const SayAnswerState(this.answer, this.isMe);
 }
 
 final class CheckAnswerState extends GameState {

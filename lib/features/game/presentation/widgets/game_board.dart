@@ -68,7 +68,7 @@ class _GameBoardState extends State<GameBoard> {
       builder: (context, state) {
         return SizedBox(
           width: double.infinity,
-          height: 128,
+          height: 126,
           child: Stack(
             children: [
               Padding(

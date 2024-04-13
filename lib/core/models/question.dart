@@ -6,8 +6,8 @@ part 'question.g.dart';
 class Question {
   Id isarId = Isar.autoIncrement;
   String text;
-  List<String> rightAnswers; // Fixed size collection (Set unsupported)
-  List<String> wrongAnswers; // Need limit
+  List<String> rightAnswers;
+  List<String> wrongAnswers;
   @Index()
   DateTime? lastPlayed;
   @Index()

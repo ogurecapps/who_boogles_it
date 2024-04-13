@@ -2,6 +2,7 @@ import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jumping_dot/jumping_dot.dart';
 import 'package:who_boogles_it/app/app_color.dart';
 import 'package:who_boogles_it/core/models/player.dart';
 import 'package:who_boogles_it/features/game/presentation/bloc/game_bloc.dart';
@@ -17,6 +18,7 @@ class ChatBubble extends StatefulWidget {
 
 class _ChatBubbleState extends State<ChatBubble> with SingleTickerProviderStateMixin {
   bool _visible = false;
+  bool _writing = false;
   String _text = '';
   late final AnimationController _controller;
 
@@ -36,18 +38,35 @@ class _ChatBubbleState extends State<ChatBubble> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     return BlocConsumer<GameBloc, GameState>(
       listener: (context, state) {
-        if (state is SayAnswerState && widget.isMe) {
-          _controller.forward();
-          setState(() {
-            _visible = true;
-            _text = state.answer;
-          });
+        if (state is SayAnswerState) {
+          if (state.isMe) {
+            if (widget.isMe) {
+              _controller.forward();
+              setState(() {
+                _visible = true;
+                _text = state.answer;
+              });
+            }
+          } else {
+            if (!widget.isMe) {
+              setState(() {
+                _writing = false;
+                _text = state.answer;
+              });
+            }
+          }
         } else if (state is PlayerTurnState && state.isMe == widget.isMe && _visible) {
           _controller.reverse().then((value) => setState(() {
                 _visible = false;
                 _text = '';
               }));
-        } else if (state is EnemyWritingState && !widget.isMe) {}
+        } else if (state is EnemyWritingState && !widget.isMe) {
+          _controller.forward();
+          setState(() {
+            _visible = true;
+            _writing = true;
+          });
+        }
       },
       buildWhen: (previous, current) => current is GameReadyState,
       builder: (context, state) {
@@ -66,10 +85,25 @@ class _ChatBubbleState extends State<ChatBubble> with SingleTickerProviderStateM
                     '${player.nickname}:',
                     style: TextStyle(
                       color: player.getLevelStats().grade,
-                      fontSize: 14,
+                      fontSize: 15,
                     ),
                   ),
-                  Text(_text),
+                  IndexedStack(
+                    index: _writing ? 0 : 1,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12),
+                        child: JumpingDots(
+                          color: Theme.of(context).primaryColor,
+                          radius: 3,
+                          innerPadding: 0.6,
+                          verticalOffset: 5,
+                          animationDuration: 150.ms,
+                        ),
+                      ),
+                      Text(_text),
+                    ],
+                  ),
                 ],
               ),
             ),
