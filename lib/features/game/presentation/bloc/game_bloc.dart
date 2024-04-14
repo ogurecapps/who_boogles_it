@@ -35,6 +35,11 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<LoadGameEvent>(_loadGameData);
     on<PlayerSaysEvent>(_playerSays);
     on<ProcessAnswerEvent>(_processAnswer);
+    on<DieEvent>(_lifesOver);
+  }
+
+  Future<void> _lifesOver(DieEvent event, Emitter<GameState> emit) async {
+    emit(EndRoundState(event.isMe, false));
   }
 
   Future<void> _processAnswer(ProcessAnswerEvent event, Emitter<GameState> emit) async {
@@ -43,7 +48,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     await Future.delayed(2000.ms);
 
     var playerTurn = event.points == 0 ? !event.isMe : event.isMe;
-    emit(PlayerTurnState(playerTurn, playerTurn ? me.nickname : enemy.nickname));
+    emit(PlayerTurnState(playerTurn));
 
     if (!playerTurn) {
       await Future.delayed(1000.ms);
@@ -100,6 +105,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     ));
 
     await Future.delayed(2000.ms);
-    emit(PlayerTurnState(true, me.nickname));
+    emit(const PlayerTurnState(true));
   }
 }

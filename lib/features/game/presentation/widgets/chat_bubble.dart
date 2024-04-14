@@ -95,7 +95,7 @@ class _ChatBubbleState extends State<ChatBubble> with SingleTickerProviderStateM
                         padding: const EdgeInsets.only(top: 12),
                         child: JumpingDots(
                           color: Theme.of(context).primaryColor,
-                          radius: 3,
+                          radius: 4,
                           innerPadding: 0.6,
                           verticalOffset: 5,
                           animationDuration: 150.ms,

@@ -33,8 +33,19 @@ class _StatusTextState extends State<StatusText> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     String getStatusText(GameState state) {
+      final GameBloc bloc = context.read<GameBloc>();
+
       return switch (state) {
-        PlayerTurnState() => '${LocaleKeys.startTurn.tr()} ${state.name}',
+        EndRoundState(isPlayerWin: true, isSolved: false) => LocaleKeys.lifesOver
+            .tr()
+            .replaceAll('#loser', bloc.enemy.nickname)
+            .replaceAll('#winner', bloc.me.nickname),
+        EndRoundState(isPlayerWin: false, isSolved: false) => LocaleKeys.lifesOver
+            .tr()
+            .replaceAll('#loser', bloc.me.nickname)
+            .replaceAll('#winner', bloc.enemy.nickname),
+        PlayerTurnState() =>
+          '${LocaleKeys.startTurn.tr()} ${state.isMe ? bloc.me.nickname : bloc.enemy.nickname}',
         EnemyWritingState() => _text, // Skip status change
         SayAnswerState() || CheckAnswerState() => 'ProgressIndicator',
         ProcessAnswerState() =>
@@ -67,7 +78,10 @@ class _StatusTextState extends State<StatusText> with SingleTickerProviderStateM
               child: Center(
                 child: state is SayAnswerState || state is CheckAnswerState
                     ? const LinearProgressIndicator()
-                    : Text(_text, style: Theme.of(context).textTheme.bodySmall),
+                    : Text(
+                        _text,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
               ),
             )
                 .animate(

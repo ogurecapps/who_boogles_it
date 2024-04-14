@@ -24,3 +24,9 @@ final class ProcessAnswerEvent extends GameEvent {
 
   const ProcessAnswerEvent(this.points, this.isMe);
 }
+
+final class DieEvent extends GameEvent {
+  final bool isMe;
+
+  const DieEvent(this.isMe);
+}

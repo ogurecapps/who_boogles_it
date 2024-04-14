@@ -29,9 +29,15 @@ final class GameErrorState extends GameState {}
 
 final class PlayerTurnState extends GameState {
   final bool isMe;
-  final String name;
 
-  const PlayerTurnState(this.isMe, this.name);
+  const PlayerTurnState(this.isMe);
+}
+
+final class EndRoundState extends GameState {
+  final bool isPlayerWin;
+  final bool isSolved;
+
+  const EndRoundState(this.isPlayerWin, this.isSolved);
 }
 
 final class EnemyWritingState extends GameState {}

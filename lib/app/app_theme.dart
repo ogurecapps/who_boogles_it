@@ -19,22 +19,22 @@ class AppTheme {
           titleLarge: TextStyle(
             fontFamily: 'SofiaSans',
             color: AppColor.colorScheme.primary,
-            fontSize: 26,
+            fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
           titleSmall: TextStyle(
             color: AppColor.colorScheme.onPrimary,
-            fontSize: 17,
+            fontSize: 18,
           ),
           bodySmall: TextStyle(
             fontFamily: 'SofiaSans',
             color: AppColor.colorScheme.outline,
-            fontSize: 14,
+            fontSize: 13,
           ),
           bodyMedium: TextStyle(
             fontFamily: 'SofiaSans',
             color: AppColor.colorScheme.primary,
-            fontSize: 16,
+            fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),

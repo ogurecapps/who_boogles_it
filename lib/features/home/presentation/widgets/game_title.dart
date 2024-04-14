@@ -15,8 +15,8 @@ class GameTitle extends StatefulWidget {
 class _GameTitleState extends SingleAnimCtrlState {
   @override
   Widget build(BuildContext context) {
-    const double fontSize = 42;
-    const double linesSpacing = .9;
+    const double fontSize = 46;
+    const double linesSpacing = .8;
     const double borderSize = 5;
 
     return Stack(

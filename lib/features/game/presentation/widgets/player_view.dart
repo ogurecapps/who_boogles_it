@@ -72,6 +72,7 @@ class _PlayerViewState extends State<PlayerView> with TickerProviderStateMixin {
               _lifes--;
               if (_lifes == 0) {
                 // Game over
+                context.read<GameBloc>().add(DieEvent(!widget.isMe));
               }
             });
           }
