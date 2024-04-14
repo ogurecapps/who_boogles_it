@@ -23,7 +23,7 @@ class GameBody extends StatelessWidget {
           return const ErrorDialog();
         }
 
-        return Column(
+        return Stack(
           children: [
             Padding(
               padding: const EdgeInsets.all(AppSize.defaultSpace),
@@ -96,8 +96,12 @@ class GameBody extends StatelessWidget {
                 ],
               ),
             ),
-            Expanded(child: Container()),
-            const EntryField(),
+            Column(
+              children: [
+                Expanded(child: Container()),
+                const EntryField(),
+              ],
+            ),
           ],
         );
       },
