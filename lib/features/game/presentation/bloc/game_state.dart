@@ -44,13 +44,15 @@ final class SayAnswerState extends GameState {
 }
 
 final class CheckAnswerState extends GameState {
+  final bool isMe;
   final String answer;
 
-  const CheckAnswerState(this.answer);
+  const CheckAnswerState(this.answer, this.isMe);
 }
 
 final class ProcessAnswerState extends GameState {
+  final bool isMe;
   final int points;
 
-  const ProcessAnswerState(this.points);
+  const ProcessAnswerState(this.points, this.isMe);
 }

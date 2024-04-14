@@ -22,6 +22,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   late Player me;
   late Player enemy;
+  // mutable lists
   late List<String> rightAnswers;
   late List<String> wrongAnswers;
 
@@ -37,11 +38,11 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   Future<void> _processAnswer(ProcessAnswerEvent event, Emitter<GameState> emit) async {
-    emit(ProcessAnswerState(event.points));
+    emit(ProcessAnswerState(event.points, event.isMe));
 
     await Future.delayed(2000.ms);
 
-    var playerTurn = event.points != 0;
+    var playerTurn = event.points == 0 ? !event.isMe : event.isMe;
     emit(PlayerTurnState(playerTurn, playerTurn ? me.nickname : enemy.nickname));
 
     if (!playerTurn) {
@@ -62,16 +63,22 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         wrongAnswers.removeAt(index);
       }
 
-      await Future.delayed(Duration(milliseconds: answer.length * 300));
-
-      emit(SayAnswerState(answer, false));
+      await Future.delayed(Duration(milliseconds: answer.length * 350)); // writing
+      await _sayAnswer(emit, answer, false);
     }
   }
 
-  Future<void> _playerSays(PlayerSaysEvent event, Emitter<GameState> emit) async {
-    emit(SayAnswerState(event.answer, true));
+  Future<void> _sayAnswer(Emitter<GameState> emit, String answer, bool isMe) async {
+    emit(SayAnswerState(answer, isMe));
     await Future.delayed(2500.ms);
-    emit(CheckAnswerState(event.answer)); // Need delay before showing the result
+    emit(CheckAnswerState(answer, isMe)); // Need delay before showing the result
+  }
+
+  void _removeFromAnswers(String answer) {}
+
+  Future<void> _playerSays(PlayerSaysEvent event, Emitter<GameState> emit) async {
+    _removeFromAnswers(event.answer);
+    await _sayAnswer(emit, event.answer, true);
   }
 
   Future<void> _loadGameData(LoadGameEvent event, Emitter<GameState> emit) async {
@@ -86,7 +93,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
     me = await _getPlayerUseCase.execute(true);
     enemy = await _getPlayerUseCase.execute(false);
-    // mutable lists
     rightAnswers = List.from(question.rightAnswers);
     wrongAnswers = List.from(question.wrongAnswers);
 

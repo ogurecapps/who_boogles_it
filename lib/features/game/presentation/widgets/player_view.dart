@@ -66,7 +66,7 @@ class _PlayerViewState extends State<PlayerView> with TickerProviderStateMixin {
     return BlocConsumer<GameBloc, GameState>(
       listenWhen: (previous, current) => current is ProcessAnswerState,
       listener: (context, state) {
-        if (state is ProcessAnswerState && widget.isMe) {
+        if (state is ProcessAnswerState && widget.isMe == state.isMe) {
           if (state.points == 0) {
             _controllers[_lifes - 1].forward().then((value) {
               _lifes--;

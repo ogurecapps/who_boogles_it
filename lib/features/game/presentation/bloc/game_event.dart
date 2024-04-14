@@ -19,7 +19,8 @@ final class PlayerSaysEvent extends GameEvent {
 }
 
 final class ProcessAnswerEvent extends GameEvent {
+  final bool isMe;
   final int points;
 
-  const ProcessAnswerEvent(this.points);
+  const ProcessAnswerEvent(this.points, this.isMe);
 }
