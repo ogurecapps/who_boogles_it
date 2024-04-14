@@ -49,19 +49,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       await Future.delayed(1000.ms);
       emit(EnemyWritingState());
 
-      var isWin = Random().nextInt(100) > 60;
-      var answer = '';
-
-      if (isWin) {
-        var index = Random().nextInt(rightAnswers.length);
-        answer = rightAnswers[index];
-        answer = answer.split(',')[0];
-        rightAnswers.removeAt(index);
-      } else {
-        var index = Random().nextInt(wrongAnswers.length);
-        answer = wrongAnswers[index];
-        wrongAnswers.removeAt(index);
-      }
+      var answer = Random().nextInt(100) > 60
+          ? rightAnswers[Random().nextInt(rightAnswers.length)].split(',')[0]
+          : wrongAnswers[Random().nextInt(wrongAnswers.length)];
 
       await Future.delayed(Duration(milliseconds: answer.length * 350)); // writing
       await _sayAnswer(emit, answer, false);
@@ -69,15 +59,19 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   Future<void> _sayAnswer(Emitter<GameState> emit, String answer, bool isMe) async {
+    _removeFromAnswers(answer);
+
     emit(SayAnswerState(answer, isMe));
     await Future.delayed(2500.ms);
     emit(CheckAnswerState(answer, isMe)); // Need delay before showing the result
   }
 
-  void _removeFromAnswers(String answer) {}
+  void _removeFromAnswers(String answer) {
+    wrongAnswers.remove(answer.toLowerCase());
+    rightAnswers.removeWhere((element) => element.split(',').contains(answer.toLowerCase()));
+  }
 
   Future<void> _playerSays(PlayerSaysEvent event, Emitter<GameState> emit) async {
-    _removeFromAnswers(event.answer);
     await _sayAnswer(emit, event.answer, true);
   }
 
@@ -105,7 +99,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       enemy,
     ));
 
-    await Future.delayed(2500.ms);
+    await Future.delayed(2000.ms);
     emit(PlayerTurnState(true, me.nickname));
   }
 }
