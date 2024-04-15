@@ -36,20 +36,17 @@ class _StatusTextState extends State<StatusText> with SingleTickerProviderStateM
       final GameBloc bloc = context.read<GameBloc>();
 
       return switch (state) {
-        EndRoundState(isPlayerWin: true, isSolved: false) => LocaleKeys.lifesOver
-            .tr()
-            .replaceAll('#loser', bloc.enemy.nickname)
-            .replaceAll('#winner', bloc.me.nickname),
-        EndRoundState(isPlayerWin: false, isSolved: false) => LocaleKeys.lifesOver
-            .tr()
-            .replaceAll('#loser', bloc.me.nickname)
-            .replaceAll('#winner', bloc.enemy.nickname),
+        EndRoundState(isSolved: true) =>
+          '${state.isMe ? bloc.me.nickname : bloc.enemy.nickname} ${LocaleKeys.solved.tr()}',
+        EndRoundState(isSolved: false) =>
+          '${state.isMe ? bloc.enemy.nickname : bloc.me.nickname} ${LocaleKeys.lifesOver.tr()}',
         PlayerTurnState() =>
           '${LocaleKeys.startTurn.tr()} ${state.isMe ? bloc.me.nickname : bloc.enemy.nickname}',
         EnemyWritingState() => _text, // Skip status change
         SayAnswerState() || CheckAnswerState() => 'ProgressIndicator',
         ProcessAnswerState() =>
           state.points != 0 ? LocaleKeys.answerIsCorrect.tr() : LocaleKeys.answerIsWrong.tr(),
+        SpendLifeState() => LocaleKeys.answerIsWrong.tr(),
         _ => LocaleKeys.round_1.tr(),
       };
     }

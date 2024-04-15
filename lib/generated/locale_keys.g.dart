@@ -37,5 +37,6 @@ abstract class  LocaleKeys {
   static const answerIsCorrect = 'answerIsCorrect';
   static const answerIsWrong = 'answerIsWrong';
   static const lifesOver = 'lifesOver';
+  static const solved = 'solved';
 
 }

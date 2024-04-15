@@ -30,3 +30,9 @@ final class DieEvent extends GameEvent {
 
   const DieEvent(this.isMe);
 }
+
+final class NextTurnEvent extends GameEvent {
+  final bool isMe;
+
+  const NextTurnEvent(this.isMe);
+}

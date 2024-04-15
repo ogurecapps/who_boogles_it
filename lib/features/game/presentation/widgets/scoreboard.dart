@@ -21,10 +21,20 @@ class _ScoreboardState extends State<Scoreboard> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<GameBloc, GameState>(
-      listenWhen: (previous, current) => current is ProcessAnswerState,
+      listenWhen: (previous, current) => current is ProcessAnswerState || current is EndRoundState,
       listener: (context, state) {
         if (widget.type == ScoreboardType.round && state is ProcessAnswerState && state.points != 0) {
           setState(() => _score += state.points);
+        }
+
+        if (state is EndRoundState) {
+          if (widget.type == ScoreboardType.me && state.isMe) {
+            setState(() => _score = state.roundScore);
+          } else if (widget.type == ScoreboardType.enemy && !state.isMe) {
+            setState(() => _score = state.roundScore);
+          } else if (widget.type == ScoreboardType.round) {
+            setState(() => _score = 0);
+          }
         }
       },
       child: DecoratedBox(

@@ -34,10 +34,11 @@ final class PlayerTurnState extends GameState {
 }
 
 final class EndRoundState extends GameState {
-  final bool isPlayerWin;
+  final bool isMe; // Winner
   final bool isSolved;
+  final int roundScore;
 
-  const EndRoundState(this.isPlayerWin, this.isSolved);
+  const EndRoundState(this.isMe, this.isSolved, this.roundScore);
 }
 
 final class EnemyWritingState extends GameState {}
@@ -61,4 +62,10 @@ final class ProcessAnswerState extends GameState {
   final int points;
 
   const ProcessAnswerState(this.points, this.isMe);
+}
+
+final class SpendLifeState extends GameState {
+  final bool isMe;
+
+  const SpendLifeState(this.isMe);
 }

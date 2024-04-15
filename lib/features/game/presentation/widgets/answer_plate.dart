@@ -127,7 +127,7 @@ class _AnswerPlateState extends State<AnswerPlate> with SingleTickerProviderStat
         if (state is CheckAnswerState) {
           if (widget.answer.contains(state.answer.toLowerCase())) {
             if (_isOpen) {
-              context.read<GameBloc>().add(ProcessAnswerEvent(0, state.isMe));
+              context.read<GameBloc>().add(ProcessAnswerEvent(0, state.isMe)); // Wrong answer
             } else {
               answerIsCorrect(state);
             }

@@ -34,5 +34,6 @@
     "round_3": "Round 3. Vice versa game",
     "answerIsCorrect": "This is right answer!",
     "answerIsWrong": "No such answer :(",
-    "lifesOver": "#loser you're out. #winner won!"
+    "lifesOver": "you're out",
+    "solved": "is the winner of this round!"
 }

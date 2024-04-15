@@ -51,12 +51,12 @@ class _PlayerViewState extends State<PlayerView> with TickerProviderStateMixin {
               )
               .animate(autoPlay: false, controller: _controllers[index]) // Removing (on wrong answer)
               .slideY(
-                duration: 2000.ms,
+                duration: 1600.ms,
                 curve: Curves.fastOutSlowIn,
                 end: -2.2,
               )
               .fadeOut(
-                duration: 2400.ms,
+                duration: 2000.ms,
                 curve: Curves.fastOutSlowIn,
               )
         ],
@@ -64,18 +64,17 @@ class _PlayerViewState extends State<PlayerView> with TickerProviderStateMixin {
     }
 
     return BlocConsumer<GameBloc, GameState>(
-      listenWhen: (previous, current) => current is ProcessAnswerState,
+      listenWhen: (previous, current) => current is SpendLifeState,
       listener: (context, state) {
-        if (state is ProcessAnswerState && widget.isMe == state.isMe) {
-          if (state.points == 0) {
-            _controllers[_lifes - 1].forward().then((value) {
-              _lifes--;
-              if (_lifes == 0) {
-                // Game over
-                context.read<GameBloc>().add(DieEvent(!widget.isMe));
-              }
-            });
-          }
+        if (state is SpendLifeState && widget.isMe == state.isMe) {
+          _controllers[_lifes - 1].forward().then((value) {
+            _lifes--;
+            if (_lifes == 0) {
+              context.read<GameBloc>().add(DieEvent(widget.isMe)); // Game over
+            } else {
+              context.read<GameBloc>().add(NextTurnEvent(widget.isMe)); // Turn move
+            }
+          });
         }
       },
       buildWhen: (previous, current) => current is GameReadyState,
