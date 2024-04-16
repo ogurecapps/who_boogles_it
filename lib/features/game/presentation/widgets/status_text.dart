@@ -47,7 +47,7 @@ class _StatusTextState extends State<StatusText> with SingleTickerProviderStateM
         ProcessAnswerState() =>
           state.points != 0 ? LocaleKeys.answerIsCorrect.tr() : LocaleKeys.answerIsWrong.tr(),
         SpendLifeState() => LocaleKeys.answerIsWrong.tr(),
-        _ => LocaleKeys.round_1.tr(),
+        _ => 'round_${bloc.round}'.tr(),
       };
     }
 
@@ -63,7 +63,7 @@ class _StatusTextState extends State<StatusText> with SingleTickerProviderStateM
       builder: (context, state) {
         return SizedBox(
           width: double.infinity,
-          height: 20,
+          height: 22,
           child: DecoratedBox(
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.onPrimary,

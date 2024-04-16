@@ -60,7 +60,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           ? rightAnswers[Random().nextInt(rightAnswers.length)].split(',')[0]
           : wrongAnswers[Random().nextInt(wrongAnswers.length)];
 
-      await Future.delayed(Duration(milliseconds: answer.length * 380)); // Writing
+      await Future.delayed(Duration(milliseconds: answer.length * 400)); // Writing
       await _sayAnswer(emit, answer, false);
     }
   }
@@ -125,7 +125,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       enemy,
     ));
 
-    await Future.delayed(2000.ms);
-    emit(const PlayerTurnState(true));
+    await Future.delayed(3000.ms);
+    emit(RoundTipState(round));
   }
 }

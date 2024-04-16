@@ -27,6 +27,12 @@ final class GameReadyState extends GameState {
 
 final class GameErrorState extends GameState {}
 
+final class RoundTipState extends GameState {
+  final int round;
+
+  const RoundTipState(this.round);
+}
+
 final class PlayerTurnState extends GameState {
   final bool isMe;
 

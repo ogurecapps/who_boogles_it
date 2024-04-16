@@ -1,7 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/features/game/presentation/bloc/game_bloc.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/chat_bubble.dart';
@@ -11,13 +12,47 @@ import 'package:who_boogles_it/features/game/presentation/widgets/game_board.dar
 import 'package:who_boogles_it/features/game/presentation/widgets/player_view.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/search_field.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/status_text.dart';
+import 'package:who_boogles_it/generated/locale_keys.g.dart';
 
 class GameBody extends StatelessWidget {
   const GameBody({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GameBloc, GameState>(
+    return BlocConsumer<GameBloc, GameState>(
+      listenWhen: (previous, current) => current is RoundTipState,
+      listener: (context, state) {
+        if (state is RoundTipState) {
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (innerContext) {
+              return AlertDialog(
+                actionsAlignment: MainAxisAlignment.center,
+                scrollable: true,
+                title: Text('round_${state.round}'.tr()),
+                content: Text('descRound_${state.round}'.tr()),
+                actions: [
+                  SizedBox(
+                    width: AppSize.menuButtonWidth,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        context.read<GameBloc>().add(const NextTurnEvent(false));
+                        context.pop();
+                      },
+                      icon: const Icon(Icons.check_box),
+                      label: const Text(LocaleKeys.gotIt).tr(),
+                    ).animate().flip(
+                          delay: 400.ms,
+                          curve: Curves.fastOutSlowIn,
+                        ),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      },
       builder: (context, state) {
         if (state is GameErrorState) {
           return const ErrorDialog();
