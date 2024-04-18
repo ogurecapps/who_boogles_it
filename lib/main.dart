@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:wakelock/wakelock.dart';
 import 'package:who_boogles_it/app/app_theme.dart';
 import 'package:who_boogles_it/core/di/locator.dart';
 import 'package:who_boogles_it/core/routes/app_router.dart';
@@ -8,6 +9,7 @@ import 'package:who_boogles_it/generated/locale_keys.g.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Wakelock.enable();
   await EasyLocalization.ensureInitialized();
 
   Animate.restartOnHotReload = true;
@@ -35,7 +37,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       onGenerateTitle: (BuildContext context) => LocaleKeys.gameTitle.tr(),
-      theme: AppTheme().buildThemeData(),
+      theme: AppTheme.light,
       debugShowCheckedModeBanner: false,
       routerConfig: AppRouter.router,
       localizationsDelegates: context.localizationDelegates,

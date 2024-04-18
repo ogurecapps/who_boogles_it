@@ -23,9 +23,9 @@ class LevelTitle extends StatelessWidget {
               }),
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: state is PlayerReadyState ? state.levelGrade : Colors.white,
+              color: state is PlayerReadyState ? state.levelGrade : Theme.of(context).colorScheme.onPrimary,
               borderRadius: const BorderRadius.all(Radius.circular(2)),
-              border: Border.all(color: Colors.white, width: AppSize.buttonBorder),
+              border: Border.all(color: Theme.of(context).colorScheme.onPrimary, width: AppSize.buttonBorder),
               boxShadow: [AppTheme.defaultBoxShadow],
             ),
             child: Padding(
@@ -33,10 +33,7 @@ class LevelTitle extends StatelessWidget {
               child: Text(
                 state is PlayerReadyState ? '${LocaleKeys.level.tr()} ${state.level}' : '',
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
+                style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
           ),

@@ -14,15 +14,15 @@ class ProfileHint extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: Theme.of(context).secondaryHeaderColor,
-          borderRadius: const BorderRadius.all(Radius.circular(6)),
+          borderRadius: AppTheme.defaultRadius,
           boxShadow: [AppTheme.defaultBoxShadow],
         ),
         child: Padding(
           padding: const EdgeInsets.all(6),
-          child: const Text(
+          child: Text(
             LocaleKeys.avatarHint,
             textAlign: TextAlign.left,
-            style: TextStyle(color: Colors.blueGrey),
+            style: Theme.of(context).textTheme.bodySmall,
           ).tr(),
         ),
       ),

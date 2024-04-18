@@ -1,46 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
+import 'package:who_boogles_it/app/app_color.dart';
 
 /// Literally abstract, like abstract art
 class AbstractBackground extends StatelessWidget {
-  const AbstractBackground({super.key});
+  final float brightness;
+  const AbstractBackground({super.key, this.brightness = 0});
 
-  static const palette = (
-    Color(0xff39b8c2),
-    Color(0xff62698f),
-    Color(0xfffc6999),
-    Color(0xff8ce5a4),
-  );
-
-  static List<({int rootFlex, List<({int flex, List<Color> colors})> boxes})> blueprint = [
+  static final List<({int rootFlex, List<({int flex, List<Color> colors})> boxes})> blueprint = [
     (
       rootFlex: 2,
       boxes: [
-        (flex: 1, colors: [palette.$4]),
-        (flex: 8, colors: [palette.$1]),
+        (flex: 1, colors: [AppColor.backPalette.$4]),
+        (flex: 8, colors: [AppColor.backPalette.$1]),
       ]
     ),
     (
       rootFlex: 4,
       boxes: [
-        (flex: 2, colors: [palette.$2]),
-        (flex: 2, colors: [palette.$3, palette.$4]),
-        (flex: 5, colors: [palette.$2]),
+        (flex: 2, colors: [AppColor.backPalette.$2]),
+        (flex: 2, colors: [AppColor.backPalette.$3, AppColor.backPalette.$4]),
+        (flex: 5, colors: [AppColor.backPalette.$2]),
       ]
     ),
     (
       rootFlex: 4,
       boxes: [
-        (flex: 5, colors: [palette.$1]),
-        (flex: 2, colors: [palette.$3, palette.$2]),
-        (flex: 2, colors: [palette.$4]),
+        (flex: 5, colors: [AppColor.backPalette.$1]),
+        (flex: 2, colors: [AppColor.backPalette.$3, AppColor.backPalette.$2]),
+        (flex: 2, colors: [AppColor.backPalette.$4]),
       ]
     ),
     (
       rootFlex: 1,
       boxes: [
-        (flex: 7, colors: [palette.$3]),
-        (flex: 1, colors: [palette.$1]),
-        (flex: 1, colors: [palette.$3]),
+        (flex: 7, colors: [AppColor.backPalette.$3]),
+        (flex: 1, colors: [AppColor.backPalette.$1]),
+        (flex: 1, colors: [AppColor.backPalette.$3]),
       ]
     ),
   ];
@@ -63,8 +59,21 @@ class AbstractBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [for (var column in blueprint) buildColumn(column.rootFlex, column.boxes)],
-    );
+    return Builder(builder: (context) {
+      return Stack(
+        children: [
+          Row(
+            children: [for (var column in blueprint) buildColumn(column.rootFlex, column.boxes)],
+          ),
+          SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: ColoredBox(
+              color: Colors.white.withOpacity(brightness),
+            ),
+          ),
+        ],
+      );
+    });
   }
 }

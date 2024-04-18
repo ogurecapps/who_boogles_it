@@ -28,5 +28,17 @@ abstract class  LocaleKeys {
   static const grade_4 = 'grade_4';
   static const grade_5 = 'grade_5';
   static const gradesHintTitle = 'gradesHintTitle';
+  static const entryHint = 'entryHint';
+  static const error = 'error';
+  static const startTurn = 'startTurn';
+  static const round_0 = 'round_0';
+  static const round_1 = 'round_1';
+  static const round_2 = 'round_2';
+  static const answerIsCorrect = 'answerIsCorrect';
+  static const answerIsWrong = 'answerIsWrong';
+  static const lifesOver = 'lifesOver';
+  static const solved = 'solved';
+  static const gotIt = 'gotIt';
+  static const descRound_0 = 'descRound_0';
 
 }

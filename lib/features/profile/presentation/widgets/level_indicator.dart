@@ -19,7 +19,7 @@ class LevelIndicator extends StatelessWidget {
           child: DecoratedBox(
             decoration: BoxDecoration(
               color: Theme.of(context).secondaryHeaderColor,
-              borderRadius: const BorderRadius.all(Radius.circular(6)),
+              borderRadius: AppTheme.defaultRadius,
               boxShadow: [AppTheme.defaultBoxShadow],
             ),
             child: Padding(
@@ -27,10 +27,15 @@ class LevelIndicator extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(LocaleKeys.levelProgressHint, style: TextStyle(color: Colors.blueGrey)).tr(),
+                  Text(
+                    LocaleKeys.levelProgressHint,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ).tr(),
                   LinearProgressIndicator(value: state is PlayerReadyState ? state.levelIndicatorValue : 0),
-                  Text(state is PlayerReadyState ? state.levelIndicatorLegend : '',
-                      style: const TextStyle(color: Colors.blueGrey)),
+                  Text(
+                    state is PlayerReadyState ? state.levelIndicatorLegend : '',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
                 ],
               ),
             ),

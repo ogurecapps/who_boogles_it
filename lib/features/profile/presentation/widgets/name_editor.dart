@@ -55,9 +55,9 @@ class _NameEditorState extends State<NameEditor> {
         child: Column(children: [
           Align(
             alignment: Alignment.centerLeft,
-            child: const Text(
+            child: Text(
               LocaleKeys.nicknameLimits,
-              style: TextStyle(color: Colors.blueGrey),
+              style: Theme.of(context).textTheme.bodySmall,
             ).tr(),
           ),
           const SizedBox(height: 14),

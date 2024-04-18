@@ -5,15 +5,15 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:who_boogles_it/core/di/locator.dart';
 import 'package:who_boogles_it/core/models/player.dart';
-import 'package:who_boogles_it/features/profile/domain/use_cases/get_player_use_case.dart';
-import 'package:who_boogles_it/features/profile/domain/use_cases/set_player_name_use_case.dart';
+import 'package:who_boogles_it/features/profile/domain/use_cases/get_me_use_case.dart';
+import 'package:who_boogles_it/features/profile/domain/use_cases/set_my_name_use_case.dart';
 
 part 'player_event.dart';
 part 'player_state.dart';
 
 class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
-  final GetPlayerUseCase _getPlayerUseCase = locator.get<GetPlayerUseCase>();
-  final SetPlayerNameUseCase _setPlayerNameUseCase = locator.get<SetPlayerNameUseCase>();
+  final GetMeUseCase _getPlayerUseCase = locator.get<GetMeUseCase>();
+  final SetMyNameUseCase _setPlayerNameUseCase = locator.get<SetMyNameUseCase>();
 
   PlayerBloc() : super(PlayerInitialState()) {
     on<GetPlayerEvent>(_getPlayer);

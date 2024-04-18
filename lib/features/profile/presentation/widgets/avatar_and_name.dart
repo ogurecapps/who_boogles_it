@@ -10,9 +10,6 @@ class AvatarAndName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle style =
-        TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 26, fontWeight: FontWeight.bold);
-
     return BlocBuilder<PlayerBloc, PlayerState>(builder: (context, state) {
       return Column(
         children: [
@@ -22,14 +19,14 @@ class AvatarAndName extends StatelessWidget {
               boxShadow: [AppTheme.defaultBoxShadow],
             ),
             child: CircleAvatar(
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).colorScheme.onPrimary,
               radius: AppSize.profileAvatarSize / 2 + AppSize.buttonBorder,
               child: state is PlayerReadyState
                   ? state.avatar.animate().shimmer(delay: 600.ms)
                   : Icon(
                       Icons.hourglass_top_rounded,
                       size: 70,
-                      color: Colors.blueGrey[100],
+                      color: Theme.of(context).colorScheme.primaryContainer,
                     ),
             ),
           ).animate().scale(
@@ -42,16 +39,24 @@ class AvatarAndName extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                   color: Theme.of(context).secondaryHeaderColor,
-                  borderRadius: const BorderRadius.all(Radius.circular(6)),
+                  borderRadius: AppTheme.defaultRadius,
                   boxShadow: [AppTheme.defaultBoxShadow]),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: state is PlayerReadyState
-                    ? Text(state.nickname, textAlign: TextAlign.center, style: style)
+                    ? Text(
+                        state.nickname,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      )
                         .animate()
                         .slideY(delay: 200.ms, begin: 0.3, end: 0, curve: Curves.fastOutSlowIn)
                         .fadeIn(delay: 200.ms)
-                    : Text('', textAlign: TextAlign.center, style: style),
+                    : Text(
+                        '',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
               ),
             ),
           ).animate().fadeIn(delay: 200.ms)
