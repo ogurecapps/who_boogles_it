@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:who_boogles_it/app/app_color.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/features/game/presentation/bloc/game_bloc.dart';
 
@@ -9,6 +10,7 @@ class AnswerPlate extends StatefulWidget {
   final Set<String> answer; // May contain synonyms
   final int points;
   final Duration startDelay;
+  final bool isBonus;
 
   const AnswerPlate({
     super.key,
@@ -16,6 +18,7 @@ class AnswerPlate extends StatefulWidget {
     required this.answer,
     required this.points,
     required this.startDelay,
+    required this.isBonus,
   });
 
   @override
@@ -97,6 +100,7 @@ class _AnswerPlateState extends State<AnswerPlate> with SingleTickerProviderStat
         ),
       ),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Expanded(
             child: Padding(
@@ -109,14 +113,27 @@ class _AnswerPlateState extends State<AnswerPlate> with SingleTickerProviderStat
           ),
           DecoratedBox(
             decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              child: Text(
-                widget.points.toString(),
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
+            child: Stack(
+              children: [
+                Visibility(
+                  visible: widget.isBonus,
+                  child: const Icon(
+                    size: 25,
+                    Icons.favorite,
+                    color: AppColor.titleColor,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      right: 6, left: widget.points.toString().length > 1 ? 5 : 8), // Workaround
+                  child: Text(
+                    widget.points.toString(),
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ),
+              ],
             ),
-          )
+          ),
         ],
       ),
     );

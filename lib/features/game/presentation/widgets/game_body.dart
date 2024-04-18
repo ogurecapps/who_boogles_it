@@ -93,7 +93,7 @@ class GameBody extends StatelessWidget {
                         delay: 800.ms,
                         duration: 400.ms,
                       ),
-                  const SizedBox(height: 25),
+                  const SizedBox(height: 20),
                   Row(children: [
                     const PlayerView(isMe: false),
                     const ChatBubble(isMe: false),

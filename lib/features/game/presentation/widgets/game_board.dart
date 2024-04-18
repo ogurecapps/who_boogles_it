@@ -38,6 +38,7 @@ class _GameBoardState extends State<GameBoard> {
             answer: answer,
             points: GameBloc.points[round][index],
             startDelay: Duration(milliseconds: delay),
+            isBonus: index == 5,
           ),
         );
 
