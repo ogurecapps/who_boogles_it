@@ -100,7 +100,6 @@ class _AnswerPlateState extends State<AnswerPlate> with SingleTickerProviderStat
         ),
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
         children: [
           Expanded(
             child: Padding(
@@ -118,14 +117,14 @@ class _AnswerPlateState extends State<AnswerPlate> with SingleTickerProviderStat
                 Visibility(
                   visible: widget.isBonus,
                   child: const Icon(
-                    size: 25,
+                    size: 26,
                     Icons.favorite,
                     color: AppColor.titleColor,
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      right: 6, left: widget.points.toString().length > 1 ? 5 : 8), // Workaround
+                      right: 6, left: widget.points.toString().length > 1 ? 5 : 9), // Workaround
                   child: Text(
                     widget.points.toString(),
                     style: Theme.of(context).textTheme.titleSmall,
@@ -151,7 +150,9 @@ class _AnswerPlateState extends State<AnswerPlate> with SingleTickerProviderStat
           }
         }
       },
-      child: Expanded(
+      child: SizedBox(
+        width: double.infinity,
+        height: 27,
         child: IndexedStack(
           index: _isOpen ? 1 : 0,
           children: [closedSide, openedSide],
