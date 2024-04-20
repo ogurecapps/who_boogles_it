@@ -36,27 +36,36 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<LoadGameEvent>(_loadGameData);
     on<PlayerSaysEvent>(_playerSays);
     on<ProcessAnswerEvent>(_processAnswer);
-    on<DieEvent>(_lifesOver);
+    on<DieEvent>(_gameOver);
     on<NextTurnEvent>(_turnMove);
   }
 
   Future<void> _turnMove(NextTurnEvent event, Emitter<GameState> emit) async {
-    await _nextTurn(event.isMe, false, emit);
+    if (event.isBonusClaim) {
+      emit(GetsBonusState(!event.isMe));
+      await Future.delayed(1800.ms);
+    }
+    await _shiftTurn(event.isMe, emit);
   }
 
-  Future<void> _lifesOver(DieEvent event, Emitter<GameState> emit) async {
-    emit(EndRoundState(!event.isMe, false, _score));
+  Future<void> _gameOver(DieEvent event, Emitter<GameState> emit) async {
+    if (event.isBonusClaim) {
+      emit(GetsBonusState(!event.isMe));
+      await Future.delayed(1800.ms);
+    }
+    emit(EndRoundState(!event.isMe, _score));
   }
 
-  Future<void> _nextTurn(bool isCurrentMe, bool isWin, Emitter<GameState> emit) async {
-    var playerTurn = isWin ? isCurrentMe : !isCurrentMe;
+  Future<void> _shiftTurn(bool isCurrentMe, Emitter<GameState> emit) async {
+    var playerTurn = !isCurrentMe;
     emit(PlayerTurnState(playerTurn));
 
+    // AI turn
     if (!playerTurn) {
-      await Future.delayed(1000.ms);
+      await Future.delayed(1000.ms); // Hide animation
       emit(EnemyWritingState());
 
-      var answer = Random().nextInt(100) > 60
+      var answer = (wrongAnswers.isEmpty ? true : Random().nextInt(100) > 60)
           ? rightAnswers[Random().nextInt(rightAnswers.length)].split(',')[0]
           : wrongAnswers[Random().nextInt(wrongAnswers.length)];
 
@@ -68,19 +77,12 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   Future<void> _processAnswer(ProcessAnswerEvent event, Emitter<GameState> emit) async {
     _score += event.points;
 
-    emit(ProcessAnswerState(event.points, event.isMe));
-
-    if (rightAnswers.isEmpty) {
-      // Win
-      await Future.delayed(2000.ms);
-      emit(EndRoundState(event.isMe, true, _score));
-    } else if (event.points == 0) {
-      // Spend one life point
-      emit(SpendLifeState(event.isMe));
+    if (event.points > 0) {
+      emit(RightAnswerState(event.points, event.isMe, event.isBonus));
     } else {
-      // Next turn
+      emit(WrongAnswerState());
       await Future.delayed(2000.ms);
-      await _nextTurn(event.isMe, true, emit);
+      await _shiftTurn(event.isMe, emit);
     }
   }
 

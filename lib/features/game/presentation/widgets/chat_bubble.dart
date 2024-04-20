@@ -92,7 +92,7 @@ class _ChatBubbleState extends State<ChatBubble> with SingleTickerProviderStateM
                     index: _writing ? 0 : 1,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 13),
+                        padding: const EdgeInsets.only(top: 11),
                         child: JumpingDots(
                           color: Theme.of(context).primaryColor,
                           radius: 4,

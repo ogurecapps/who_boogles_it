@@ -21,18 +21,21 @@ final class PlayerSaysEvent extends GameEvent {
 final class ProcessAnswerEvent extends GameEvent {
   final bool isMe;
   final int points;
+  final bool isBonus;
 
-  const ProcessAnswerEvent(this.points, this.isMe);
+  const ProcessAnswerEvent(this.points, this.isMe, this.isBonus);
 }
 
 final class DieEvent extends GameEvent {
   final bool isMe;
+  final bool isBonusClaim;
 
-  const DieEvent(this.isMe);
+  const DieEvent(this.isMe, this.isBonusClaim);
 }
 
 final class NextTurnEvent extends GameEvent {
   final bool isMe;
+  final bool isBonusClaim;
 
-  const NextTurnEvent(this.isMe);
+  const NextTurnEvent(this.isMe, this.isBonusClaim);
 }

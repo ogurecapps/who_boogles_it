@@ -61,7 +61,7 @@ class _GameBoardState extends State<GameBoard> {
       listenWhen: (previous, current) => current is CheckAnswerState,
       listener: (BuildContext context, GameState state) {
         if (state is CheckAnswerState && !allAnswers.contains(state.answer.toLowerCase())) {
-          context.read<GameBloc>().add(ProcessAnswerEvent(0, state.isMe)); // Wrong answer
+          context.read<GameBloc>().add(ProcessAnswerEvent(0, state.isMe, false)); // Wrong answer
         }
       },
       buildWhen: (previous, current) => current is GameReadyState,

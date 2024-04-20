@@ -48,7 +48,7 @@ class _AnswerPlateState extends State<AnswerPlate> with SingleTickerProviderStat
           _isOpen = true;
           _delay = 0.ms;
           _controller.forward();
-          context.read<GameBloc>().add(ProcessAnswerEvent(widget.points, state.isMe));
+          context.read<GameBloc>().add(ProcessAnswerEvent(widget.points, state.isMe, widget.isBonus));
         }));
   }
 
@@ -144,7 +144,7 @@ class _AnswerPlateState extends State<AnswerPlate> with SingleTickerProviderStat
         if (state is CheckAnswerState) {
           if (widget.answer.contains(state.answer.toLowerCase())) {
             if (_isOpen) {
-              context.read<GameBloc>().add(ProcessAnswerEvent(0, state.isMe)); // Wrong answer
+              context.read<GameBloc>().add(ProcessAnswerEvent(0, state.isMe, false)); // Wrong answer
             } else {
               answerIsCorrect(state);
             }
