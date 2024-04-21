@@ -37,7 +37,7 @@ class GameBody extends StatelessWidget {
                     width: AppSize.menuButtonWidth,
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        context.read<GameBloc>().add(const DiceRollEvent(false));
+                        context.read<GameBloc>().add(DiceRollEvent());
                         context.pop();
                       },
                       icon: const Icon(Icons.check_box),

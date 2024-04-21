@@ -97,6 +97,11 @@ class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
             _visible = true;
             _content = ContentState.dice;
           });
+        } else if (state is DiceResultState && state.isMe == widget.isMe) {
+          _timer.cancel();
+          _rotationController.stop();
+          _rotationController.reset();
+          setState(() => _dice = state.result);
         }
       },
       buildWhen: (previous, current) => current is GameReadyState,
@@ -140,8 +145,8 @@ class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
                           child: SvgPicture.asset(
                             'assets/images/svg/dice_$_dice.svg',
                             colorFilter: ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.srcIn),
-                            width: 50,
-                            height: 50,
+                            width: 46,
+                            height: 46,
                           ),
                         ),
                       ),

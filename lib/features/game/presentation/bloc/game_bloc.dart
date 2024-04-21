@@ -39,10 +39,19 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<DieEvent>(_gameOver);
     on<NextTurnEvent>(_turnMove);
     on<DiceRollEvent>(_diceRollStart);
+    on<DiceStopEvent>(_diceStop);
+  }
+
+  Future<void> _diceStop(DiceStopEvent event, Emitter<GameState> emit) async {
+    emit(DiceResultState(true, Random().nextInt(6)));
   }
 
   Future<void> _diceRollStart(DiceRollEvent event, Emitter<GameState> emit) async {
-    emit(DiceRollState(event.isMe));
+    emit(const DiceRollState(false));
+    await Future.delayed(3000.ms);
+    emit(DiceResultState(false, Random().nextInt(6)));
+    await Future.delayed(1500.ms);
+    emit(const DiceRollState(true));
   }
 
   Future<void> _turnMove(NextTurnEvent event, Emitter<GameState> emit) async {

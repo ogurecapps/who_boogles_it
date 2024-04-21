@@ -83,3 +83,10 @@ final class DiceRollState extends GameState {
 
   const DiceRollState(this.isMe);
 }
+
+final class DiceResultState extends GameState {
+  final bool isMe;
+  final int result;
+
+  const DiceResultState(this.isMe, this.result);
+}

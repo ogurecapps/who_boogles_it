@@ -39,5 +39,6 @@
     "gotIt": "GOT IT!",
     "descRound_0": "Your task is to guess the six most popular endings of the search question. Answers on the gameboard are arranged in order of decreasing their popularity. The higher the answer is, the more points you can earn. If you guess the right answer, points for them go to the round fund. And your opponent will lose one life point. If you make a mistake, the turn will pass to another player. You can restore one life point if you open the least popular answer, located in the sixth place. Victory and round fund will go to those who will destroy all lifes of the enemy.",
     "firstMove": "👀 Determine who goes first...",
-    "tapToStop": "Tap the dice to stop spinning 🎲"
+    "tapToStop": "Tap the dice to stop spinning 🎲",
+    "diceResult": "got the number"
 }
