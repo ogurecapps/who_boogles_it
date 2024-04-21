@@ -36,6 +36,7 @@ class _StatusTextState extends State<StatusText> with SingleTickerProviderStateM
       final GameBloc bloc = context.read<GameBloc>();
 
       return switch (state) {
+        DiceRollState() => state.isMe ? LocaleKeys.tapToStop : LocaleKeys.firstMove.tr(),
         EndRoundState() => '${state.isMe ? bloc.me.nickname : bloc.enemy.nickname} ${LocaleKeys.winner.tr()}',
         PlayerTurnState() =>
           '${LocaleKeys.startTurn.tr()} ${state.isMe ? bloc.me.nickname : bloc.enemy.nickname}',

@@ -38,6 +38,11 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<ProcessAnswerEvent>(_processAnswer);
     on<DieEvent>(_gameOver);
     on<NextTurnEvent>(_turnMove);
+    on<DiceRollEvent>(_diceRollStart);
+  }
+
+  Future<void> _diceRollStart(DiceRollEvent event, Emitter<GameState> emit) async {
+    emit(DiceRollState(event.isMe));
   }
 
   Future<void> _turnMove(NextTurnEvent event, Emitter<GameState> emit) async {

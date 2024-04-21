@@ -40,5 +40,7 @@ abstract class  LocaleKeys {
   static const winner = 'winner';
   static const gotIt = 'gotIt';
   static const descRound_0 = 'descRound_0';
+  static const firstMove = 'firstMove';
+  static const tapToStop = 'tapToStop';
 
 }

@@ -77,3 +77,9 @@ final class GetsBonusState extends GameState {
 
   const GetsBonusState(this.isMe);
 }
+
+final class DiceRollState extends GameState {
+  final bool isMe;
+
+  const DiceRollState(this.isMe);
+}

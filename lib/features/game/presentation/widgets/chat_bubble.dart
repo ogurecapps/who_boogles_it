@@ -1,11 +1,22 @@
+import 'dart:async';
+
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 import 'package:who_boogles_it/app/app_color.dart';
 import 'package:who_boogles_it/core/models/player.dart';
 import 'package:who_boogles_it/features/game/presentation/bloc/game_bloc.dart';
+
+enum ContentState {
+  writing,
+  text,
+  dice;
+
+  int get value => index;
+}
 
 class ChatBubble extends StatefulWidget {
   final bool isMe;
@@ -16,21 +27,30 @@ class ChatBubble extends StatefulWidget {
   State<ChatBubble> createState() => _ChatBubbleState();
 }
 
-class _ChatBubbleState extends State<ChatBubble> with SingleTickerProviderStateMixin {
+class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
+  static const int diceStep = 200;
+
   bool _visible = false;
-  bool _writing = false;
+  ContentState _content = ContentState.text;
   String _text = '';
   late final AnimationController _controller;
+  late final AnimationController _rotationController;
+  int _dice = 0;
+  late Timer _timer;
 
   @override
   void initState() {
     _controller = AnimationController(vsync: this);
+    _rotationController =
+        AnimationController(vsync: this, duration: const Duration(milliseconds: diceStep * 6));
     super.initState();
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _rotationController.dispose();
+    _timer.cancel();
     super.dispose();
   }
 
@@ -50,7 +70,7 @@ class _ChatBubbleState extends State<ChatBubble> with SingleTickerProviderStateM
           } else {
             if (!widget.isMe) {
               setState(() {
-                _writing = false;
+                _content = ContentState.text;
                 _text = state.answer;
               });
             }
@@ -64,7 +84,18 @@ class _ChatBubbleState extends State<ChatBubble> with SingleTickerProviderStateM
           _controller.forward();
           setState(() {
             _visible = true;
-            _writing = true;
+            _content = ContentState.writing;
+          });
+        } else if (state is DiceRollState && state.isMe == widget.isMe && !_visible) {
+          _controller.forward().then((value) {
+            _timer = Timer.periodic(const Duration(milliseconds: diceStep),
+                (timer) => setState(() => _dice = _dice == 5 ? 0 : _dice + 1));
+            _rotationController.loop();
+          });
+
+          setState(() {
+            _visible = true;
+            _content = ContentState.dice;
           });
         }
       },
@@ -89,7 +120,7 @@ class _ChatBubbleState extends State<ChatBubble> with SingleTickerProviderStateM
                     ),
                   ),
                   IndexedStack(
-                    index: _writing ? 0 : 1,
+                    index: _content.value,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 11),
@@ -102,6 +133,18 @@ class _ChatBubbleState extends State<ChatBubble> with SingleTickerProviderStateM
                         ),
                       ),
                       Text(_text),
+                      RotationTransition(
+                        turns: _rotationController,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 6),
+                          child: SvgPicture.asset(
+                            'assets/images/svg/dice_$_dice.svg',
+                            colorFilter: ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.srcIn),
+                            width: 50,
+                            height: 50,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],
