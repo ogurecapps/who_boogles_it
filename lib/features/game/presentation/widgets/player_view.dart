@@ -18,17 +18,25 @@ class PlayerView extends StatefulWidget {
 
 class _PlayerViewState extends State<PlayerView> with TickerProviderStateMixin {
   int _lifes = 3;
-  late List<AnimationController> _controllers;
+
+  late List<AnimationController> _removeCtrls;
+  late List<AnimationController> _addCtrls;
+
+  final List<Duration> _delays = [1500.ms, 1800.ms, 2100.ms];
 
   @override
   void initState() {
-    _controllers = List.generate(3, (_) => AnimationController(vsync: this));
+    _removeCtrls = List.generate(3, (_) => AnimationController(vsync: this));
+    _addCtrls = List.generate(3, (_) => AnimationController(vsync: this));
     super.initState();
   }
 
   @override
   void dispose() {
-    for (var controller in _controllers) {
+    for (var controller in _removeCtrls) {
+      controller.dispose();
+    }
+    for (var controller in _addCtrls) {
       controller.dispose();
     }
     super.dispose();
@@ -37,19 +45,16 @@ class _PlayerViewState extends State<PlayerView> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     Widget addHeart(int index) {
-      var delay = 1500;
-
       return Stack(
         children: [
           Icon(size: 18, Icons.favorite, color: Theme.of(context).colorScheme.outline),
           const Icon(size: 18, Icons.favorite, color: AppColor.titleColor)
-              .animate() // Showing (auto)
+              .animate(controller: _addCtrls[index], delay: _delays[index]) // Adding
               .scaleXY(
-                delay: Duration(milliseconds: delay + index * 300),
                 duration: 400.ms,
                 curve: Curves.elasticOut,
               )
-              .animate(autoPlay: false, controller: _controllers[index]) // Removing (on wrong answer)
+              .animate(autoPlay: false, controller: _removeCtrls[index]) // Removing
               .slideY(
                 duration: 1600.ms,
                 curve: Curves.fastOutSlowIn,
@@ -64,17 +69,28 @@ class _PlayerViewState extends State<PlayerView> with TickerProviderStateMixin {
     }
 
     return BlocConsumer<GameBloc, GameState>(
-      listenWhen: (previous, current) => current is SpendLifeState,
+      listenWhen: (previous, current) => current is RightAnswerState || current is GetsBonusState,
       listener: (context, state) {
-        if (state is SpendLifeState && widget.isMe == state.isMe) {
-          _controllers[_lifes - 1].forward().then((value) {
+        if (state is RightAnswerState && widget.isMe != state.isMe) {
+          // Minus one life point
+          _removeCtrls[_lifes - 1].forward().then((value) {
             _lifes--;
             if (_lifes == 0) {
-              context.read<GameBloc>().add(DieEvent(widget.isMe)); // Game over
+              context.read<GameBloc>().add(DieEvent(widget.isMe, state.isBonus)); // Game over
             } else {
-              context.read<GameBloc>().add(NextTurnEvent(widget.isMe)); // Turn move
+              context.read<GameBloc>().add(NextTurnEvent(widget.isMe, state.isBonus)); // Continue
             }
           });
+        } else if (state is GetsBonusState && widget.isMe == state.isMe) {
+          if (_lifes < 3) {
+            setState(() {
+              _delays.map((e) => 0);
+            });
+
+            _removeCtrls[_lifes].reset();
+            _addCtrls[_lifes].reset();
+            _addCtrls[_lifes].forward().then((value) => _lifes++);
+          }
         }
       },
       buildWhen: (previous, current) => current is GameReadyState,
