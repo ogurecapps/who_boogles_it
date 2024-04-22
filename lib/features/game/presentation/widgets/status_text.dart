@@ -35,10 +35,21 @@ class _StatusTextState extends State<StatusText> with SingleTickerProviderStateM
     String getStatusText(GameState state) {
       final GameBloc bloc = context.read<GameBloc>();
 
+      String getDiceDetails(DiceCompareState state) {
+        if (state.diceEnemy > state.diceMe) {
+          return '${state.diceEnemy + 1} > ${state.diceMe + 1} ${LocaleKeys.diceWins.tr()} ${bloc.enemy.nickname}';
+        } else if (state.diceEnemy < state.diceMe) {
+          return '${state.diceEnemy + 1} < ${state.diceMe + 1} ${LocaleKeys.diceWins.tr()} ${bloc.me.nickname}';
+        }
+
+        return LocaleKeys.diceDraw.tr();
+      }
+
       return switch (state) {
         DiceRollState() => state.isMe ? LocaleKeys.tapToStop.tr() : LocaleKeys.firstMove.tr(),
         DiceResultState() =>
-          '${state.isMe ? bloc.me.nickname : bloc.enemy.nickname} ${LocaleKeys.diceResult.tr()} ${state.result + 1}',
+          '${state.isMe ? bloc.me.nickname : bloc.enemy.nickname} ${LocaleKeys.diceNumber.tr()} ${state.result + 1}',
+        DiceCompareState() => getDiceDetails(state),
         EndRoundState() => '${state.isMe ? bloc.me.nickname : bloc.enemy.nickname} ${LocaleKeys.winner.tr()}',
         PlayerTurnState() =>
           '${LocaleKeys.startTurn.tr()} ${state.isMe ? bloc.me.nickname : bloc.enemy.nickname}',

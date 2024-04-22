@@ -90,3 +90,10 @@ final class DiceResultState extends GameState {
 
   const DiceResultState(this.isMe, this.result);
 }
+
+final class DiceCompareState extends GameState {
+  final int diceMe;
+  final int diceEnemy;
+
+  const DiceCompareState(this.diceMe, this.diceEnemy);
+}

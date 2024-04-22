@@ -102,6 +102,11 @@ class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
           _rotationController.stop();
           _rotationController.reset();
           setState(() => _dice = state.result);
+        } else if (state is DiceCompareState) {
+          _controller.reverse().then((value) => setState(() {
+                _visible = false;
+                _content = ContentState.text;
+              }));
         }
       },
       buildWhen: (previous, current) => current is GameReadyState,

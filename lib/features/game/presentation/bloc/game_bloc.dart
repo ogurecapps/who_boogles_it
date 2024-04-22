@@ -23,11 +23,12 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   late Player me;
   late Player enemy;
   // Mutable lists
-  late List<String> rightAnswers;
-  late List<String> wrongAnswers;
+  late List<String> _rightAnswers;
+  late List<String> _wrongAnswers;
 
   int round = 0;
   int _score = 0;
+  int _diceEnemy = 0;
 
   final GetQuestionUseCase _getQuestionUseCase = locator.get<GetQuestionUseCase>();
   final GetPlayerUseCase _getPlayerUseCase = locator.get<GetPlayerUseCase>();
@@ -43,13 +44,28 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   Future<void> _diceStop(DiceStopEvent event, Emitter<GameState> emit) async {
-    emit(DiceResultState(true, Random().nextInt(6)));
+    var diceMe = Random().nextInt(6);
+
+    emit(DiceResultState(true, diceMe));
+    await Future.delayed(1500.ms);
+
+    emit(DiceCompareState(diceMe, _diceEnemy)); // Show status
+    await Future.delayed(2000.ms);
+
+    if (_diceEnemy > diceMe) {
+      await _turnMove(const NextTurnEvent(true, false), emit);
+    } else if (_diceEnemy < diceMe) {
+      await _turnMove(const NextTurnEvent(false, false), emit);
+    } else {
+      await _diceRollStart(DiceRollEvent(), emit);
+    }
   }
 
   Future<void> _diceRollStart(DiceRollEvent event, Emitter<GameState> emit) async {
     emit(const DiceRollState(false));
     await Future.delayed(3000.ms);
-    emit(DiceResultState(false, Random().nextInt(6)));
+    _diceEnemy = Random().nextInt(6);
+    emit(DiceResultState(false, _diceEnemy));
     await Future.delayed(1500.ms);
     emit(const DiceRollState(true));
   }
@@ -79,9 +95,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       await Future.delayed(1000.ms); // Hide animation
       emit(EnemyWritingState());
 
-      var answer = (wrongAnswers.isEmpty ? true : Random().nextInt(100) > 60)
-          ? rightAnswers[Random().nextInt(rightAnswers.length)].split(',')[0]
-          : wrongAnswers[Random().nextInt(wrongAnswers.length)];
+      var answer = (_wrongAnswers.isEmpty ? true : Random().nextInt(100) > 60)
+          ? _rightAnswers[Random().nextInt(_rightAnswers.length)].split(',')[0]
+          : _wrongAnswers[Random().nextInt(_wrongAnswers.length)];
 
       await Future.delayed(Duration(milliseconds: answer.length * 400)); // Writing
       await _sayAnswer(emit, answer, false);
@@ -109,8 +125,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   void _removeFromAnswers(String answer) {
-    wrongAnswers.remove(answer.toLowerCase());
-    rightAnswers.removeWhere((element) => element.split(',').contains(answer.toLowerCase()));
+    _wrongAnswers.remove(answer.toLowerCase());
+    _rightAnswers.removeWhere((element) => element.split(',').contains(answer.toLowerCase()));
   }
 
   Future<void> _playerSays(PlayerSaysEvent event, Emitter<GameState> emit) async {
@@ -129,8 +145,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
     me = await _getPlayerUseCase.execute(true);
     enemy = await _getPlayerUseCase.execute(false);
-    rightAnswers = List.from(question.rightAnswers);
-    wrongAnswers = List.from(question.wrongAnswers);
+    _rightAnswers = List.from(question.rightAnswers);
+    _wrongAnswers = List.from(question.wrongAnswers);
 
     await Future.delayed(400.ms);
     emit(GameReadyState(

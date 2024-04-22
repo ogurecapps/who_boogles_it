@@ -42,6 +42,8 @@ abstract class  LocaleKeys {
   static const descRound_0 = 'descRound_0';
   static const firstMove = 'firstMove';
   static const tapToStop = 'tapToStop';
-  static const diceResult = 'diceResult';
+  static const diceNumber = 'diceNumber';
+  static const diceWins = 'diceWins';
+  static const diceDraw = 'diceDraw';
 
 }

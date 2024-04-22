@@ -113,7 +113,14 @@ class GameBody extends StatelessWidget {
                       ),
                   Row(children: [
                     Expanded(child: Container()),
-                    const ChatBubble(isMe: true),
+                    GestureDetector(
+                      child: const ChatBubble(isMe: true),
+                      onTap: () {
+                        if (state is DiceRollState && state.isMe) {
+                          context.read<GameBloc>().add(DiceStopEvent());
+                        }
+                      },
+                    ),
                     const PlayerView(isMe: true),
                   ])
                       .animate()
