@@ -37,7 +37,7 @@ class GameBody extends StatelessWidget {
                     width: AppSize.menuButtonWidth,
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        context.read<GameBloc>().add(const NextTurnEvent(false, false));
+                        context.read<GameBloc>().add(DiceRollEvent());
                         context.pop();
                       },
                       icon: const Icon(Icons.check_box),
@@ -93,7 +93,7 @@ class GameBody extends StatelessWidget {
                         delay: 800.ms,
                         duration: 400.ms,
                       ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSize.defaultSpace),
                   Row(children: [
                     const PlayerView(isMe: false),
                     const ChatBubble(isMe: false),
@@ -111,9 +111,17 @@ class GameBody extends StatelessWidget {
                         delay: 1000.ms,
                         duration: 400.ms,
                       ),
+                  const SizedBox(height: AppSize.defaultSpace),
                   Row(children: [
                     Expanded(child: Container()),
-                    const ChatBubble(isMe: true),
+                    GestureDetector(
+                      child: const ChatBubble(isMe: true),
+                      onTap: () {
+                        if (state is DiceRollState && state.isMe) {
+                          context.read<GameBloc>().add(DiceStopEvent());
+                        }
+                      },
+                    ),
                     const PlayerView(isMe: true),
                   ])
                       .animate()

@@ -39,3 +39,7 @@ final class NextTurnEvent extends GameEvent {
 
   const NextTurnEvent(this.isMe, this.isBonusClaim);
 }
+
+final class DiceRollEvent extends GameEvent {}
+
+final class DiceStopEvent extends GameEvent {}
