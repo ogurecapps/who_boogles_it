@@ -23,7 +23,7 @@ class ChatBubble extends StatefulWidget {
 }
 
 class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
-  static const int diceStep = 200;
+  static const int diceStep = 180;
   static const double bubbleWidth = 200;
 
   ContentState _content = ContentState.text;
@@ -32,7 +32,6 @@ class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
   late final AnimationController _rotationController;
   int _dice = 0;
   late Timer _timer;
-  double _diceSize = 46;
 
   @override
   void initState() {
@@ -81,20 +80,14 @@ class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
                 (timer) => setState(() => _dice = _dice == 5 ? 0 : _dice + 1));
             _rotationController.loop();
           });
-          setState(() {
-            _diceSize = 46;
-            _content = ContentState.dice;
-          });
+          setState(() => _content = ContentState.dice);
         } else if (state is DiceResultState && state.isMe == widget.isMe) {
           _timer.cancel();
           _rotationController.stop();
           _rotationController.reset();
           setState(() => _dice = state.result);
         } else if (state is BubblesResetState) {
-          _controller.reverse().then((value) => setState(() {
-                _content = ContentState.text;
-                setState(() => _diceSize = 0);
-              }));
+          _controller.reverse().then((value) => setState(() => _content = ContentState.text));
         }
       },
       buildWhen: (previous, current) => current is GameReadyState,
@@ -124,7 +117,7 @@ class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
                   index: _content.index,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 14),
+                      padding: const EdgeInsets.only(top: 20),
                       child: JumpingDots(
                         color: Theme.of(context).primaryColor,
                         radius: 4,
@@ -133,7 +126,10 @@ class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
                         animationDuration: 150.ms,
                       ),
                     ),
-                    SizedBox(width: bubbleWidth, child: Text(_text, textAlign: TextAlign.left)),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: SizedBox(width: bubbleWidth, child: Text(_text, textAlign: TextAlign.left)),
+                    ),
                     RotationTransition(
                       turns: _rotationController,
                       child: Padding(
@@ -141,8 +137,8 @@ class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
                         child: SvgPicture.asset(
                           'assets/images/svg/dice_$_dice.svg',
                           colorFilter: ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.srcIn),
-                          width: _diceSize,
-                          height: _diceSize,
+                          width: 45,
+                          height: 45,
                         ),
                       ),
                     ),

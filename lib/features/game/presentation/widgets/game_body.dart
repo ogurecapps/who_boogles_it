@@ -93,7 +93,7 @@ class GameBody extends StatelessWidget {
                         delay: 800.ms,
                         duration: 400.ms,
                       ),
-                  const SizedBox(height: AppSize.defaultSpace * 2),
+                  const SizedBox(height: AppSize.defaultSpace),
                   Row(children: [
                     const PlayerView(isMe: false),
                     const ChatBubble(isMe: false),
@@ -111,7 +111,7 @@ class GameBody extends StatelessWidget {
                         delay: 1000.ms,
                         duration: 400.ms,
                       ),
-                  const SizedBox(height: AppSize.defaultSpace / 2),
+                  const SizedBox(height: AppSize.defaultSpace),
                   Row(children: [
                     Expanded(child: Container()),
                     GestureDetector(
