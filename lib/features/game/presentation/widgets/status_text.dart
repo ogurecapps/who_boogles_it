@@ -53,7 +53,7 @@ class _StatusTextState extends State<StatusText> with SingleTickerProviderStateM
         EndRoundState() => '${state.isMe ? bloc.me.nickname : bloc.enemy.nickname} ${LocaleKeys.winner.tr()}',
         PlayerTurnState() =>
           '${LocaleKeys.startTurn.tr()} ${state.isMe ? bloc.me.nickname : bloc.enemy.nickname}',
-        EnemyWritingState() => _text, // Skip status change
+        EnemyWritingState() || BubblesResetState() => _text, // Skip status change
         SayAnswerState() || CheckAnswerState() => 'ProgressIndicator',
         RightAnswerState() => LocaleKeys.answerIsCorrect.tr(),
         WrongAnswerState() => LocaleKeys.answerIsWrong.tr(),

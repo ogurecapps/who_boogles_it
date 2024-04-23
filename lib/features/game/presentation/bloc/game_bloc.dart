@@ -50,7 +50,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     await Future.delayed(1500.ms);
 
     emit(DiceCompareState(diceMe, _diceEnemy)); // Show status
-    await Future.delayed(2000.ms);
+    await Future.delayed(1500.ms);
+    emit(BubblesResetState());
+    await Future.delayed(1000.ms);
 
     if (_diceEnemy > diceMe) {
       await _turnMove(const NextTurnEvent(true, false), emit);

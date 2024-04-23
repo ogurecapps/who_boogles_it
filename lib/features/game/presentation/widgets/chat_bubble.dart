@@ -7,16 +7,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 import 'package:who_boogles_it/app/app_color.dart';
+import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/core/models/player.dart';
 import 'package:who_boogles_it/features/game/presentation/bloc/game_bloc.dart';
 
-enum ContentState {
-  writing,
-  text,
-  dice;
-
-  int get value => index;
-}
+enum ContentState { writing, text, dice }
 
 class ChatBubble extends StatefulWidget {
   final bool isMe;
@@ -29,20 +24,22 @@ class ChatBubble extends StatefulWidget {
 
 class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
   static const int diceStep = 200;
+  static const double bubbleWidth = 200;
 
-  bool _visible = false;
   ContentState _content = ContentState.text;
   String _text = '';
   late final AnimationController _controller;
   late final AnimationController _rotationController;
   int _dice = 0;
   late Timer _timer;
+  double _diceSize = 46;
 
   @override
   void initState() {
     _controller = AnimationController(vsync: this);
     _rotationController =
         AnimationController(vsync: this, duration: const Duration(milliseconds: diceStep * 6));
+
     super.initState();
   }
 
@@ -51,6 +48,7 @@ class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
     _controller.dispose();
     _rotationController.dispose();
     _timer.cancel();
+
     super.dispose();
   }
 
@@ -62,10 +60,7 @@ class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
           if (state.isMe) {
             if (widget.isMe) {
               _controller.forward();
-              setState(() {
-                _visible = true;
-                _text = state.answer;
-              });
+              setState(() => _text = state.answer);
             }
           } else {
             if (!widget.isMe) {
@@ -75,26 +70,19 @@ class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
               });
             }
           }
-        } else if (state is PlayerTurnState && state.isMe == widget.isMe && _visible) {
-          _controller.reverse().then((value) => setState(() {
-                _visible = false;
-                _text = '';
-              }));
+        } else if (state is PlayerTurnState && state.isMe == widget.isMe) {
+          _controller.reverse().then((value) => setState(() => _text = ''));
         } else if (state is EnemyWritingState && !widget.isMe) {
           _controller.forward();
-          setState(() {
-            _visible = true;
-            _content = ContentState.writing;
-          });
-        } else if (state is DiceRollState && state.isMe == widget.isMe && !_visible) {
+          setState(() => _content = ContentState.writing);
+        } else if (state is DiceRollState && state.isMe == widget.isMe) {
           _controller.forward().then((value) {
             _timer = Timer.periodic(const Duration(milliseconds: diceStep),
                 (timer) => setState(() => _dice = _dice == 5 ? 0 : _dice + 1));
             _rotationController.loop();
           });
-
           setState(() {
-            _visible = true;
+            _diceSize = 46;
             _content = ContentState.dice;
           });
         } else if (state is DiceResultState && state.isMe == widget.isMe) {
@@ -102,10 +90,10 @@ class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
           _rotationController.stop();
           _rotationController.reset();
           setState(() => _dice = state.result);
-        } else if (state is DiceCompareState) {
+        } else if (state is BubblesResetState) {
           _controller.reverse().then((value) => setState(() {
-                _visible = false;
                 _content = ContentState.text;
+                setState(() => _diceSize = 0);
               }));
         }
       },
@@ -114,51 +102,53 @@ class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
         if (state is GameReadyState) {
           final Player player = widget.isMe ? state.me : state.enemy;
 
-          return Visibility(
-            visible: _visible,
-            child: Bubble(
-              color: widget.isMe ? AppColor.bubbleColor : Theme.of(context).colorScheme.onPrimary,
-              nip: widget.isMe ? BubbleNip.rightBottom : BubbleNip.leftTop,
-              margin: widget.isMe ? const BubbleEdges.only(right: 5) : const BubbleEdges.only(left: 5),
-              child: Column(
-                children: [
-                  Text(
+          return Bubble(
+            color: widget.isMe ? AppColor.bubbleColor : Theme.of(context).colorScheme.onPrimary,
+            nip: widget.isMe ? BubbleNip.rightBottom : BubbleNip.leftTop,
+            margin: widget.isMe ? const BubbleEdges.only(right: 5) : const BubbleEdges.only(left: 5),
+            padding: const BubbleEdges.only(left: AppSize.defaultSpace),
+            child: Column(
+              children: [
+                SizedBox(
+                  width: bubbleWidth,
+                  child: Text(
                     '${player.nickname}:',
                     style: TextStyle(
                       color: player.getLevelStats().grade,
                       fontSize: 15,
                     ),
+                    textAlign: TextAlign.left,
                   ),
-                  IndexedStack(
-                    index: _content.value,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 11),
-                        child: JumpingDots(
-                          color: Theme.of(context).primaryColor,
-                          radius: 4,
-                          innerPadding: 0.6,
-                          verticalOffset: 5,
-                          animationDuration: 150.ms,
+                ),
+                IndexedStack(
+                  index: _content.index,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 14),
+                      child: JumpingDots(
+                        color: Theme.of(context).primaryColor,
+                        radius: 4,
+                        innerPadding: 0.6,
+                        verticalOffset: 5,
+                        animationDuration: 150.ms,
+                      ),
+                    ),
+                    SizedBox(width: bubbleWidth, child: Text(_text, textAlign: TextAlign.left)),
+                    RotationTransition(
+                      turns: _rotationController,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        child: SvgPicture.asset(
+                          'assets/images/svg/dice_$_dice.svg',
+                          colorFilter: ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.srcIn),
+                          width: _diceSize,
+                          height: _diceSize,
                         ),
                       ),
-                      Text(_text),
-                      RotationTransition(
-                        turns: _rotationController,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 6),
-                          child: SvgPicture.asset(
-                            'assets/images/svg/dice_$_dice.svg',
-                            colorFilter: ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.srcIn),
-                            width: 46,
-                            height: 46,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           )
               .animate(

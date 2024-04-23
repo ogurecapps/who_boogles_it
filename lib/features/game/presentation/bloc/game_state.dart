@@ -97,3 +97,5 @@ final class DiceCompareState extends GameState {
 
   const DiceCompareState(this.diceMe, this.diceEnemy);
 }
+
+final class BubblesResetState extends GameState {}
