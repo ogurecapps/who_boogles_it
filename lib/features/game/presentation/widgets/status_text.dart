@@ -59,6 +59,7 @@ class _StatusTextState extends State<StatusText> with SingleTickerProviderStateM
         WrongAnswerState() => LocaleKeys.answerIsWrong.tr(),
         GetsBonusState() =>
           '${state.isMe ? bloc.me.nickname : bloc.enemy.nickname} ${LocaleKeys.getsBonus.tr()}',
+        OpenAnswerState() => LocaleKeys.openAll.tr(),
         _ => 'round_${bloc.round}'.tr(),
       };
     }

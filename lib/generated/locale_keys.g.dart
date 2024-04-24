@@ -45,5 +45,6 @@ abstract class  LocaleKeys {
   static const diceNumber = 'diceNumber';
   static const diceWins = 'diceWins';
   static const diceDraw = 'diceDraw';
+  static const openAll = 'openAll';
 
 }

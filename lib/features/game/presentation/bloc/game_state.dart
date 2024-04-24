@@ -99,3 +99,12 @@ final class DiceCompareState extends GameState {
 }
 
 final class BubblesResetState extends GameState {}
+
+final class OpenAnswerState extends GameState {
+  final String answer;
+
+  const OpenAnswerState(this.answer);
+
+  @override
+  List<Object> get props => [answer];
+}

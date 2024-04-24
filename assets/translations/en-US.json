@@ -42,5 +42,6 @@
     "tapToStop": "Tap the dice to stop spinning 🎲",
     "diceNumber": "got the number",
     "diceWins": "🏆 Winner is",
-    "diceDraw": "Draw! 😧"
+    "diceDraw": "Draw! 😧",
+    "openAll": "Opening the remaining answers... 🔓"
 }

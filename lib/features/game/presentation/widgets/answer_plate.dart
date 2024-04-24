@@ -138,7 +138,7 @@ class _AnswerPlateState extends State<AnswerPlate> with SingleTickerProviderStat
     );
 
     return BlocListener<GameBloc, GameState>(
-      listenWhen: (previous, current) => current is CheckAnswerState,
+      listenWhen: (previous, current) => current is CheckAnswerState || current is OpenAnswerState,
       listener: (context, state) {
         if (state is CheckAnswerState) {
           if (widget.answer.contains(state.answer.toLowerCase())) {
@@ -147,6 +147,14 @@ class _AnswerPlateState extends State<AnswerPlate> with SingleTickerProviderStat
             } else {
               answerIsCorrect(state);
             }
+          }
+        } else if (state is OpenAnswerState) {
+          if (widget.answer.contains(state.answer.toLowerCase())) {
+            _controller.reverse().then((value) => setState(() {
+                  _isOpen = true;
+                  _delay = 0.ms;
+                  _controller.forward();
+                }));
           }
         }
       },

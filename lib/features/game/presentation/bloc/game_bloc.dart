@@ -65,7 +65,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   Future<void> _diceRollStart(DiceRollEvent event, Emitter<GameState> emit) async {
     emit(const DiceRollState(false));
-    await Future.delayed(3000.ms);
+    await Future.delayed(Duration(milliseconds: 1800 + Random().nextInt(10) * 100));
     _diceEnemy = Random().nextInt(6);
     emit(DiceResultState(false, _diceEnemy));
     await Future.delayed(1500.ms);
@@ -86,6 +86,15 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       await Future.delayed(1800.ms);
     }
     emit(EndRoundState(!event.isMe, _score));
+    await Future.delayed(1800.ms);
+
+    if (_rightAnswers.isNotEmpty) {
+      // Show not opened answers
+      for (int i = _rightAnswers.length - 1; i >= 0; i--) {
+        emit(OpenAnswerState(_rightAnswers[i].split(',')[0]));
+        await Future.delayed(1000.ms);
+      }
+    }
   }
 
   Future<void> _shiftTurn(bool isCurrentMe, Emitter<GameState> emit) async {
@@ -101,7 +110,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           ? _rightAnswers[Random().nextInt(_rightAnswers.length)].split(',')[0]
           : _wrongAnswers[Random().nextInt(_wrongAnswers.length)];
 
-      await Future.delayed(Duration(milliseconds: answer.length * 400)); // Writing
+      await Future.delayed(Duration(milliseconds: answer.length * 450)); // Writing
       await _sayAnswer(emit, answer, false);
     }
   }
