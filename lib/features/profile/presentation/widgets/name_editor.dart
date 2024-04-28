@@ -51,7 +51,7 @@ class _NameEditorState extends State<NameEditor> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.only(left: 14, right: 14, top: 14, bottom: AppSize.defaultSpace),
+        padding: const EdgeInsets.all(AppSize.dialogPadding),
         child: Column(children: [
           Align(
             alignment: Alignment.centerLeft,

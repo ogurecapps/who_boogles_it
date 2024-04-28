@@ -46,6 +46,13 @@ final class EndRoundState extends GameState {
   const EndRoundState(this.isMe, this.roundScore);
 }
 
+final class NextRoundDialogState extends GameState {
+  final bool isWinnerMe;
+  final List<(Player, int)> players;
+
+  const NextRoundDialogState(this.isWinnerMe, this.players);
+}
+
 final class EnemyWritingState extends GameState {}
 
 final class SayAnswerState extends GameState {

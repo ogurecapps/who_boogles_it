@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:who_boogles_it/core/di/locator.dart';
@@ -25,7 +24,7 @@ class AppRouter {
             pageBuilder: (context, state) => CustomTransition.buildPage<void>(
               context: context,
               state: state,
-              page: GameScreen(langCode: context.locale.languageCode),
+              page: const GameScreen(langCode: 'ru'), // context.locale.languageCode - dynamic
             ),
           ),
           GoRoute(

@@ -90,11 +90,13 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
     if (_rightAnswers.isNotEmpty) {
       // Show not opened answers
-      for (int i = _rightAnswers.length - 1; i >= 0; i--) {
+      for (int i = 0; i < _rightAnswers.length; i++) {
         emit(OpenAnswerState(_rightAnswers[i].split(',')[0]));
-        await Future.delayed(1000.ms);
+        await Future.delayed(1200.ms);
       }
     }
+
+    //emit(NextRoundDialogState());
   }
 
   Future<void> _shiftTurn(bool isCurrentMe, Emitter<GameState> emit) async {
@@ -169,6 +171,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     ));
 
     await Future.delayed(3000.ms);
-    emit(RoundTipState(round));
+    //emit(RoundTipState(round));
+    emit(NextRoundDialogState(true, [(me, 100), (enemy, 200)]));
   }
 }

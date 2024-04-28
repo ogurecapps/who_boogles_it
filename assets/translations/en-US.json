@@ -43,5 +43,9 @@
     "diceNumber": "got the number",
     "diceWins": "🏆 Winner is",
     "diceDraw": "Draw! 😧",
-    "openAll": "Opening the remaining answers... 🔓"
+    "openAll": "Opening the remaining answers... 🔓",
+    "continueButton": "CONTINUE",
+    "win": "Victory!",
+    "lose": "Defeat",
+    "tabTitle": "Total points earned:"
 }

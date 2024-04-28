@@ -9,6 +9,7 @@ import 'package:who_boogles_it/features/game/presentation/widgets/chat_bubble.da
 import 'package:who_boogles_it/features/game/presentation/widgets/entry_field.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/error_dialog.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/game_board.dart';
+import 'package:who_boogles_it/features/game/presentation/widgets/next_round_dialog.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/player_view.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/search_field.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/status_text.dart';
@@ -20,7 +21,7 @@ class GameBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<GameBloc, GameState>(
-      listenWhen: (previous, current) => current is RoundTipState,
+      listenWhen: (previous, current) => current is RoundTipState || current is NextRoundDialogState,
       listener: (context, state) {
         if (state is RoundTipState) {
           showDialog(
@@ -51,6 +52,20 @@ class GameBody extends StatelessWidget {
               );
             },
           );
+        } else if (state is NextRoundDialogState) {
+          showModalBottomSheet(
+              enableDrag: false,
+              isDismissible: false,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+              ),
+              context: context,
+              builder: (innerContext) {
+                return BlocProvider.value(
+                  value: BlocProvider.of<GameBloc>(context),
+                  child: NextRoundDialog(isWinnerMe: state.isWinnerMe, players: state.players),
+                );
+              });
         }
       },
       builder: (context, state) {
