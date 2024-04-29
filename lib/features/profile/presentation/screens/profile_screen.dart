@@ -13,6 +13,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWrapper(
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
           const ProfileSummary(),

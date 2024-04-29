@@ -20,6 +20,7 @@ abstract class  LocaleKeys {
   static const avatarHint = 'avatarHint';
   static const levelProgressHint = 'levelProgressHint';
   static const level = 'level';
+  static const levelShort = 'levelShort';
   static const nicknameValidator = 'nicknameValidator';
   static const grade_0 = 'grade_0';
   static const grade_1 = 'grade_1';
@@ -49,6 +50,8 @@ abstract class  LocaleKeys {
   static const continueButton = 'continueButton';
   static const win = 'win';
   static const lose = 'lose';
-  static const tabTitle = 'tabTitle';
+  static const columnName = 'columnName';
+  static const columnRound = 'columnRound';
+  static const columnTotal = 'columnTotal';
 
 }

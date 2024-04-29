@@ -48,7 +48,7 @@ final class EndRoundState extends GameState {
 
 final class NextRoundDialogState extends GameState {
   final bool isWinnerMe;
-  final List<(Player, int)> players;
+  final List<(Player, int, int)> players;
 
   const NextRoundDialogState(this.isWinnerMe, this.players);
 }

@@ -4,16 +4,18 @@ import 'package:who_boogles_it/shared/presentation/widgets/abstract_background.d
 
 /// Background can be Color, Image, or Widget
 class ScaffoldWrapper extends StatelessWidget {
-  const ScaffoldWrapper(
-      {Key? key,
-      required this.body,
-      this.background,
-      this.padding = const EdgeInsets.all(AppSize.defaultSpace)})
-      : super(key: key);
+  const ScaffoldWrapper({
+    Key? key,
+    required this.body,
+    this.background,
+    this.padding = const EdgeInsets.all(AppSize.defaultSpace),
+    this.resizeToAvoidBottomInset = true,
+  }) : super(key: key);
 
   final Widget body;
   final Object? background;
   final EdgeInsets padding;
+  final bool resizeToAvoidBottomInset;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class ScaffoldWrapper extends StatelessWidget {
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       body: SafeArea(
         child: Container(
           decoration: BoxDecoration(

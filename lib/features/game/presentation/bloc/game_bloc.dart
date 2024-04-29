@@ -171,7 +171,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     ));
 
     await Future.delayed(3000.ms);
-    //emit(RoundTipState(round));
-    emit(NextRoundDialogState(true, [(me, 100), (enemy, 200)]));
+    emit(RoundTipState(round));
   }
 }
