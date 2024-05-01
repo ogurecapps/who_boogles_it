@@ -1,17 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/core/models/player.dart';
+import 'package:who_boogles_it/features/game/presentation/bloc/game_bloc.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
 
 class NextRoundDialog extends StatefulWidget {
-  final bool isWinnerMe;
+  final bool winnerIsMe;
   final List<(Player, int, int)> players;
 
   const NextRoundDialog({
     super.key,
-    required this.isWinnerMe,
+    required this.winnerIsMe,
     required this.players,
   });
 
@@ -75,7 +77,7 @@ class _NextRoundDialogState extends State<NextRoundDialog> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                widget.isWinnerMe ? LocaleKeys.win : LocaleKeys.lose,
+                widget.winnerIsMe ? LocaleKeys.win : LocaleKeys.lose,
                 style: Theme.of(context).textTheme.titleLarge,
               )
                   .tr()
@@ -103,7 +105,10 @@ class _NextRoundDialogState extends State<NextRoundDialog> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => {},
+                  onPressed: () {
+                    context.read<GameBloc>().add(NextRoundEvent());
+                    Navigator.of(context).pop();
+                  },
                   child: const Text(LocaleKeys.continueButton).tr(),
                 ).animate().flip(
                       delay: 800.ms,

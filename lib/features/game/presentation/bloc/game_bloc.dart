@@ -6,6 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:who_boogles_it/core/di/locator.dart';
 import 'package:who_boogles_it/core/models/player.dart';
 import 'package:who_boogles_it/core/models/question.dart';
+import 'package:who_boogles_it/features/game/domain/repositories/game_repository.dart';
 import 'package:who_boogles_it/features/game/domain/use_cases/get_player_use_case.dart';
 import 'package:who_boogles_it/features/game/domain/use_cases/get_question_use_case.dart';
 
@@ -13,27 +14,12 @@ part 'game_event.dart';
 part 'game_state.dart';
 
 class GameBloc extends Bloc<GameEvent, GameState> {
-  static const points = [
-    [140, 80, 40, 20, 10, 5],
-    [220, 140, 80, 40, 20, 10],
-    [300, 200, 120, 60, 30, 15],
-    [20, 40, 80, 160, 260, 380]
-  ];
-
-  late Player me;
-  late Player enemy;
-  // Mutable lists
-  late List<String> _rightAnswers;
-  late List<String> _wrongAnswers;
-
-  int round = 0;
-  int _score = 0;
-  int _diceEnemy = 0;
-
+  final GameRepository gameRepository = GameRepository();
   final GetQuestionUseCase _getQuestionUseCase = locator.get<GetQuestionUseCase>();
   final GetPlayerUseCase _getPlayerUseCase = locator.get<GetPlayerUseCase>();
 
   GameBloc() : super(GameInitialState()) {
+    on<NextRoundEvent>(_nextRound);
     on<LoadGameEvent>(_loadGameData);
     on<PlayerSaysEvent>(_playerSays);
     on<ProcessAnswerEvent>(_processAnswer);
@@ -43,31 +29,40 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<DiceStopEvent>(_diceStop);
   }
 
+  Future<void> _nextRound(NextRoundEvent event, Emitter<GameState> emit) async {
+    emit(GameInitialState());
+
+    if (gameRepository.round < 2) {
+      gameRepository.nextRound();
+      await _loadGameData(LoadGameEvent(gameRepository.langCode), emit);
+    }
+  }
+
   Future<void> _diceStop(DiceStopEvent event, Emitter<GameState> emit) async {
     var diceMe = Random().nextInt(6);
 
     emit(DiceResultState(true, diceMe));
     await Future.delayed(1500.ms);
 
-    emit(DiceCompareState(diceMe, _diceEnemy)); // Show status
+    emit(DiceCompareState(diceMe, gameRepository.diceEnemy)); // Show status
     await Future.delayed(1500.ms);
     emit(BubblesResetState());
     await Future.delayed(1000.ms);
 
-    if (_diceEnemy > diceMe) {
+    if (gameRepository.diceEnemy > diceMe) {
       await _turnMove(const NextTurnEvent(true, false), emit);
-    } else if (_diceEnemy < diceMe) {
+    } else if (gameRepository.diceEnemy < diceMe) {
       await _turnMove(const NextTurnEvent(false, false), emit);
     } else {
+      // Roll again
       await _diceRollStart(DiceRollEvent(), emit);
     }
   }
 
   Future<void> _diceRollStart(DiceRollEvent event, Emitter<GameState> emit) async {
     emit(const DiceRollState(false));
-    await Future.delayed(Duration(milliseconds: 1800 + Random().nextInt(10) * 100));
-    _diceEnemy = Random().nextInt(6);
-    emit(DiceResultState(false, _diceEnemy));
+    await Future.delayed(Duration(milliseconds: 1500 + Random().nextInt(10) * 100));
+    emit(DiceResultState(false, gameRepository.enemyDiceRoll()));
     await Future.delayed(1500.ms);
     emit(const DiceRollState(true));
   }
@@ -81,22 +76,26 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   Future<void> _gameOver(DieEvent event, Emitter<GameState> emit) async {
+    final bool winnerIsMe = !event.isMe;
+
     if (event.isBonusClaim) {
-      emit(GetsBonusState(!event.isMe));
+      emit(GetsBonusState(winnerIsMe));
       await Future.delayed(1800.ms);
     }
-    emit(EndRoundState(!event.isMe, _score));
-    await Future.delayed(1800.ms);
 
-    if (_rightAnswers.isNotEmpty) {
+    emit(EndRoundState(winnerIsMe, gameRepository.roundScore));
+    await Future.delayed(1800.ms);
+    gameRepository.payWin(winnerIsMe);
+
+    if (gameRepository.rightAnswers.isNotEmpty) {
       // Show not opened answers
-      for (int i = 0; i < _rightAnswers.length; i++) {
-        emit(OpenAnswerState(_rightAnswers[i].split(',')[0]));
+      for (int i = 0; i < gameRepository.rightAnswers.length; i++) {
+        emit(OpenAnswerState(gameRepository.rightAnswers[i].split(',')[0]));
         await Future.delayed(1200.ms);
       }
     }
 
-    //emit(NextRoundDialogState());
+    emit(NextRoundDialogState(winnerIsMe, gameRepository.getRoundResults(winnerIsMe)));
   }
 
   Future<void> _shiftTurn(bool isCurrentMe, Emitter<GameState> emit) async {
@@ -108,9 +107,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       await Future.delayed(1000.ms); // Hide animation
       emit(EnemyWritingState());
 
-      var answer = (_wrongAnswers.isEmpty ? true : Random().nextInt(100) > 60)
-          ? _rightAnswers[Random().nextInt(_rightAnswers.length)].split(',')[0]
-          : _wrongAnswers[Random().nextInt(_wrongAnswers.length)];
+      final String answer = gameRepository.getAnswer();
 
       await Future.delayed(Duration(milliseconds: answer.length * 450)); // Writing
       await _sayAnswer(emit, answer, false);
@@ -118,7 +115,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   Future<void> _processAnswer(ProcessAnswerEvent event, Emitter<GameState> emit) async {
-    _score += event.points;
+    gameRepository.addScore(event.points);
 
     if (event.points > 0) {
       emit(RightAnswerState(event.points, event.isMe, event.isBonus));
@@ -130,16 +127,11 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   Future<void> _sayAnswer(Emitter<GameState> emit, String answer, bool isMe) async {
-    _removeFromAnswers(answer);
+    gameRepository.makeAnswerUnavailable(answer);
 
     emit(SayAnswerState(answer, isMe));
     await Future.delayed(2500.ms);
     emit(CheckAnswerState(answer, isMe)); // Need delay before showing the result
-  }
-
-  void _removeFromAnswers(String answer) {
-    _wrongAnswers.remove(answer.toLowerCase());
-    _rightAnswers.removeWhere((element) => element.split(',').contains(answer.toLowerCase()));
   }
 
   Future<void> _playerSays(PlayerSaysEvent event, Emitter<GameState> emit) async {
@@ -156,21 +148,25 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       return;
     }
 
-    me = await _getPlayerUseCase.execute(true);
-    enemy = await _getPlayerUseCase.execute(false);
-    _rightAnswers = List.from(question.rightAnswers);
-    _wrongAnswers = List.from(question.wrongAnswers);
+    if (!gameRepository.isStarted) {
+      final Player me = await _getPlayerUseCase.execute(true);
+      final Player enemy = await _getPlayerUseCase.execute(false);
+
+      gameRepository.startGame(me, enemy, question, event.langCode);
+    } else {
+      gameRepository.nextQuestion(question);
+    }
 
     await Future.delayed(400.ms);
     emit(GameReadyState(
       question.text,
       question.rightAnswers,
       question.wrongAnswers,
-      me,
-      enemy,
+      gameRepository.me,
+      gameRepository.enemy,
     ));
 
     await Future.delayed(3000.ms);
-    emit(RoundTipState(round));
+    emit(RoundTipState(gameRepository.round));
   }
 }

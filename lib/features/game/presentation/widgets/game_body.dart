@@ -63,7 +63,7 @@ class GameBody extends StatelessWidget {
               builder: (innerContext) {
                 return BlocProvider.value(
                   value: BlocProvider.of<GameBloc>(context),
-                  child: NextRoundDialog(isWinnerMe: state.isWinnerMe, players: state.players),
+                  child: NextRoundDialog(winnerIsMe: state.isWinnerMe, players: state.players),
                 );
               });
         }
@@ -71,6 +71,8 @@ class GameBody extends StatelessWidget {
       builder: (context, state) {
         if (state is GameErrorState) {
           return const ErrorDialog();
+        } else if (state is GameInitialState) {
+          return Container(); // Destroy widgets
         }
 
         return Stack(

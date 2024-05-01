@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/app/app_theme.dart';
+import 'package:who_boogles_it/features/game/domain/repositories/game_repository.dart';
 import 'package:who_boogles_it/features/game/presentation/bloc/game_bloc.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
 
@@ -33,13 +34,13 @@ class _StatusTextState extends State<StatusText> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     String getStatusText(GameState state) {
-      final GameBloc bloc = context.read<GameBloc>();
+      final GameRepository rep = context.read<GameBloc>().gameRepository;
 
       String getDiceDetails(DiceCompareState state) {
         if (state.diceEnemy > state.diceMe) {
-          return '${state.diceEnemy + 1} > ${state.diceMe + 1} ${LocaleKeys.diceWins.tr()} ${bloc.enemy.nickname}';
+          return '${state.diceEnemy + 1} > ${state.diceMe + 1} ${LocaleKeys.diceWins.tr()} ${rep.enemy.nickname}';
         } else if (state.diceEnemy < state.diceMe) {
-          return '${state.diceEnemy + 1} < ${state.diceMe + 1} ${LocaleKeys.diceWins.tr()} ${bloc.me.nickname}';
+          return '${state.diceEnemy + 1} < ${state.diceMe + 1} ${LocaleKeys.diceWins.tr()} ${rep.me.nickname}';
         }
 
         return LocaleKeys.diceDraw.tr();
@@ -48,19 +49,17 @@ class _StatusTextState extends State<StatusText> with SingleTickerProviderStateM
       return switch (state) {
         DiceRollState() => state.isMe ? LocaleKeys.tapToStop.tr() : LocaleKeys.firstMove.tr(),
         DiceResultState() =>
-          '${state.isMe ? bloc.me.nickname : bloc.enemy.nickname} ${LocaleKeys.diceNumber.tr()} ${state.result + 1}',
+          '${rep.getPlayerName(state.isMe)} ${LocaleKeys.diceNumber.tr()} ${state.result + 1}',
         DiceCompareState() => getDiceDetails(state),
-        EndRoundState() => '${state.isMe ? bloc.me.nickname : bloc.enemy.nickname} ${LocaleKeys.winner.tr()}',
-        PlayerTurnState() =>
-          '${LocaleKeys.startTurn.tr()} ${state.isMe ? bloc.me.nickname : bloc.enemy.nickname}',
+        EndRoundState() => '${rep.getPlayerName(state.isMe)} ${LocaleKeys.winner.tr()}',
+        PlayerTurnState() => '${LocaleKeys.startTurn.tr()} ${rep.getPlayerName(state.isMe)}',
         EnemyWritingState() || BubblesResetState() => _text, // Skip status change
         SayAnswerState() || CheckAnswerState() => 'ProgressIndicator',
         RightAnswerState() => LocaleKeys.answerIsCorrect.tr(),
         WrongAnswerState() => LocaleKeys.answerIsWrong.tr(),
-        GetsBonusState() =>
-          '${state.isMe ? bloc.me.nickname : bloc.enemy.nickname} ${LocaleKeys.getsBonus.tr()}',
+        GetsBonusState() => '${rep.getPlayerName(state.isMe)} ${LocaleKeys.getsBonus.tr()}',
         OpenAnswerState() => LocaleKeys.openAll.tr(),
-        _ => 'round_${bloc.round}'.tr(),
+        _ => 'round_${rep.round}'.tr(),
       };
     }
 

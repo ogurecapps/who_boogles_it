@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:who_boogles_it/app/app_color.dart';
 import 'package:who_boogles_it/app/app_theme.dart';
+import 'package:who_boogles_it/features/game/domain/repositories/game_repository.dart';
 import 'package:who_boogles_it/features/game/presentation/bloc/game_bloc.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/answer_plate.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/scoreboard.dart';
@@ -22,7 +23,7 @@ class _GameBoardState extends State<GameBoard> {
     const space = SizedBox(height: 6);
     var delay = 400;
     const delayStep = 200;
-    final round = context.read<GameBloc>().round;
+    final GameRepository rep = context.read<GameBloc>().gameRepository;
 
     for (var i = 0; i < 6; i++) {
       var answer = state.rightAnswers.elementAt(i).toLowerCase().split(',').toSet();
@@ -31,7 +32,7 @@ class _GameBoardState extends State<GameBoard> {
       var plate = AnswerPlate(
         number: i + 1,
         answer: answer,
-        points: GameBloc.points[round][i],
+        points: rep.getPoints(i),
         startDelay: Duration(milliseconds: delay),
         isBonus: i == 5,
       );
