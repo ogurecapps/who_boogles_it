@@ -9,6 +9,12 @@ sealed class GameState extends Equatable {
 
 final class GameInitialState extends GameState {}
 
+final class EnemySearchStartState extends GameState {
+  final Player enemy;
+
+  const EnemySearchStartState(this.enemy);
+}
+
 final class GameReadyState extends GameState {
   final String question;
   final List<String> rightAnswers;

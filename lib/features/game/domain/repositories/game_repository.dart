@@ -26,9 +26,13 @@ class GameRepository {
 
   bool get isStarted => started;
 
-  void nextRound() {
-    round++;
-    roundScore = 0;
+  bool nextRound() {
+    if (round < points.length - 1) {
+      round++;
+      roundScore = 0;
+      return true;
+    }
+    return false;
   }
 
   String getAnswer() {
@@ -78,18 +82,16 @@ class GameRepository {
     ];
   }
 
-  void startGame(Player me, Player enemy, Question question, String langCode) {
+  void startGame(Player me, Player enemy, String langCode) {
     this.me = me;
     this.enemy = enemy;
     this.langCode = langCode;
 
     dev.log('Game started. ${this.me.nickname} vs ${this.enemy.nickname}');
     started = true;
-
-    nextQuestion(question);
   }
 
-  void nextQuestion(Question question) {
+  void setQuestion(Question question) {
     rightAnswers = List.from(question.rightAnswers);
     wrongAnswers = List.from(question.wrongAnswers);
     dev.log('Round ${round + 1}. Question is: "${question.text} ..."');

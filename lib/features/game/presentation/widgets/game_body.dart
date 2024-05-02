@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/features/game/presentation/bloc/game_bloc.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/chat_bubble.dart';
+import 'package:who_boogles_it/features/game/presentation/widgets/enemy_search.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/entry_field.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/error_dialog.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/game_board.dart';
@@ -69,7 +70,9 @@ class GameBody extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state is GameErrorState) {
+        if (state is EnemySearchStartState) {
+          return EnemySearch(enemy: state.enemy);
+        } else if (state is GameErrorState) {
           return const ErrorDialog();
         } else if (state is GameInitialState) {
           return Container(); // Destroy widgets
@@ -84,14 +87,12 @@ class GameBody extends StatelessWidget {
                   const SearchField()
                       .animate()
                       .slideY(
-                        delay: 200.ms,
                         duration: 400.ms,
                         begin: -1,
                         end: 0,
                         curve: Curves.fastOutSlowIn,
                       )
                       .fadeIn(
-                        delay: 200.ms,
                         duration: 400.ms,
                       ),
                   const SizedBox(height: AppSize.defaultSpace / 2),
@@ -100,14 +101,14 @@ class GameBody extends StatelessWidget {
                   const StatusText()
                       .animate()
                       .slideX(
-                        delay: 800.ms,
+                        delay: 600.ms,
                         duration: 400.ms,
                         begin: 0.1,
                         end: 0,
                         curve: Curves.fastOutSlowIn,
                       )
                       .fadeIn(
-                        delay: 800.ms,
+                        delay: 600.ms,
                         duration: 400.ms,
                       ),
                   const SizedBox(height: AppSize.defaultSpace),
@@ -118,14 +119,14 @@ class GameBody extends StatelessWidget {
                   ])
                       .animate()
                       .slideX(
-                        delay: 1000.ms,
+                        delay: 800.ms,
                         duration: 400.ms,
                         begin: -0.1,
                         end: 0,
                         curve: Curves.fastOutSlowIn,
                       )
                       .fadeIn(
-                        delay: 1000.ms,
+                        delay: 800.ms,
                         duration: 400.ms,
                       ),
                   const SizedBox(height: AppSize.defaultSpace),
@@ -143,14 +144,14 @@ class GameBody extends StatelessWidget {
                   ])
                       .animate()
                       .slideX(
-                        delay: 1000.ms,
+                        delay: 800.ms,
                         duration: 400.ms,
                         begin: 0.1,
                         end: 0,
                         curve: Curves.fastOutSlowIn,
                       )
                       .fadeIn(
-                        delay: 1000.ms,
+                        delay: 800.ms,
                         duration: 400.ms,
                       ),
                 ],

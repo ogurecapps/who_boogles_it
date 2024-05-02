@@ -41,6 +41,8 @@ abstract class  LocaleKeys {
   static const winner = 'winner';
   static const gotIt = 'gotIt';
   static const descRound_0 = 'descRound_0';
+  static const descRound_1 = 'descRound_1';
+  static const descRound_2 = 'descRound_2';
   static const firstMove = 'firstMove';
   static const tapToStop = 'tapToStop';
   static const diceNumber = 'diceNumber';
@@ -53,5 +55,7 @@ abstract class  LocaleKeys {
   static const columnName = 'columnName';
   static const columnRound = 'columnRound';
   static const columnTotal = 'columnTotal';
+  static const enemySearchStart = 'enemySearchStart';
+  static const enemySearchEnd = 'enemySearchEnd';
 
 }

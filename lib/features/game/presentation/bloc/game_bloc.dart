@@ -32,9 +32,10 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   Future<void> _nextRound(NextRoundEvent event, Emitter<GameState> emit) async {
     emit(GameInitialState());
 
-    if (gameRepository.round < 2) {
-      gameRepository.nextRound();
+    if (gameRepository.nextRound()) {
       await _loadGameData(LoadGameEvent(gameRepository.langCode), emit);
+    } else {
+      // Game over
     }
   }
 
@@ -139,34 +140,34 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   Future<void> _loadGameData(LoadGameEvent event, Emitter<GameState> emit) async {
-    Question question;
-
-    try {
-      question = await _getQuestionUseCase.execute(event.langCode);
-    } catch (e) {
-      emit(GameErrorState());
-      return;
-    }
-
     if (!gameRepository.isStarted) {
       final Player me = await _getPlayerUseCase.execute(true);
       final Player enemy = await _getPlayerUseCase.execute(false);
 
-      gameRepository.startGame(me, enemy, question, event.langCode);
+      gameRepository.startGame(me, enemy, event.langCode);
+
+      emit(EnemySearchStartState(enemy));
     } else {
-      gameRepository.nextQuestion(question);
+      Question question;
+
+      try {
+        question = await _getQuestionUseCase.execute(event.langCode);
+        gameRepository.setQuestion(question);
+      } catch (e) {
+        emit(GameErrorState());
+        return;
+      }
+
+      emit(GameReadyState(
+        question.text,
+        question.rightAnswers,
+        question.wrongAnswers,
+        gameRepository.me,
+        gameRepository.enemy,
+      ));
+
+      await Future.delayed(3000.ms); // Wait for opening
+      emit(RoundTipState(gameRepository.round));
     }
-
-    await Future.delayed(400.ms);
-    emit(GameReadyState(
-      question.text,
-      question.rightAnswers,
-      question.wrongAnswers,
-      gameRepository.me,
-      gameRepository.enemy,
-    ));
-
-    await Future.delayed(3000.ms);
-    emit(RoundTipState(gameRepository.round));
   }
 }
