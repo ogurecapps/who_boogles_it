@@ -40,7 +40,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   Future<void> _diceStop(DiceStopEvent event, Emitter<GameState> emit) async {
-    var diceMe = Random().nextInt(6);
+    var diceMe = gameRepository.myDiceRoll();
 
     emit(DiceResultState(true, diceMe));
     await Future.delayed(1500.ms);
@@ -62,7 +62,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   Future<void> _diceRollStart(DiceRollEvent event, Emitter<GameState> emit) async {
     emit(const DiceRollState(false));
-    await Future.delayed(Duration(milliseconds: 1500 + Random().nextInt(10) * 100));
+    await Future.delayed(Duration(milliseconds: 1000 + Random().nextInt(10) * 100));
     emit(DiceResultState(false, gameRepository.enemyDiceRoll()));
     await Future.delayed(1500.ms);
     emit(const DiceRollState(true));

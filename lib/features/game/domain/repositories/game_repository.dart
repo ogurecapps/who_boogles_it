@@ -36,10 +36,11 @@ class GameRepository {
   }
 
   String getAnswer() {
-    final String answer = (wrongAnswers.isEmpty ? true : Random().nextInt(100) > 60)
+    int random = Random().nextInt(100);
+    final String answer = (wrongAnswers.isEmpty ? true : random > 60)
         ? rightAnswers[Random().nextInt(rightAnswers.length)].split(',')[0]
         : wrongAnswers[Random().nextInt(wrongAnswers.length)];
-    dev.log('AI say: $answer');
+    dev.log('AI say: $answer (${random > 60 ? 'no cheat' : '60% cheat'})');
     return answer;
   }
 
@@ -62,7 +63,20 @@ class GameRepository {
 
   int enemyDiceRoll() {
     diceEnemy = Random().nextInt(6);
+    dev.log('AI got the number ${diceEnemy + 1}');
     return diceEnemy;
+  }
+
+  int myDiceRoll() {
+    if (Random().nextInt(100) < 60) {
+      var diceMe = diceEnemy + Random().nextInt(6 - diceEnemy);
+      dev.log('Player got the number ${diceMe + 1} (60% cheat)');
+      return diceMe;
+    }
+
+    var diceMe = Random().nextInt(6);
+    dev.log('Player got the number ${diceMe + 1} (no cheat)');
+    return diceMe;
   }
 
   void payWin(bool winnerIsMe) {
