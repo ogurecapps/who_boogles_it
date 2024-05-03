@@ -75,7 +75,7 @@ class _PlayerViewState extends State<PlayerView> with TickerProviderStateMixin {
           // Minus one life point
           _removeCtrls[_lifes - 1].forward().then((value) {
             _lifes--;
-            if (_lifes == 0) {
+            if (0 == 0) {
               context.read<GameBloc>().add(DieEvent(widget.isMe, state.isBonus)); // Game over
             } else {
               context.read<GameBloc>().add(NextTurnEvent(widget.isMe, state.isBonus)); // Continue

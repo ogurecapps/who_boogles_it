@@ -21,6 +21,8 @@ class GameRepository {
   int roundScore = 0;
   int myScore = 0;
   int enemyScore = 0;
+  String myAnswer = '';
+  String enemyAnswer = '';
   int diceEnemy = 0;
   bool started = false;
 
@@ -30,6 +32,12 @@ class GameRepository {
     return round == points.length - 1;
   }
 
+  bool isVVComplete() {
+    var complete = myAnswer != '' && enemyAnswer != '';
+    if (complete) dev.log('All answers have been received. AI: "$enemyAnswer". Player: "$myAnswer"');
+    return complete;
+  }
+
   bool nextRound() {
     if (round < points.length - 1) {
       round++;
@@ -37,6 +45,14 @@ class GameRepository {
       return true;
     }
     return false;
+  }
+
+  void setAnswer(String answer, bool isMe) {
+    if (isMe) {
+      myAnswer = answer;
+    } else {
+      enemyAnswer = answer;
+    }
   }
 
   String getAnswer() {
@@ -88,6 +104,9 @@ class GameRepository {
     }
 
     var diceMe = Random().nextInt(6);
+    while (diceMe == diceEnemy) {
+      diceMe = Random().nextInt(6);
+    }
     dev.log('Player got the number ${diceMe + 1} (no cheat)');
     return diceMe;
   }

@@ -54,7 +54,7 @@ class _StatusTextState extends State<StatusText> with SingleTickerProviderStateM
         EndRoundState() => '${rep.getPlayerName(state.isMe)} ${LocaleKeys.winner.tr()}',
         PlayerTurnState() => '${LocaleKeys.startTurn.tr()} ${rep.getPlayerName(state.isMe)}',
         EnemyWritingState() || BubblesResetState() => _text, // Skip status change
-        SayAnswerState() || CheckAnswerState() => 'ProgressIndicator',
+        SayAnswerState() || CheckAnswerState() => rep.isFinalRound() ? _text : 'ProgressIndicator',
         RightAnswerState() => LocaleKeys.answerIsCorrect.tr(),
         WrongAnswerState() => LocaleKeys.answerIsWrong.tr(),
         GetsBonusState() => '${rep.getPlayerName(state.isMe)} ${LocaleKeys.getsBonus.tr()}',
@@ -85,7 +85,7 @@ class _StatusTextState extends State<StatusText> with SingleTickerProviderStateM
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSize.defaultSpace),
               child: Center(
-                child: state is SayAnswerState || state is CheckAnswerState
+                child: _text == 'ProgressIndicator'
                     ? const LinearProgressIndicator()
                     : Text(
                         _text,

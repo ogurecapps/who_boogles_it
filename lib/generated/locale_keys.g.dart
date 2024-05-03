@@ -57,5 +57,6 @@ abstract class  LocaleKeys {
   static const columnTotal = 'columnTotal';
   static const enemySearchStart = 'enemySearchStart';
   static const enemySearchEnd = 'enemySearchEnd';
+  static const checkAnswers = 'checkAnswers';
 
 }

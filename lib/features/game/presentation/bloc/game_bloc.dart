@@ -143,10 +143,19 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   Future<void> _sayAnswer(Emitter<GameState> emit, String answer, bool isMe) async {
     gameRepository.makeAnswerUnavailable(answer);
-
     emit(SayAnswerState(answer, isMe));
-    await Future.delayed(2500.ms);
-    emit(CheckAnswerState(answer, isMe)); // Need delay before showing the result
+
+    if (gameRepository.isFinalRound()) {
+      gameRepository.setAnswer(answer, isMe);
+      if (gameRepository.isVVComplete()) {
+      } else {
+        await Future.delayed(1000.ms);
+        await _shiftTurn(isMe, emit);
+      }
+    } else {
+      await Future.delayed(2500.ms);
+      emit(CheckAnswerState(answer, isMe)); // Need delay before showing the result
+    }
   }
 
   Future<void> _playerSays(PlayerSaysEvent event, Emitter<GameState> emit) async {
