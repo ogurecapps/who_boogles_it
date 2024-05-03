@@ -26,6 +26,10 @@ class GameRepository {
 
   bool get isStarted => started;
 
+  bool isFinalRound() {
+    return round == points.length - 1;
+  }
+
   bool nextRound() {
     if (round < points.length - 1) {
       round++;
@@ -37,9 +41,18 @@ class GameRepository {
 
   String getAnswer() {
     int random = Random().nextInt(100);
-    final String answer = (wrongAnswers.isEmpty ? true : random > 60)
-        ? rightAnswers[Random().nextInt(rightAnswers.length)].split(',')[0]
-        : wrongAnswers[Random().nextInt(wrongAnswers.length)];
+    String answer;
+
+    if (isFinalRound()) {
+      answer = (random > 60)
+          ? wrongAnswers[Random().nextInt(wrongAnswers.length)]
+          : rightAnswers[Random().nextInt(rightAnswers.length)].split(',')[0];
+    } else {
+      answer = (wrongAnswers.isEmpty ? true : random > 60)
+          ? rightAnswers[Random().nextInt(rightAnswers.length)].split(',')[0]
+          : wrongAnswers[Random().nextInt(wrongAnswers.length)];
+    }
+
     dev.log('AI say: $answer (${random > 60 ? 'no cheat' : '60% cheat'})');
     return answer;
   }
@@ -68,9 +81,9 @@ class GameRepository {
   }
 
   int myDiceRoll() {
-    if (Random().nextInt(100) < 60) {
+    if (Random().nextInt(100) < 55) {
       var diceMe = diceEnemy + Random().nextInt(6 - diceEnemy);
-      dev.log('Player got the number ${diceMe + 1} (60% cheat)');
+      dev.log('Player got the number ${diceMe + 1} (55% cheat)');
       return diceMe;
     }
 

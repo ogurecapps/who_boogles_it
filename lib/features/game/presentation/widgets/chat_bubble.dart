@@ -31,7 +31,8 @@ class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
   late final AnimationController _controller;
   late final AnimationController _rotationController;
   int _dice = 0;
-  late Timer _timer;
+  int _diceResult = 0;
+  bool _diceStop = false;
 
   @override
   void initState() {
@@ -46,7 +47,6 @@ class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
   void dispose() {
     _controller.dispose();
     _rotationController.dispose();
-    _timer.cancel();
 
     super.dispose();
   }
@@ -59,7 +59,10 @@ class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
           if (state.isMe) {
             if (widget.isMe) {
               _controller.forward();
-              setState(() => _text = state.answer);
+              setState(() {
+                _content = ContentState.text;
+                _text = state.answer;
+              });
             }
           } else {
             if (!widget.isMe) {
@@ -70,24 +73,42 @@ class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
             }
           }
         } else if (state is PlayerTurnState && state.isMe == widget.isMe) {
-          _controller.reverse().then((value) => setState(() => _text = ''));
+          _controller.reverse().then((value) => setState(() {
+                _content = ContentState.text;
+                _text = '';
+              }));
         } else if (state is EnemyWritingState && !widget.isMe) {
-          _controller.forward();
-          setState(() => _content = ContentState.writing);
+          _controller.forward().then((value) => setState(() => _content = ContentState.writing));
         } else if (state is DiceRollState && state.isMe == widget.isMe) {
           _controller.forward().then((value) {
-            _timer = Timer.periodic(const Duration(milliseconds: diceStep),
-                (timer) => setState(() => _dice = _dice == 5 ? 0 : _dice + 1));
+            setState(() {
+              _content = ContentState.dice;
+              _diceStop = false;
+            });
+
+            Timer.periodic(const Duration(milliseconds: diceStep), (timer) {
+              if (_diceStop) {
+                setState(() => _dice = _diceResult);
+                _rotationController.stop();
+                _rotationController.reset();
+                timer.cancel();
+              } else {
+                setState(() => _dice = _dice == 5 ? 0 : _dice + 1);
+              }
+            });
+
             _rotationController.loop();
           });
-          setState(() => _content = ContentState.dice);
         } else if (state is DiceResultState && state.isMe == widget.isMe) {
-          _timer.cancel();
-          _rotationController.stop();
-          _rotationController.reset();
-          setState(() => _dice = state.result);
+          setState(() {
+            _diceResult = state.result;
+            _diceStop = true;
+          });
         } else if (state is BubblesResetState) {
-          _controller.reverse().then((value) => setState(() => _content = ContentState.text));
+          _controller.reverse().then((value) => setState(() {
+                _content = ContentState.text;
+                _text = '';
+              }));
         }
       },
       buildWhen: (previous, current) => current is GameReadyState,

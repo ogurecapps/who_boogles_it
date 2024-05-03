@@ -21,6 +21,8 @@ final class GameReadyState extends GameState {
   final List<String> wrongAnswers;
   final Player me;
   final Player enemy;
+  final int myScore;
+  final int enemyScore;
 
   const GameReadyState(
     this.question,
@@ -28,6 +30,8 @@ final class GameReadyState extends GameState {
     this.wrongAnswers,
     this.me,
     this.enemy,
+    this.myScore,
+    this.enemyScore,
   );
 }
 

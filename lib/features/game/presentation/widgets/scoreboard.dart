@@ -9,7 +9,13 @@ enum ScoreboardType { round, me, enemy }
 
 class Scoreboard extends StatefulWidget {
   final ScoreboardType type;
-  const Scoreboard({super.key, this.type = ScoreboardType.round});
+  final int initScore;
+
+  const Scoreboard({
+    super.key,
+    this.type = ScoreboardType.round,
+    this.initScore = 0,
+  });
 
   @override
   State<Scoreboard> createState() => _ScoreboardState();
@@ -17,6 +23,12 @@ class Scoreboard extends StatefulWidget {
 
 class _ScoreboardState extends State<Scoreboard> {
   int _score = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _score = widget.initScore;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +41,9 @@ class _ScoreboardState extends State<Scoreboard> {
           }
         } else if (state is EndRoundState) {
           if (widget.type == ScoreboardType.me && state.isMe) {
-            setState(() => _score = state.roundScore);
+            setState(() => _score += state.roundScore);
           } else if (widget.type == ScoreboardType.enemy && !state.isMe) {
-            setState(() => _score = state.roundScore);
+            setState(() => _score += state.roundScore);
           } else if (widget.type == ScoreboardType.round) {
             setState(() => _score = 0);
           }

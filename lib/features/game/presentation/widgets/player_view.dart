@@ -113,7 +113,10 @@ class _PlayerViewState extends State<PlayerView> with TickerProviderStateMixin {
               ),
               Positioned(
                 top: 55,
-                child: Scoreboard(type: widget.isMe ? ScoreboardType.me : ScoreboardType.enemy),
+                child: Scoreboard(
+                  type: widget.isMe ? ScoreboardType.me : ScoreboardType.enemy,
+                  initScore: widget.isMe ? state.myScore : state.enemyScore,
+                ),
               )
                   .animate()
                   .slideY(

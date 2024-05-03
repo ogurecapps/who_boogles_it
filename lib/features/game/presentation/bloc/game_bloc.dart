@@ -26,7 +26,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<DieEvent>(_gameOver);
     on<NextTurnEvent>(_turnMove);
     on<DiceRollEvent>(_diceRollStart);
-    on<DiceStopEvent>(_diceStop);
+    on<DiceStopEvent>(_diceRollStop);
   }
 
   Future<void> _nextRound(NextRoundEvent event, Emitter<GameState> emit) async {
@@ -39,7 +39,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     }
   }
 
-  Future<void> _diceStop(DiceStopEvent event, Emitter<GameState> emit) async {
+  Future<void> _diceRollStop(DiceStopEvent event, Emitter<GameState> emit) async {
     var diceMe = gameRepository.myDiceRoll();
 
     emit(DiceResultState(true, diceMe));
@@ -61,6 +61,20 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   Future<void> _diceRollStart(DiceRollEvent event, Emitter<GameState> emit) async {
+    if (gameRepository.isFinalRound()) {
+      if (gameRepository.myScore < gameRepository.enemyScore) {
+        await _turnMove(const NextTurnEvent(false, false), emit); // Next turn for player
+      } else if (gameRepository.myScore > gameRepository.enemyScore) {
+        await _turnMove(const NextTurnEvent(true, false), emit); // Next turn for AI
+      } else {
+        await _diceRoll(emit);
+      }
+    } else {
+      await _diceRoll(emit);
+    }
+  }
+
+  Future<void> _diceRoll(Emitter<GameState> emit) async {
     emit(const DiceRollState(false));
     await Future.delayed(Duration(milliseconds: 1000 + Random().nextInt(10) * 100));
     emit(DiceResultState(false, gameRepository.enemyDiceRoll()));
@@ -158,12 +172,15 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         return;
       }
 
+      await Future.delayed(100.ms);
       emit(GameReadyState(
         question.text,
         question.rightAnswers,
         question.wrongAnswers,
         gameRepository.me,
         gameRepository.enemy,
+        gameRepository.myScore,
+        gameRepository.enemyScore,
       ));
 
       await Future.delayed(3000.ms); // Wait for opening

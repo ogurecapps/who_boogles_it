@@ -34,7 +34,7 @@ class _GameBoardState extends State<GameBoard> {
         answer: answer,
         points: rep.getPoints(i),
         startDelay: Duration(milliseconds: delay),
-        isBonus: i == 5,
+        isBonus: rep.isFinalRound() ? false : i == 5,
       );
 
       table.add(space);
