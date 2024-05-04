@@ -10,6 +10,7 @@ import 'package:who_boogles_it/features/game/presentation/widgets/enemy_search.d
 import 'package:who_boogles_it/features/game/presentation/widgets/entry_field.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/error_dialog.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/game_board.dart';
+import 'package:who_boogles_it/features/game/presentation/widgets/game_over_dialog.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/next_round_dialog.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/player_view.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/search_field.dart';
@@ -74,6 +75,12 @@ class GameBody extends StatelessWidget {
           return EnemySearch(enemy: state.enemy);
         } else if (state is GameErrorState) {
           return const ErrorDialog();
+        } else if (state is GameOverDialogState) {
+          return GameOverDialog(
+            winnerNickname: state.winnerNickname,
+            myScore: state.myScore,
+            enemyScore: state.enemyScore,
+          );
         } else if (state is GameInitialState) {
           return Container(); // Destroy widgets
         }

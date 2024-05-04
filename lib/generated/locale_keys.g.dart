@@ -8,6 +8,8 @@ abstract class  LocaleKeys {
   static const exit = 'exit';
   static const done = 'done';
   static const back = 'back';
+  static const toMenu = 'toMenu';
+  static const rematch = 'rematch';
   static const nicknameLabel = 'nicknameLabel';
   static const nicknameHint = 'nicknameHint';
   static const nicknameLimits = 'nicknameLimits';
@@ -58,5 +60,9 @@ abstract class  LocaleKeys {
   static const enemySearchStart = 'enemySearchStart';
   static const enemySearchEnd = 'enemySearchEnd';
   static const checkAnswers = 'checkAnswers';
+  static const subtotals = 'subtotals';
+  static const guessesLine = 'guessesLine';
+  static const gameOverTitle = 'gameOverTitle';
+  static const gameOverStatus = 'gameOverStatus';
 
 }

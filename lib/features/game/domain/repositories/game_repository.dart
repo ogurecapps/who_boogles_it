@@ -32,7 +32,7 @@ class GameRepository {
     return round == points.length - 1;
   }
 
-  bool isVVComplete() {
+  bool isAnswersReceived() {
     var complete = myAnswer != '' && enemyAnswer != '';
     if (complete) dev.log('All answers have been received. AI: "$enemyAnswer". Player: "$myAnswer"');
     return complete;
@@ -58,18 +58,42 @@ class GameRepository {
   String getAnswer() {
     int random = Random().nextInt(100);
     String answer;
+    var percent = 60; // Default
 
     if (isFinalRound()) {
-      answer = (random > 60)
-          ? wrongAnswers[Random().nextInt(wrongAnswers.length)]
-          : rightAnswers[Random().nextInt(rightAnswers.length)].split(',')[0];
+      bool right;
+
+      if (random > percent) {
+        answer = wrongAnswers[Random().nextInt(wrongAnswers.length)];
+        right = false;
+      } else {
+        answer = rightAnswers[Random().nextInt(rightAnswers.length)];
+        right = true;
+      }
+
+      if (right) {
+        while (answer.split(',').contains(myAnswer)) {
+          answer = rightAnswers[Random().nextInt(rightAnswers.length)];
+        }
+        answer = answer.split(',')[0];
+      }
     } else {
-      answer = (wrongAnswers.isEmpty ? true : random > 60)
+      if (enemy.winCounter > 30) {
+        percent = 40; // Elite
+      } else if (enemy.winCounter > 20) {
+        percent = 45; // Expert
+      } else if (enemy.winCounter > 10) {
+        percent = 50; // Professional
+      } else if (enemy.winCounter > 3) {
+        percent = 55; // Lover
+      }
+
+      answer = (wrongAnswers.isEmpty ? true : random > percent)
           ? rightAnswers[Random().nextInt(rightAnswers.length)].split(',')[0]
           : wrongAnswers[Random().nextInt(wrongAnswers.length)];
     }
 
-    dev.log('AI say: $answer (${random > 60 ? 'no cheat' : '60% cheat'})');
+    dev.log('AI say: $answer (${random > percent ? 'no cheat' : '$percent% cheat'})');
     return answer;
   }
 
@@ -83,11 +107,21 @@ class GameRepository {
 
   void makeAnswerUnavailable(String answer) {
     wrongAnswers.remove(answer.toLowerCase());
-    rightAnswers.removeWhere((element) => element.split(',').contains(answer.toLowerCase()));
+    if (!isFinalRound()) {
+      rightAnswers.removeWhere((element) => element.split(',').contains(answer.toLowerCase()));
+    }
   }
 
   void addScore(int points) {
     roundScore += points;
+  }
+
+  void addPlayerScore(int points, bool winnerIsMe) {
+    if (winnerIsMe) {
+      myScore += points;
+    } else {
+      enemyScore += points;
+    }
   }
 
   int enemyDiceRoll() {
@@ -97,9 +131,9 @@ class GameRepository {
   }
 
   int myDiceRoll() {
-    if (Random().nextInt(100) < 55) {
+    if (Random().nextInt(100) < 53) {
       var diceMe = diceEnemy + Random().nextInt(6 - diceEnemy);
-      dev.log('Player got the number ${diceMe + 1} (55% cheat)');
+      dev.log('Player got the number ${diceMe + 1} (53% cheat)');
       return diceMe;
     }
 

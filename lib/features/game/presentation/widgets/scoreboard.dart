@@ -33,7 +33,8 @@ class _ScoreboardState extends State<Scoreboard> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<GameBloc, GameState>(
-      listenWhen: (previous, current) => current is RightAnswerState || current is EndRoundState,
+      listenWhen: (previous, current) =>
+          current is RightAnswerState || current is EndRoundState || current is FinalRightAnswerState,
       listener: (context, state) {
         if (state is RightAnswerState) {
           if (widget.type == ScoreboardType.round) {
@@ -46,6 +47,12 @@ class _ScoreboardState extends State<Scoreboard> {
             setState(() => _score += state.roundScore);
           } else if (widget.type == ScoreboardType.round) {
             setState(() => _score = 0);
+          }
+        } else if (state is FinalRightAnswerState) {
+          if (widget.type == ScoreboardType.me && state.isMe) {
+            setState(() => _score += state.points);
+          } else if (widget.type == ScoreboardType.enemy && !state.isMe) {
+            setState(() => _score += state.points);
           }
         }
       },

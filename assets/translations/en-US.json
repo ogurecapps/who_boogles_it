@@ -6,6 +6,8 @@
     "exit": "EXIT",
     "done": "DONE",
     "back": "BACK",
+    "toMenu": "TO_MENU",
+    "rematch": "REMATCH",
     "nicknameLabel": "Nickname",
     "nicknameHint": "Enter your nickname",
     "nicknameLimits": "Hint: allowed letters, numbers, and symbol \"-\"",
@@ -40,7 +42,7 @@
     "gotIt": "GOT IT!",
     "descRound_0": "Your task is to guess the six most popular endings of the search question. Answers on the gameboard are arranged in order of decreasing their popularity. The higher the answer is, the more points you can earn. If you guess the right answer, points for them go to the round fund. And your opponent will lose one life point. If you make a mistake, the turn will pass to another player. You can restore one life point if you open the least popular answer, located in the sixth place. Victory and round fund will go to those who will destroy all lifes of the enemy.",
     "descRound_1": "Your task is to guess the six most popular endings of the search question. Answers on the gameboard are arranged in order of decreasing their popularity. The higher the answer is, the more points you can earn. The rules are the same as in the first round but all points scored are doubled (x2).",
-    "descRound_2": "You and your opponent in turn call the one answer. The first move makes a player who gets the lowest score on the results of previous rounds. In the vice versa game the least popular variant of the answer gains more points. So the task is to guess such an answer who will be present on the list but at the same time will stay as close as possible to the end of the list.",
+    "descRound_2": "You and your opponent in turn call the answer. You have one guess! The first move makes a player who gets the lowest score on the results of previous rounds. In the vice versa game the least popular variant of the answer gains more points. So the task is to guess such an answer who will be present on the list but at the same time will stay as close as possible to the end of the list.",
     "firstMove": "👀 Determine who goes first...",
     "tapToStop": "Tap the dice to stop spinning 🎲",
     "diceNumber": "got the number",
@@ -55,5 +57,9 @@
     "columnTotal": "Total",
     "enemySearchStart": "Enemy search...",
     "enemySearchEnd": "Enemy found. Tap to continue",
-    "checkAnswers": "Looking for answers in the list 🔍"
+    "checkAnswers": "Looking for answers in the list 🔍",
+    "subtotals": "Subtotals:",
+    "guessesLine": "guesses the line #",
+    "gameOverTitle": "coming through",
+    "gameOverStatus": "🏁 End of the game 🏁"
 }

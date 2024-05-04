@@ -84,7 +84,11 @@ class _NextRoundDialogState extends State<NextRoundDialog> {
                   .animate()
                   .slideY(delay: 200.ms, begin: 0.3, end: 0, curve: Curves.fastOutSlowIn)
                   .fadeIn(delay: 200.ms),
-              const SizedBox(height: AppSize.defaultSpace),
+              const Text(LocaleKeys.subtotals)
+                  .tr()
+                  .animate()
+                  .slideX(delay: 400.ms, duration: 400.ms, begin: 0.1, end: 0, curve: Curves.fastOutSlowIn)
+                  .fadeIn(delay: 400.ms, duration: 400.ms),
               Table(
                 border: TableBorder.all(color: Theme.of(context).primaryColor, width: AppSize.buttonBorder),
                 columnWidths: const <int, TableColumnWidth>{
@@ -99,8 +103,8 @@ class _NextRoundDialogState extends State<NextRoundDialog> {
                 ],
               )
                   .animate()
-                  .slideX(delay: 400.ms, duration: 400.ms, begin: 0.1, end: 0, curve: Curves.fastOutSlowIn)
-                  .fadeIn(delay: 400.ms, duration: 400.ms),
+                  .slideX(delay: 600.ms, duration: 400.ms, begin: 0.1, end: 0, curve: Curves.fastOutSlowIn)
+                  .fadeIn(delay: 600.ms, duration: 400.ms),
               const SizedBox(height: AppSize.defaultSpace * 2),
               SizedBox(
                 width: double.infinity,

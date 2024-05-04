@@ -58,7 +58,11 @@ class _StatusTextState extends State<StatusText> with SingleTickerProviderStateM
         RightAnswerState() => LocaleKeys.answerIsCorrect.tr(),
         WrongAnswerState() => LocaleKeys.answerIsWrong.tr(),
         GetsBonusState() => '${rep.getPlayerName(state.isMe)} ${LocaleKeys.getsBonus.tr()}',
-        OpenAnswerState() => LocaleKeys.openAll.tr(),
+        OpenAnswerState() => state.isFinalRound ? 'ProgressIndicator' : LocaleKeys.openAll.tr(),
+        FinalCheckState() => LocaleKeys.checkAnswers.tr(),
+        FinalRightAnswerState() =>
+          '${rep.getPlayerName(state.isMe)} ${LocaleKeys.guessesLine.tr()}${state.pos}!',
+        GameOverState() => LocaleKeys.gameOverStatus.tr(),
         _ => 'round_${rep.round}'.tr(),
       };
     }

@@ -49,15 +49,11 @@ class ErrorDialog extends StatelessWidget {
     )
         .animate()
         .slideY(
-          delay: 200.ms,
           duration: 600.ms,
           begin: 0.1,
           end: 0,
           curve: Curves.fastOutSlowIn,
         )
-        .fadeIn(
-          delay: 200.ms,
-          duration: 600.ms,
-        );
+        .fadeIn(duration: 600.ms);
   }
 }

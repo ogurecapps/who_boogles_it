@@ -15,6 +15,7 @@ part 'game_state.dart';
 
 class GameBloc extends Bloc<GameEvent, GameState> {
   final GameRepository gameRepository = GameRepository();
+
   final GetQuestionUseCase _getQuestionUseCase = locator.get<GetQuestionUseCase>();
   final GetPlayerUseCase _getPlayerUseCase = locator.get<GetPlayerUseCase>();
 
@@ -30,12 +31,23 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   Future<void> _nextRound(NextRoundEvent event, Emitter<GameState> emit) async {
-    emit(GameInitialState());
-
     if (gameRepository.nextRound()) {
+      // Start new round
+      emit(GameInitialState());
       await _loadGameData(LoadGameEvent(gameRepository.langCode), emit);
     } else {
-      // Game over
+      // End of the game
+      emit(const GameOverState());
+      await Future.delayed(2000.ms);
+      emit(GameInitialState());
+      await Future.delayed(100.ms);
+      emit(GameOverDialogState(
+        gameRepository.myScore > gameRepository.enemyScore
+            ? gameRepository.me.nickname
+            : gameRepository.enemy.nickname,
+        gameRepository.myScore,
+        gameRepository.enemyScore,
+      ));
     }
   }
 
@@ -105,7 +117,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     if (gameRepository.rightAnswers.isNotEmpty) {
       // Show not opened answers
       for (int i = 0; i < gameRepository.rightAnswers.length; i++) {
-        emit(OpenAnswerState(gameRepository.rightAnswers[i].split(',')[0]));
+        emit(OpenAnswerState(gameRepository.rightAnswers[i].split(',')[0], false));
         await Future.delayed(1200.ms);
       }
     }
@@ -141,15 +153,40 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     }
   }
 
+  Future<void> _showFinalResults(Emitter<GameState> emit) async {
+    emit(FinalCheckState());
+    // Open answers
+    List<String> answer;
+    for (int i = 0; i < gameRepository.rightAnswers.length; i++) {
+      await Future.delayed(Duration(milliseconds: i == 0 ? 1500 : 2500));
+      answer = gameRepository.rightAnswers[i].split(',');
+      emit(OpenAnswerState(answer[0], true));
+
+      if (answer.contains(gameRepository.enemyAnswer)) {
+        await Future.delayed(100.ms);
+        emit(FinalRightAnswerState(gameRepository.getPoints(i), false, i + 1));
+        gameRepository.addPlayerScore(gameRepository.getPoints(i), false);
+      } else if (answer.contains(gameRepository.myAnswer)) {
+        await Future.delayed(100.ms);
+        emit(FinalRightAnswerState(gameRepository.getPoints(i), true, i + 1));
+        gameRepository.addPlayerScore(gameRepository.getPoints(i), true);
+      }
+    }
+    await Future.delayed(2500.ms);
+    await _nextRound(NextRoundEvent(), emit);
+  }
+
   Future<void> _sayAnswer(Emitter<GameState> emit, String answer, bool isMe) async {
     gameRepository.makeAnswerUnavailable(answer);
     emit(SayAnswerState(answer, isMe));
 
     if (gameRepository.isFinalRound()) {
       gameRepository.setAnswer(answer, isMe);
-      if (gameRepository.isVVComplete()) {
+      await Future.delayed(1000.ms);
+
+      if (gameRepository.isAnswersReceived()) {
+        await _showFinalResults(emit);
       } else {
-        await Future.delayed(1000.ms);
         await _shiftTurn(isMe, emit);
       }
     } else {
