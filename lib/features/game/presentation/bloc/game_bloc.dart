@@ -38,7 +38,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     } else {
       // End of the game
       emit(const GameOverState());
-      await Future.delayed(2000.ms);
+      await Future.delayed(3000.ms);
       emit(GameInitialState());
       await Future.delayed(100.ms);
       emit(GameOverDialogState(
@@ -157,6 +157,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     emit(FinalCheckState());
     // Open answers
     List<String> answer;
+    bool skipDelay = false;
+
     for (int i = 0; i < gameRepository.rightAnswers.length; i++) {
       await Future.delayed(Duration(milliseconds: i == 0 ? 1500 : 2500));
       answer = gameRepository.rightAnswers[i].split(',');
@@ -166,13 +168,17 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         await Future.delayed(100.ms);
         emit(FinalRightAnswerState(gameRepository.getPoints(i), false, i + 1));
         gameRepository.addPlayerScore(gameRepository.getPoints(i), false);
+        skipDelay = false;
       } else if (answer.contains(gameRepository.myAnswer)) {
         await Future.delayed(100.ms);
         emit(FinalRightAnswerState(gameRepository.getPoints(i), true, i + 1));
         gameRepository.addPlayerScore(gameRepository.getPoints(i), true);
+        skipDelay = false;
+      } else {
+        skipDelay = true;
       }
     }
-    await Future.delayed(2500.ms);
+    if (!skipDelay) await Future.delayed(2500.ms);
     await _nextRound(NextRoundEvent(), emit);
   }
 
