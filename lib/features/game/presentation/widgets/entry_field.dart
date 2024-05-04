@@ -87,7 +87,7 @@ class _EntryFieldState extends State<EntryField> with SingleTickerProviderStateM
                       maxLength: 18,
                       onFieldSubmitted: (value) => onSubmitted(state as PlayerTurnState),
                       inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp('[a-zA-Zа-яА-Я]')),
+                        FilteringTextInputFormatter.allow(RegExp('[a-zA-Zа-яА-Я-]')),
                       ],
                       decoration: InputDecoration(
                         hintText: LocaleKeys.entryHint.tr(),

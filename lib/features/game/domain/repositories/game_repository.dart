@@ -49,9 +49,9 @@ class GameRepository {
 
   void setAnswer(String answer, bool isMe) {
     if (isMe) {
-      myAnswer = answer;
+      myAnswer = answer.toLowerCase();
     } else {
-      enemyAnswer = answer;
+      enemyAnswer = answer.toLowerCase();
     }
   }
 
@@ -78,14 +78,14 @@ class GameRepository {
         answer = answer.split(',')[0];
       }
     } else {
-      if (enemy.winCounter > 30) {
+      if (enemy.winCounter > 70) {
         percent = 40; // Elite
-      } else if (enemy.winCounter > 20) {
+      } else if (enemy.winCounter > 40) {
         percent = 45; // Expert
-      } else if (enemy.winCounter > 10) {
+      } else if (enemy.winCounter > 20) {
         percent = 50; // Professional
-      } else if (enemy.winCounter > 3) {
-        percent = 55; // Lover
+      } else if (enemy.winCounter > 4) {
+        percent = 55; // User
       }
 
       answer = (wrongAnswers.isEmpty ? true : random > percent)

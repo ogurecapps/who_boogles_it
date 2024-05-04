@@ -35,19 +35,19 @@ class Player {
 
     var grade = AppColor.grades[0];
     switch (level) {
-      case > 44:
+      case > 100:
         grade = AppColor.grades[5];
         break;
-      case > 30:
+      case > 70:
         grade = AppColor.grades[4];
         break;
-      case > 20:
+      case > 40:
         grade = AppColor.grades[3];
         break;
-      case > 10:
+      case > 20:
         grade = AppColor.grades[2];
         break;
-      case > 3:
+      case > 4:
         grade = AppColor.grades[1];
         break;
     }

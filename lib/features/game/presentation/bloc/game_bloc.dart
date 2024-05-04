@@ -160,7 +160,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     bool skipDelay = false;
 
     for (int i = 0; i < gameRepository.rightAnswers.length; i++) {
-      await Future.delayed(Duration(milliseconds: i == 0 ? 1500 : 2500));
+      await Future.delayed(Duration(milliseconds: i == 0 ? 1500 : 2000));
       answer = gameRepository.rightAnswers[i].split(',');
       emit(OpenAnswerState(answer[0], true));
 
@@ -178,7 +178,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         skipDelay = true;
       }
     }
-    if (!skipDelay) await Future.delayed(2500.ms);
+    if (!skipDelay) await Future.delayed(2000.ms);
     await _nextRound(NextRoundEvent(), emit);
   }
 

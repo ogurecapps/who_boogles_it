@@ -54,6 +54,7 @@ abstract class  LocaleKeys {
   static const continueButton = 'continueButton';
   static const win = 'win';
   static const lose = 'lose';
+  static const draw = 'draw';
   static const columnName = 'columnName';
   static const columnRound = 'columnRound';
   static const columnTotal = 'columnTotal';
@@ -63,6 +64,7 @@ abstract class  LocaleKeys {
   static const subtotals = 'subtotals';
   static const guessesLine = 'guessesLine';
   static const gameOverTitle = 'gameOverTitle';
+  static const gameOverDraw = 'gameOverDraw';
   static const gameOverStatus = 'gameOverStatus';
 
 }

@@ -58,7 +58,7 @@ class _EnemySearchState extends State<EnemySearch> with SingleTickerProviderStat
     });
 
     Timer(
-        4000.ms,
+        3500.ms,
         () => setState(() {
               _isFound = true;
               _delay = 0.ms;

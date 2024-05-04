@@ -10,7 +10,8 @@ class LevelGradesTip extends StatelessWidget {
     return Row(
       children: [
         Container(width: 16, height: 16, color: AppColor.grades[index]),
-        Text('grade_$index').tr(),
+        const SizedBox(width: 5),
+        Expanded(child: Text('grade_$index').tr()),
       ],
     );
   }
@@ -18,7 +19,7 @@ class LevelGradesTip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text(LocaleKeys.gradesHintTitle).tr(),
+      title: const Text(LocaleKeys.gradesHintTitle, textAlign: TextAlign.center).tr(),
       titleTextStyle: Theme.of(context).textTheme.titleLarge,
       content: SingleChildScrollView(
         child: ListBody(
