@@ -45,3 +45,5 @@ final class DiceRollEvent extends GameEvent {}
 final class DiceStopEvent extends GameEvent {}
 
 final class NextRoundEvent extends GameEvent {}
+
+final class RematchEvent extends GameEvent {}

@@ -21,6 +21,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   GameBloc() : super(GameInitialState()) {
     on<NextRoundEvent>(_nextRound);
+    on<RematchEvent>(_rematch);
     on<LoadGameEvent>(_loadGameData);
     on<PlayerSaysEvent>(_playerSays);
     on<ProcessAnswerEvent>(_processAnswer);
@@ -28,6 +29,11 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<NextTurnEvent>(_turnMove);
     on<DiceRollEvent>(_diceRollStart);
     on<DiceStopEvent>(_diceRollStop);
+  }
+
+  Future<void> _rematch(RematchEvent event, Emitter<GameState> emit) async {
+    gameRepository.resetGame();
+    await _loadGameData(LoadGameEvent(gameRepository.langCode), emit);
   }
 
   Future<void> _nextRound(NextRoundEvent event, Emitter<GameState> emit) async {

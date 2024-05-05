@@ -28,6 +28,17 @@ class GameRepository {
 
   bool get isStarted => started;
 
+  void resetGame() {
+    round = 0;
+    roundScore = 0;
+    myScore = 0;
+    enemyScore = 0;
+    myAnswer = '';
+    enemyAnswer = '';
+
+    dev.log('Game has been reset');
+  }
+
   bool isFinalRound() {
     return round == points.length - 1;
   }

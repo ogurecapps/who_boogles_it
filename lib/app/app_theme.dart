@@ -34,7 +34,7 @@ class AppTheme {
           bodyMedium: TextStyle(
             fontFamily: 'SofiaSans',
             color: AppColor.colorScheme.primary,
-            fontSize: 18,
+            fontSize: 17,
             fontWeight: FontWeight.bold,
           ),
         ),
