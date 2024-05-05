@@ -9,6 +9,7 @@ import 'package:who_boogles_it/features/game/data/repositories/question_reposito
 import 'package:who_boogles_it/features/game/domain/repositories/question_repository.dart';
 import 'package:who_boogles_it/features/game/domain/use_cases/get_player_use_case.dart';
 import 'package:who_boogles_it/features/game/domain/use_cases/get_question_use_case.dart';
+import 'package:who_boogles_it/features/game/domain/use_cases/win_counter_use_case.dart';
 import 'package:who_boogles_it/features/profile/domain/use_cases/get_me_use_case.dart';
 import 'package:who_boogles_it/features/profile/domain/use_cases/set_my_name_use_case.dart';
 import 'package:who_boogles_it/shared/data/datasource/player_local_datasource.dart';
@@ -48,4 +49,6 @@ void provideUseCases() {
       () => GetQuestionUseCase(repository: locator.get<QuestionRepository>()));
   locator
       .registerFactory<GetPlayerUseCase>(() => GetPlayerUseCase(repository: locator.get<PlayerRepository>()));
+  locator.registerFactory<WinCounterUseCase>(
+      () => WinCounterUseCase(repository: locator.get<PlayerRepository>()));
 }

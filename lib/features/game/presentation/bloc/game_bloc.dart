@@ -1,3 +1,4 @@
+import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
@@ -9,6 +10,7 @@ import 'package:who_boogles_it/core/models/question.dart';
 import 'package:who_boogles_it/features/game/domain/repositories/game_repository.dart';
 import 'package:who_boogles_it/features/game/domain/use_cases/get_player_use_case.dart';
 import 'package:who_boogles_it/features/game/domain/use_cases/get_question_use_case.dart';
+import 'package:who_boogles_it/features/game/domain/use_cases/win_counter_use_case.dart';
 
 part 'game_event.dart';
 part 'game_state.dart';
@@ -18,6 +20,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   final GetQuestionUseCase _getQuestionUseCase = locator.get<GetQuestionUseCase>();
   final GetPlayerUseCase _getPlayerUseCase = locator.get<GetPlayerUseCase>();
+  final WinCounterUseCase _winCounterUseCase = locator.get<WinCounterUseCase>();
 
   GameBloc() : super(GameInitialState()) {
     on<NextRoundEvent>(_nextRound);
@@ -111,6 +114,11 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   Future<void> _gameOver(DieEvent event, Emitter<GameState> emit) async {
     final bool winnerIsMe = !event.isMe;
 
+    if (winnerIsMe) {
+      await _winCounterUseCase.execute(gameRepository.me);
+      dev.log('Win counter has increased. Current value: ${gameRepository.me.winCounter}');
+    }
+
     if (event.isBonusClaim) {
       emit(GetsBonusState(winnerIsMe));
       await Future.delayed(1800.ms);
@@ -161,28 +169,36 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   Future<void> _showFinalResults(Emitter<GameState> emit) async {
     emit(FinalCheckState());
-    // Open answers
+
     List<String> answer;
     bool skipDelay = false;
+    int myScore = 0, enemyScore = 0;
 
+    // Open answers
     for (int i = 0; i < gameRepository.rightAnswers.length; i++) {
       await Future.delayed(Duration(milliseconds: i == 0 ? 1500 : 2000));
       answer = gameRepository.rightAnswers[i].split(',');
       emit(OpenAnswerState(answer[0], true));
 
       if (answer.contains(gameRepository.enemyAnswer)) {
+        enemyScore = gameRepository.getPoints(i);
         await Future.delayed(100.ms);
-        emit(FinalRightAnswerState(gameRepository.getPoints(i), false, i + 1));
-        gameRepository.addPlayerScore(gameRepository.getPoints(i), false);
+        emit(FinalRightAnswerState(enemyScore, false, i + 1));
+        gameRepository.addPlayerScore(enemyScore, false);
         skipDelay = false;
       } else if (answer.contains(gameRepository.myAnswer)) {
+        myScore = gameRepository.getPoints(i);
         await Future.delayed(100.ms);
-        emit(FinalRightAnswerState(gameRepository.getPoints(i), true, i + 1));
-        gameRepository.addPlayerScore(gameRepository.getPoints(i), true);
+        emit(FinalRightAnswerState(myScore, true, i + 1));
+        gameRepository.addPlayerScore(myScore, true);
         skipDelay = false;
       } else {
         skipDelay = true;
       }
+    }
+    if (myScore > enemyScore) {
+      await _winCounterUseCase.execute(gameRepository.me);
+      dev.log('Win counter has increased. Current value: ${gameRepository.me.winCounter}');
     }
     if (!skipDelay) await Future.delayed(2000.ms);
     await _nextRound(NextRoundEvent(), emit);

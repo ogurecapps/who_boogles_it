@@ -61,7 +61,7 @@
     "checkAnswers": "Looking for answers in the list 🔍",
     "subtotals": "Subtotals:",
     "guessesLine": "guesses the line #",
-    "gameOverTitle": "coming through -",
-    "gameOverDraw": "The game ended in a draw -",
+    "gameOverTitle": "coming through",
+    "gameOverDraw": "The game ended in a draw",
     "gameOverStatus": "🏁 End of the game 🏁"
 }
