@@ -22,9 +22,8 @@ class NextRoundDialog extends StatefulWidget {
 }
 
 class _NextRoundDialogState extends State<NextRoundDialog> {
+  static const EdgeInsetsGeometry padding = EdgeInsets.symmetric(horizontal: 8, vertical: 4);
   TableRow buildTableRow(Player player, int roundScore, int totalScore) {
-    const EdgeInsetsGeometry padding = EdgeInsets.symmetric(horizontal: AppSize.defaultSpace / 2);
-
     return TableRow(
       children: [
         TableCell(
@@ -55,13 +54,22 @@ class _NextRoundDialogState extends State<NextRoundDialog> {
   TableRow buildTableHeader() {
     return TableRow(children: [
       TableCell(
-        child: const Text(LocaleKeys.columnName, textAlign: TextAlign.center).tr(),
+        child: Padding(
+          padding: padding,
+          child: const Text(LocaleKeys.columnName, textAlign: TextAlign.center).tr(),
+        ),
       ),
       TableCell(
-        child: const Text(LocaleKeys.columnRound, textAlign: TextAlign.center).tr(),
+        child: Padding(
+          padding: padding,
+          child: const Text(LocaleKeys.columnRound, textAlign: TextAlign.center).tr(),
+        ),
       ),
       TableCell(
-        child: const Text(LocaleKeys.columnTotal, textAlign: TextAlign.center).tr(),
+        child: Padding(
+          padding: padding,
+          child: const Text(LocaleKeys.columnTotal, textAlign: TextAlign.center).tr(),
+        ),
       ),
     ]);
   }
@@ -89,6 +97,7 @@ class _NextRoundDialogState extends State<NextRoundDialog> {
                   .animate()
                   .slideX(delay: 400.ms, duration: 400.ms, begin: 0.1, end: 0, curve: Curves.fastOutSlowIn)
                   .fadeIn(delay: 400.ms, duration: 400.ms),
+              const SizedBox(height: AppSize.defaultSpace / 2),
               Table(
                 border: TableBorder.all(color: Theme.of(context).primaryColor, width: AppSize.buttonBorder),
                 columnWidths: const <int, TableColumnWidth>{

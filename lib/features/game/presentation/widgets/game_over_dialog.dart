@@ -60,6 +60,7 @@ class GameOverDialog extends StatelessWidget {
                     .animate()
                     .slideY(delay: 600.ms, begin: 0.3, end: 0, curve: Curves.fastOutSlowIn)
                     .fadeIn(delay: 600.ms),
+                const SizedBox(height: AppSize.defaultSpace),
                 Text(
                   myScore == enemyScore
                       ? '${LocaleKeys.gameOverDraw.tr()} $myScore : $enemyScore'
@@ -69,7 +70,7 @@ class GameOverDialog extends StatelessWidget {
                     .animate()
                     .slideX(delay: 800.ms, duration: 400.ms, begin: 0.1, end: 0, curve: Curves.fastOutSlowIn)
                     .fadeIn(delay: 800.ms, duration: 400.ms),
-                const SizedBox(height: AppSize.defaultSpace),
+                const SizedBox(height: AppSize.defaultSpace * 2),
                 SizedBox(
                   width: AppSize.menuButtonWidth,
                   child: ElevatedButton.icon(

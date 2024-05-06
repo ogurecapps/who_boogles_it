@@ -89,14 +89,16 @@ class GameRepository {
         answer = answer.split(',')[0];
       }
     } else {
-      if (enemy.winCounter > 70) {
-        percent = 40; // Elite
-      } else if (enemy.winCounter > 40) {
-        percent = 45; // Expert
-      } else if (enemy.winCounter > 20) {
-        percent = 50; // Professional
-      } else if (enemy.winCounter > 4) {
-        percent = 55; // User
+      var level = (enemy.winCounter / 3).floor() + 1;
+
+      if (level > 70) {
+        percent = 46; // Elite
+      } else if (level > 40) {
+        percent = 48; // Expert
+      } else if (level > 20) {
+        percent = 56; // Professional
+      } else if (level > 4) {
+        percent = 58; // User
       }
 
       answer = (wrongAnswers.isEmpty ? true : random > percent)

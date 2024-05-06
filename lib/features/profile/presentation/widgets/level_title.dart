@@ -29,7 +29,7 @@ class LevelTitle extends StatelessWidget {
               boxShadow: [AppTheme.defaultBoxShadow],
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
               child: Text(
                 state is PlayerReadyState ? '${LocaleKeys.level.tr()} ${state.level}' : '',
                 textAlign: TextAlign.center,

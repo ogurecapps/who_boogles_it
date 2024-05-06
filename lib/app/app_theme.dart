@@ -9,32 +9,44 @@ class AppTheme {
     offset: const Offset(1, 1),
   );
 
+  static Object? getBackground() {
+    if (backName != '') {
+      return const DecorationImage(
+        image: AssetImage("assets/images/jpg/$backName.jpg"),
+        fit: BoxFit.cover,
+      );
+    }
+
+    return null;
+  }
+
+  static const String backName = 'back_02';
   static const BorderRadius defaultRadius = BorderRadius.all(Radius.circular(6));
 
   static ThemeData get light => ThemeData(
-        fontFamily: 'SofiaSans',
+        fontFamily: 'MainFont',
         useMaterial3: true,
         colorScheme: AppColor.colorScheme,
         textTheme: TextTheme(
           titleLarge: TextStyle(
-            fontFamily: 'SofiaSans',
+            fontFamily: 'MainFont',
             color: AppColor.colorScheme.primary,
-            fontSize: 25,
+            fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
           titleSmall: TextStyle(
             color: AppColor.colorScheme.onPrimary,
-            fontSize: 18,
+            fontSize: 17,
           ),
           bodySmall: TextStyle(
-            fontFamily: 'SofiaSans',
+            fontFamily: 'MainFont',
             color: AppColor.colorScheme.outline,
-            fontSize: 13,
+            fontSize: 12,
           ),
           bodyMedium: TextStyle(
-            fontFamily: 'SofiaSans',
+            fontFamily: 'MainFont',
             color: AppColor.colorScheme.primary,
-            fontSize: 17,
+            fontSize: 15,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -44,7 +56,7 @@ class AppTheme {
               TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                fontFamily: 'SofiaSans',
+                fontFamily: 'MainFont',
               ),
             ),
             padding: const MaterialStatePropertyAll(EdgeInsets.all(12)),

@@ -21,6 +21,7 @@ class PlayerLocalDatasourceImpl extends PlayerLocalDatasource {
       final me = await getMe();
       var enemyNickname = locator<NicknameGenerator>().getRandomNickname(exclude: me.nickname);
       final enemy = Player(nickname: enemyNickname);
+      enemy.setRandomLevel();
 
       return enemy;
     } else {

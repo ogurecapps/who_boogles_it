@@ -42,7 +42,7 @@ class AvatarAndName extends StatelessWidget {
                   borderRadius: AppTheme.defaultRadius,
                   boxShadow: [AppTheme.defaultBoxShadow]),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 child: state is PlayerReadyState
                     ? Text(
                         state.nickname,

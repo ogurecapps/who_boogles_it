@@ -70,7 +70,7 @@ class LanguageSelector extends StatelessWidget {
       style: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.bold,
-        fontFamily: 'SofiaSans',
+        fontFamily: 'MainFont',
         color: Theme.of(context).primaryColor,
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:who_boogles_it/app/app_size.dart';
+import 'package:who_boogles_it/app/app_theme.dart';
 import 'package:who_boogles_it/features/settings/presentation/widgets/settings_buttons.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
 import 'package:who_boogles_it/shared/presentation/screens/scaffold_wrapper.dart';
@@ -19,6 +20,7 @@ class _SettingsScreenState extends SingleAnimCtrlState {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWrapper(
+      background: AppTheme.getBackground(),
       body: Column(children: [
         const SettingsButtons(),
         SizedBox(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:who_boogles_it/app/app_size.dart';
+import 'package:who_boogles_it/app/app_theme.dart';
 import 'package:who_boogles_it/features/profile/presentation/widgets/profile_summary.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
 import 'package:who_boogles_it/shared/presentation/screens/scaffold_wrapper.dart';
@@ -14,6 +15,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScaffoldWrapper(
       resizeToAvoidBottomInset: false,
+      background: AppTheme.getBackground(),
       body: Column(
         children: [
           const ProfileSummary(),

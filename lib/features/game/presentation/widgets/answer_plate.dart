@@ -124,7 +124,7 @@ class _AnswerPlateState extends State<AnswerPlate> with SingleTickerProviderStat
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      right: 6, left: widget.points.toString().length > 1 ? 6 : 9), // Workaround
+                      right: 6, left: widget.points.toString().length > 1 ? 5 : 8), // Workaround
                   child: Text(
                     widget.points.toString(),
                     style: Theme.of(context).textTheme.titleSmall,

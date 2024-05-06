@@ -1,3 +1,5 @@
+import 'dart:developer' as dev;
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -26,6 +28,35 @@ class Player {
   Future<Player> buildAvatar(Size size) async {
     avatar = await AvatarGenerator(nickname, size.width, size.height).generate();
     return this;
+  }
+
+  void setRandomLevel() {
+    var level = 'Beginner';
+    if (Random().nextInt(100) < 50) {
+      winCounter = Random().nextInt(4) + 1; // Beginner
+    } else {
+      if (Random().nextInt(100) < 60) {
+        winCounter = 5 + Random().nextInt(20 - 4); // User
+        level = 'User';
+      } else {
+        if (Random().nextInt(100) < 60) {
+          winCounter = 21 + Random().nextInt(40 - 20); // Professional
+          level = 'Professional';
+        } else {
+          if (Random().nextInt(100) < 60) {
+            winCounter = 41 + Random().nextInt(70 - 40); // Expert
+            level = 'Expert';
+          } else {
+            winCounter = 71 + Random().nextInt(101 - 70); // Elite
+            level = 'Elite';
+          }
+        }
+      }
+    }
+
+    winCounter = winCounter * 3 - 1;
+    var levelInt = (winCounter / 3).floor() + 1;
+    dev.log('Set enemy win counter = $winCounter, level = $levelInt ($level)');
   }
 
   // One level every 3 win
