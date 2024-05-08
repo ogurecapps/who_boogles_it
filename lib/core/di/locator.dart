@@ -14,8 +14,14 @@ import 'package:who_boogles_it/features/profile/domain/use_cases/get_me_use_case
 import 'package:who_boogles_it/features/profile/domain/use_cases/set_my_name_use_case.dart';
 import 'package:who_boogles_it/shared/data/datasource/player_local_datasource.dart';
 import 'package:who_boogles_it/shared/data/datasource/player_local_datasource_impl.dart';
+import 'package:who_boogles_it/shared/data/datasource/setting_datasource.dart';
+import 'package:who_boogles_it/shared/data/datasource/setting_datasource_impl.dart';
 import 'package:who_boogles_it/shared/data/repositories/player_repository_impl.dart';
+import 'package:who_boogles_it/shared/data/repositories/setting_repository_impl.dart';
 import 'package:who_boogles_it/shared/domain/repositories/player_repository.dart';
+import 'package:who_boogles_it/shared/domain/repositories/setting_repository.dart';
+import 'package:who_boogles_it/shared/domain/use_cases/get_setting_use_case.dart';
+import 'package:who_boogles_it/shared/domain/use_cases/put_setting_use_case.dart';
 
 final locator = GetIt.I;
 
@@ -32,6 +38,7 @@ void provideDatasources() {
       () => PlayerLocalDatasourceImpl(db: locator.get<LocalDatabase>()));
   locator.registerFactory<QuestionLocalDatasource>(
       () => QuestionLocalDatasourceImpl(db: locator.get<LocalDatabase>()));
+  locator.registerFactory<SettingDatasource>(() => SettingDatasourceImpl(db: locator.get<LocalDatabase>()));
 }
 
 void provideRepositories() {
@@ -39,6 +46,8 @@ void provideRepositories() {
       () => PlayerRepositoryImpl(localDatasource: locator.get<PlayerLocalDatasource>()));
   locator.registerFactory<QuestionRepository>(
       () => QuestionRepositoryImpl(localDatasource: locator.get<QuestionLocalDatasource>()));
+  locator.registerFactory<SettingRepository>(
+      () => SettingRepositoryImpl(datasource: locator.get<SettingDatasource>()));
 }
 
 void provideUseCases() {
@@ -51,4 +60,8 @@ void provideUseCases() {
       .registerFactory<GetPlayerUseCase>(() => GetPlayerUseCase(repository: locator.get<PlayerRepository>()));
   locator.registerFactory<WinCounterUseCase>(
       () => WinCounterUseCase(repository: locator.get<PlayerRepository>()));
+  locator.registerFactory<GetSettingUseCase>(
+      () => GetSettingUseCase(repository: locator.get<SettingRepository>()));
+  locator.registerFactory<PutSettingUseCase>(
+      () => PutSettingUseCase(repository: locator.get<SettingRepository>()));
 }

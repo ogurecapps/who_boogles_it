@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWrapper(
-      background: AppTheme.getBackground(),
+      background: AppTheme.defaultBackground,
       body: Stack(
         children: [
           Container(

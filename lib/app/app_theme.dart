@@ -3,27 +3,20 @@ import 'package:who_boogles_it/app/app_color.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 
 class AppTheme {
-  static final BoxShadow defaultBoxShadow = BoxShadow(
+  static final defaultBoxShadow = BoxShadow(
     color: AppColor.colorScheme.shadow.withOpacity(0.7),
     blurRadius: 2,
     offset: const Offset(1, 1),
   );
 
-  static Object? getBackground() {
-    if (backName != '') {
-      return const DecorationImage(
-        image: AssetImage("assets/images/jpg/$backName.jpg"),
-        fit: BoxFit.cover,
-      );
-    }
+  static const defaultBackground = DecorationImage(
+    image: AssetImage("assets/images/jpg/back_01.jpg"),
+    fit: BoxFit.cover,
+  );
 
-    return null;
-  }
+  static const defaultRadius = BorderRadius.all(Radius.circular(6));
 
-  static const String backName = 'back_02';
-  static const BorderRadius defaultRadius = BorderRadius.all(Radius.circular(6));
-
-  static ThemeData get light => ThemeData(
+  static get light => ThemeData(
         fontFamily: 'MainFont',
         useMaterial3: true,
         colorScheme: AppColor.colorScheme,

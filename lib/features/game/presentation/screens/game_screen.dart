@@ -15,10 +15,10 @@ class GameScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => GameBloc()..add(LoadGameEvent(langCode)),
-      child: ScaffoldWrapper(
-        background: AppTheme.getBackground(),
+      child: const ScaffoldWrapper(
+        background: AppTheme.defaultBackground,
         padding: EdgeInsets.zero,
-        body: const GameBody(),
+        body: GameBody(),
       ),
     );
   }

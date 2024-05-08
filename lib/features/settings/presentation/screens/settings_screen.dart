@@ -20,7 +20,7 @@ class _SettingsScreenState extends SingleAnimCtrlState {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWrapper(
-      background: AppTheme.getBackground(),
+      background: AppTheme.defaultBackground,
       body: Column(children: [
         const SettingsButtons(),
         SizedBox(

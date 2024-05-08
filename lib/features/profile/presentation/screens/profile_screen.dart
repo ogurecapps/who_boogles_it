@@ -15,7 +15,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScaffoldWrapper(
       resizeToAvoidBottomInset: false,
-      background: AppTheme.getBackground(),
+      background: AppTheme.defaultBackground,
       body: Column(
         children: [
           const ProfileSummary(),
