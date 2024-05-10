@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get_it/get_it.dart';
+import 'package:wakelock/wakelock.dart';
 import 'package:who_boogles_it/core/database/local_database.dart';
 import 'package:who_boogles_it/core/database/local_database_impl.dart';
 import 'package:who_boogles_it/core/util/nickname_generator.dart';
@@ -24,6 +27,14 @@ import 'package:who_boogles_it/shared/domain/use_cases/get_setting_use_case.dart
 import 'package:who_boogles_it/shared/domain/use_cases/put_setting_use_case.dart';
 
 final locator = GetIt.I;
+
+Future<void> initApp() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Wakelock.enable();
+  await EasyLocalization.ensureInitialized();
+
+  Animate.restartOnHotReload = true;
+}
 
 Future<void> initSingletons() async {
   locator.registerLazySingleton<NicknameGenerator>(() => NicknameGenerator());
