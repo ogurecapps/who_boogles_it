@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "298087138346",
+    "project_id": "boogle-feud",
+    "storage_bucket": "boogle-feud.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:298087138346:android:562f39ab5ade695fe76f53",
+        "android_client_info": {
+          "package_name": "com.ogurecapps.who_boogles_it"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHxtoBBDv7Q4HWrBptSJK1IkxduXkiHDY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

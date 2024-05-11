@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get_it/get_it.dart';
@@ -15,6 +16,7 @@ import 'package:who_boogles_it/features/game/domain/use_cases/get_question_use_c
 import 'package:who_boogles_it/features/game/domain/use_cases/win_counter_use_case.dart';
 import 'package:who_boogles_it/features/profile/domain/use_cases/get_me_use_case.dart';
 import 'package:who_boogles_it/features/profile/domain/use_cases/set_my_name_use_case.dart';
+import 'package:who_boogles_it/firebase_options.dart';
 import 'package:who_boogles_it/shared/data/datasource/player_local_datasource.dart';
 import 'package:who_boogles_it/shared/data/datasource/player_local_datasource_impl.dart';
 import 'package:who_boogles_it/shared/data/datasource/setting_datasource.dart';
@@ -32,6 +34,7 @@ Future<void> initApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   Wakelock.enable();
   await EasyLocalization.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   Animate.restartOnHotReload = true;
 }

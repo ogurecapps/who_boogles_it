@@ -1,4 +1,3 @@
-import 'dart:developer' as dev;
 import 'dart:math';
 import 'dart:ui';
 
@@ -6,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:isar/isar.dart';
 import 'package:who_boogles_it/app/app_color.dart';
+import 'package:who_boogles_it/core/util/analytics_engine.dart';
 import 'package:who_boogles_it/core/util/avatar_generator.dart';
 
 part 'player.g.dart';
@@ -55,8 +55,15 @@ class Player {
     }
 
     winCounter = winCounter * 3 - 1;
-    var levelInt = (winCounter / 3).floor() + 1;
-    dev.log('Set enemy win counter = $winCounter, level = $levelInt ($level)');
+
+    AnalyticsEngine.logEvent(
+      name: 'Get enemy',
+      parameters: {
+        'name': nickname,
+        'wins': winCounter,
+        'level': level,
+      },
+    );
   }
 
   // One level every 3 win
