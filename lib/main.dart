@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:who_boogles_it/app/app_theme.dart';
 import 'package:who_boogles_it/core/di/locator.dart';
 import 'package:who_boogles_it/core/routes/app_router.dart';
@@ -8,6 +9,7 @@ import 'package:who_boogles_it/generated/locale_keys.g.dart';
 
 void main() async {
   await initApp();
+  await enableCrashlytics();
   await initSingletons();
 
   provideDatasources();
@@ -15,6 +17,7 @@ void main() async {
   provideUseCases();
 
   AnalyticsEngine.logAppOpen();
+  Animate.restartOnHotReload = true;
 
   runApp(
     EasyLocalization(
