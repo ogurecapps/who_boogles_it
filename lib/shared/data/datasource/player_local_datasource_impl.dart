@@ -5,6 +5,7 @@ import 'package:who_boogles_it/core/database/local_database.dart';
 import 'package:who_boogles_it/core/di/locator.dart';
 import 'package:who_boogles_it/core/models/player.dart';
 import 'package:who_boogles_it/core/util/nickname_generator.dart';
+import 'package:who_boogles_it/core/util/performance_trace.dart';
 import 'package:who_boogles_it/shared/data/datasource/player_local_datasource.dart';
 
 class PlayerLocalDatasourceImpl extends PlayerLocalDatasource {
@@ -14,6 +15,7 @@ class PlayerLocalDatasourceImpl extends PlayerLocalDatasource {
 
   @override
   Future<Player> getEnemy() async {
+    final PerformanceTrace trace = PerformanceTrace(traceName: 'get-enemy-trace');
     final players = await db.getDb().players.where().isMeEqualTo(false).findAll();
 
     if (players.isEmpty) {
@@ -23,20 +25,26 @@ class PlayerLocalDatasourceImpl extends PlayerLocalDatasource {
       final enemy = Player(nickname: enemyNickname);
       enemy.setRandomLevel();
 
+      trace.stop(attributes: {'generating': 'true'});
       return enemy;
     } else {
+      trace.stop(attributes: {'generating': 'false'});
       return players[Random().nextInt(players.length)];
     }
   }
 
   @override
   Future<Player> getMe() async {
+    final PerformanceTrace trace = PerformanceTrace(traceName: 'get-me-trace');
     var me = await db.getDb().players.where().isMeEqualTo(true).findFirst();
 
     if (me == null) {
       var nickname = locator<NicknameGenerator>().getRandomNickname();
       me = Player(nickname: nickname, isMe: true);
       await putPlayer(me);
+      trace.stop(attributes: {'generating': 'true'});
+    } else {
+      trace.stop(attributes: {'generating': 'false'});
     }
 
     return me;

@@ -92,9 +92,9 @@ class GameRepository {
       var level = (enemy.winCounter / 3).floor() + 1;
 
       if (level > 70) {
-        percent = 46; // Elite
+        percent = 42; // Elite
       } else if (level > 40) {
-        percent = 48; // Expert
+        percent = 46; // Expert
       } else if (level > 20) {
         percent = 56; // Professional
       } else if (level > 4) {

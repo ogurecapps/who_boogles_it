@@ -39,11 +39,11 @@ class Player {
         winCounter = 5 + Random().nextInt(20 - 4); // User
         level = 'User';
       } else {
-        if (Random().nextInt(100) < 60) {
+        if (Random().nextInt(100) < 70) {
           winCounter = 21 + Random().nextInt(40 - 20); // Professional
           level = 'Professional';
         } else {
-          if (Random().nextInt(100) < 60) {
+          if (Random().nextInt(100) < 70) {
             winCounter = 41 + Random().nextInt(70 - 40); // Expert
             level = 'Expert';
           } else {
