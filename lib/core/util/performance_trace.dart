@@ -5,10 +5,11 @@ class PerformanceTrace {
   Trace? trace;
 
   PerformanceTrace({required String traceName}) {
-    if (isMobile) {
-      trace = FirebasePerformance.instance.newTrace(traceName);
-      trace!.start();
-    }
+    if (isMobile) trace = FirebasePerformance.instance.newTrace(traceName);
+  }
+
+  Future<void> start() async {
+    trace?.start();
   }
 
   Future<void> stop({Map<String, String>? attributes}) async {

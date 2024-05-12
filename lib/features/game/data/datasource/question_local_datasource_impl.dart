@@ -13,12 +13,13 @@ class QuestionLocalDatasourceImpl extends QuestionLocalDatasource {
   @override
   Future<Question> getNextQuestion(String langCode) async {
     final PerformanceTrace trace = PerformanceTrace(traceName: 'get-next-question-trace');
+    await trace.start();
 
     var question =
         await db.getDb().questions.where().langCodeEqualTo(langCode).sortByLastPlayed().findFirst();
 
     if (question == null) {
-      trace.stop(attributes: {'found': 'false'});
+      await trace.stop(attributes: {'found': 'false'});
       AnalyticsEngine.logEvent(name: 'No questions found', parameters: {'langCode': langCode});
 
       throw Exception('No questions found');
@@ -28,7 +29,7 @@ class QuestionLocalDatasourceImpl extends QuestionLocalDatasource {
       await putQuestion(question);
     }
 
-    trace.stop(attributes: {'found': 'true'});
+    await trace.stop(attributes: {'found': 'true'});
     return question;
   }
 

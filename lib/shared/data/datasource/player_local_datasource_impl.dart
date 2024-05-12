@@ -16,6 +16,8 @@ class PlayerLocalDatasourceImpl extends PlayerLocalDatasource {
   @override
   Future<Player> getEnemy() async {
     final PerformanceTrace trace = PerformanceTrace(traceName: 'get-enemy-trace');
+    await trace.start();
+
     final players = await db.getDb().players.where().isMeEqualTo(false).findAll();
 
     if (players.isEmpty) {
@@ -25,10 +27,10 @@ class PlayerLocalDatasourceImpl extends PlayerLocalDatasource {
       final enemy = Player(nickname: enemyNickname);
       enemy.setRandomLevel();
 
-      trace.stop(attributes: {'generating': 'true'});
+      await trace.stop(attributes: {'generating': 'true'});
       return enemy;
     } else {
-      trace.stop(attributes: {'generating': 'false'});
+      await trace.stop(attributes: {'generating': 'false'});
       return players[Random().nextInt(players.length)];
     }
   }
@@ -36,15 +38,17 @@ class PlayerLocalDatasourceImpl extends PlayerLocalDatasource {
   @override
   Future<Player> getMe() async {
     final PerformanceTrace trace = PerformanceTrace(traceName: 'get-me-trace');
+    await trace.start();
+
     var me = await db.getDb().players.where().isMeEqualTo(true).findFirst();
 
     if (me == null) {
       var nickname = locator<NicknameGenerator>().getRandomNickname();
       me = Player(nickname: nickname, isMe: true);
       await putPlayer(me);
-      trace.stop(attributes: {'generating': 'true'});
+      await trace.stop(attributes: {'generating': 'true'});
     } else {
-      trace.stop(attributes: {'generating': 'false'});
+      await trace.stop(attributes: {'generating': 'false'});
     }
 
     return me;
