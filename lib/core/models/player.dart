@@ -14,7 +14,7 @@ typedef LevelStats = ({int level, int progress, Color grade});
 
 @collection
 class Player {
-  Id isarId = Isar.autoIncrement;
+  Id id = Isar.autoIncrement;
   @Index(unique: true, replace: true)
   String nickname;
   @Index()
