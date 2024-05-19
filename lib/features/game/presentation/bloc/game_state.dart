@@ -9,6 +9,8 @@ sealed class GameState extends Equatable {
 
 final class GameInitialState extends GameState {}
 
+final class UpdateDatabaseState extends GameState {}
+
 final class EnemySearchStartState extends GameState {
   final Player enemy;
 

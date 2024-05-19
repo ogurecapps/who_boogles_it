@@ -1,3 +1,5 @@
+# Global variables
+*.env
 # Miscellaneous
 *.class
 *.log

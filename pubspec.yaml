@@ -37,6 +37,8 @@ dependencies:
   firebase_analytics: ^10.10.5
   firebase_crashlytics: ^3.5.5
   firebase_performance: ^0.9.4+5
+  supabase_flutter: ^2.5.3
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   integration_test:
@@ -57,6 +59,7 @@ flutter:
     - assets/images/svg/
     - assets/translations/
     - assets/anim/
+    - .env
 
   fonts:
     - family: MainFont

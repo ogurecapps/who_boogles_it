@@ -12,3 +12,7 @@ dart run flutter_native_splash:create
 
 // build_runner (models)
 flutter packages pub run build_runner build
+
+# .env:
+SUPABASE_URL=xxx
+SUPABASE_API_KEY=xxx

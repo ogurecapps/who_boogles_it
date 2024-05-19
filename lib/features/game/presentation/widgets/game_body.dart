@@ -15,6 +15,7 @@ import 'package:who_boogles_it/features/game/presentation/widgets/next_round_dia
 import 'package:who_boogles_it/features/game/presentation/widgets/player_view.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/search_field.dart';
 import 'package:who_boogles_it/features/game/presentation/widgets/status_text.dart';
+import 'package:who_boogles_it/features/game/presentation/widgets/update_database.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
 
 class GameBody extends StatelessWidget {
@@ -71,7 +72,9 @@ class GameBody extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state is EnemySearchStartState) {
+        if (state is UpdateDatabaseState) {
+          return const UpdateDatabase();
+        } else if (state is EnemySearchStartState) {
           return EnemySearch(enemy: state.enemy);
         } else if (state is GameErrorState) {
           return const ErrorDialog();
