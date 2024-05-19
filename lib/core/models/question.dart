@@ -4,7 +4,7 @@ part 'question.g.dart';
 
 @collection
 class Question {
-  Id isarId = Isar.autoIncrement;
+  Id id;
   String text;
   List<String> rightAnswers;
   List<String> wrongAnswers;
@@ -13,6 +13,11 @@ class Question {
   @Index()
   String langCode;
 
-  Question(
-      {required this.text, required this.rightAnswers, required this.wrongAnswers, required this.langCode});
+  Question({
+    required this.id,
+    required this.text,
+    required this.rightAnswers,
+    required this.wrongAnswers,
+    required this.langCode,
+  });
 }

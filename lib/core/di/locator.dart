@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get_it/get_it.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:who_boogles_it/core/database/local_database.dart';
@@ -15,6 +19,7 @@ import 'package:who_boogles_it/features/game/domain/use_cases/get_question_use_c
 import 'package:who_boogles_it/features/game/domain/use_cases/win_counter_use_case.dart';
 import 'package:who_boogles_it/features/profile/domain/use_cases/get_me_use_case.dart';
 import 'package:who_boogles_it/features/profile/domain/use_cases/set_my_name_use_case.dart';
+import 'package:who_boogles_it/firebase_options.dart';
 import 'package:who_boogles_it/shared/data/datasource/player_local_datasource.dart';
 import 'package:who_boogles_it/shared/data/datasource/player_local_datasource_impl.dart';
 import 'package:who_boogles_it/shared/data/datasource/setting_datasource.dart';
@@ -27,13 +32,13 @@ import 'package:who_boogles_it/shared/domain/use_cases/get_setting_use_case.dart
 import 'package:who_boogles_it/shared/domain/use_cases/put_setting_use_case.dart';
 
 final locator = GetIt.I;
+final bool isMobile = !kIsWeb && (Platform.isAndroid || Platform.isIOS);
 
 Future<void> initApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   Wakelock.enable();
   await EasyLocalization.ensureInitialized();
-
-  Animate.restartOnHotReload = true;
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 }
 
 Future<void> initSingletons() async {
@@ -42,6 +47,21 @@ Future<void> initSingletons() async {
   locator.registerLazySingleton<RouteObserver<ModalRoute>>(() => RouteObserver<ModalRoute>());
 
   await locator<LocalDatabase>().initDb();
+}
+
+Future<void> enableCrashlytics() async {
+  if (!isMobile) return;
+
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+
+  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(!kDebugMode);
 }
 
 void provideDatasources() {

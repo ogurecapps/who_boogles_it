@@ -4,7 +4,7 @@ part 'setting.g.dart';
 
 @collection
 class Setting {
-  Id isarId = Isar.autoIncrement;
+  Id id = Isar.autoIncrement;
   @Index(unique: true, replace: true)
   String key;
   String value;

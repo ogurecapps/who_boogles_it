@@ -1,4 +1,3 @@
-import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
@@ -7,6 +6,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:who_boogles_it/core/di/locator.dart';
 import 'package:who_boogles_it/core/models/player.dart';
 import 'package:who_boogles_it/core/models/question.dart';
+import 'package:who_boogles_it/core/util/analytics_engine.dart';
+import 'package:who_boogles_it/core/util/logger.dart';
 import 'package:who_boogles_it/features/game/domain/repositories/game_repository.dart';
 import 'package:who_boogles_it/features/game/domain/use_cases/get_player_use_case.dart';
 import 'package:who_boogles_it/features/game/domain/use_cases/get_question_use_case.dart';
@@ -46,6 +47,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       await _loadGameData(LoadGameEvent(gameRepository.langCode), emit);
     } else {
       // End of the game
+      AnalyticsEngine.logLevelEnd(
+          levelName: 'Game session', success: gameRepository.myScore > gameRepository.enemyScore ? 1 : 0);
+
       emit(const GameOverState());
       await Future.delayed(3000.ms);
       emit(GameInitialState());
@@ -116,7 +120,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
     if (winnerIsMe) {
       await _winCounterUseCase.execute(gameRepository.me);
-      dev.log('Win counter has increased. Current value: ${gameRepository.me.winCounter}');
+      Logger.print('Win counter has increased. Current value: ${gameRepository.me.winCounter}');
     }
 
     if (event.isBonusClaim) {
@@ -198,7 +202,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     }
     if (myScore > enemyScore) {
       await _winCounterUseCase.execute(gameRepository.me);
-      dev.log('Win counter has increased. Current value: ${gameRepository.me.winCounter}');
+      Logger.print('Win counter has increased. Current value: ${gameRepository.me.winCounter}');
     }
     if (!skipDelay) await Future.delayed(2000.ms);
     await _nextRound(NextRoundEvent(), emit);
@@ -229,6 +233,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   Future<void> _loadGameData(LoadGameEvent event, Emitter<GameState> emit) async {
     if (!gameRepository.isStarted) {
+      AnalyticsEngine.logLevelStart(levelName: 'Game session');
+
       final Player me = await _getPlayerUseCase.execute(true);
       final Player enemy = await _getPlayerUseCase.execute(false);
 

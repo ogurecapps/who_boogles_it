@@ -47,7 +47,7 @@ const QuestionSchema = CollectionSchema(
   serialize: _questionSerialize,
   deserialize: _questionDeserialize,
   deserializeProp: _questionDeserializeProp,
-  idName: r'isarId',
+  idName: r'id',
   indexes: {
     r'lastPlayed': IndexSchema(
       id: -8420677377986255979,
@@ -129,12 +129,12 @@ Question _questionDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Question(
+    id: id,
     langCode: reader.readString(offsets[0]),
     rightAnswers: reader.readStringList(offsets[2]) ?? [],
     text: reader.readString(offsets[3]),
     wrongAnswers: reader.readStringList(offsets[4]) ?? [],
   );
-  object.isarId = id;
   object.lastPlayed = reader.readDateTimeOrNull(offsets[1]);
   return object;
 }
@@ -162,7 +162,7 @@ P _questionDeserializeProp<P>(
 }
 
 Id _questionGetId(Question object) {
-  return object.isarId;
+  return object.id;
 }
 
 List<IsarLinkBase<dynamic>> _questionGetLinks(Question object) {
@@ -170,11 +170,11 @@ List<IsarLinkBase<dynamic>> _questionGetLinks(Question object) {
 }
 
 void _questionAttach(IsarCollection<dynamic> col, Id id, Question object) {
-  object.isarId = id;
+  object.id = id;
 }
 
 extension QuestionQueryWhereSort on QueryBuilder<Question, Question, QWhere> {
-  QueryBuilder<Question, Question, QAfterWhere> anyIsarId() {
+  QueryBuilder<Question, Question, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
@@ -190,68 +190,66 @@ extension QuestionQueryWhereSort on QueryBuilder<Question, Question, QWhere> {
 }
 
 extension QuestionQueryWhere on QueryBuilder<Question, Question, QWhereClause> {
-  QueryBuilder<Question, Question, QAfterWhereClause> isarIdEqualTo(Id isarId) {
+  QueryBuilder<Question, Question, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: isarId,
-        upper: isarId,
+        lower: id,
+        upper: id,
       ));
     });
   }
 
-  QueryBuilder<Question, Question, QAfterWhereClause> isarIdNotEqualTo(
-      Id isarId) {
+  QueryBuilder<Question, Question, QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(
-              IdWhereClause.lessThan(upper: isarId, includeUpper: false),
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
             )
             .addWhereClause(
-              IdWhereClause.greaterThan(lower: isarId, includeLower: false),
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
             );
       } else {
         return query
             .addWhereClause(
-              IdWhereClause.greaterThan(lower: isarId, includeLower: false),
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
             )
             .addWhereClause(
-              IdWhereClause.lessThan(upper: isarId, includeUpper: false),
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
             );
       }
     });
   }
 
-  QueryBuilder<Question, Question, QAfterWhereClause> isarIdGreaterThan(
-      Id isarId,
+  QueryBuilder<Question, Question, QAfterWhereClause> idGreaterThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: isarId, includeLower: include),
+        IdWhereClause.greaterThan(lower: id, includeLower: include),
       );
     });
   }
 
-  QueryBuilder<Question, Question, QAfterWhereClause> isarIdLessThan(Id isarId,
+  QueryBuilder<Question, Question, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.lessThan(upper: isarId, includeUpper: include),
+        IdWhereClause.lessThan(upper: id, includeUpper: include),
       );
     });
   }
 
-  QueryBuilder<Question, Question, QAfterWhereClause> isarIdBetween(
-    Id lowerIsarId,
-    Id upperIsarId, {
+  QueryBuilder<Question, Question, QAfterWhereClause> idBetween(
+    Id lowerId,
+    Id upperId, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: lowerIsarId,
+        lower: lowerId,
         includeLower: includeLower,
-        upper: upperIsarId,
+        upper: upperId,
         includeUpper: includeUpper,
       ));
     });
@@ -415,43 +413,42 @@ extension QuestionQueryWhere on QueryBuilder<Question, Question, QWhereClause> {
 
 extension QuestionQueryFilter
     on QueryBuilder<Question, Question, QFilterCondition> {
-  QueryBuilder<Question, Question, QAfterFilterCondition> isarIdEqualTo(
-      Id value) {
+  QueryBuilder<Question, Question, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'isarId',
+        property: r'id',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<Question, Question, QAfterFilterCondition> isarIdGreaterThan(
+  QueryBuilder<Question, Question, QAfterFilterCondition> idGreaterThan(
     Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'isarId',
+        property: r'id',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<Question, Question, QAfterFilterCondition> isarIdLessThan(
+  QueryBuilder<Question, Question, QAfterFilterCondition> idLessThan(
     Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'isarId',
+        property: r'id',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<Question, Question, QAfterFilterCondition> isarIdBetween(
+  QueryBuilder<Question, Question, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -459,7 +456,7 @@ extension QuestionQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'isarId',
+        property: r'id',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1295,15 +1292,15 @@ extension QuestionQuerySortBy on QueryBuilder<Question, Question, QSortBy> {
 
 extension QuestionQuerySortThenBy
     on QueryBuilder<Question, Question, QSortThenBy> {
-  QueryBuilder<Question, Question, QAfterSortBy> thenByIsarId() {
+  QueryBuilder<Question, Question, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isarId', Sort.asc);
+      return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<Question, Question, QAfterSortBy> thenByIsarIdDesc() {
+  QueryBuilder<Question, Question, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isarId', Sort.desc);
+      return query.addSortBy(r'id', Sort.desc);
     });
   }
 
@@ -1381,9 +1378,9 @@ extension QuestionQueryWhereDistinct
 
 extension QuestionQueryProperty
     on QueryBuilder<Question, Question, QQueryProperty> {
-  QueryBuilder<Question, int, QQueryOperations> isarIdProperty() {
+  QueryBuilder<Question, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'isarId');
+      return query.addPropertyName(r'id');
     });
   }
 

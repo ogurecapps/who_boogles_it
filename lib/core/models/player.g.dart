@@ -37,7 +37,7 @@ const PlayerSchema = CollectionSchema(
   serialize: _playerSerialize,
   deserialize: _playerDeserialize,
   deserializeProp: _playerDeserializeProp,
-  idName: r'isarId',
+  idName: r'id',
   indexes: {
     r'nickname': IndexSchema(
       id: 4062737668634095984,
@@ -106,7 +106,7 @@ Player _playerDeserialize(
     nickname: reader.readString(offsets[1]),
     winCounter: reader.readLongOrNull(offsets[2]) ?? 0,
   );
-  object.isarId = id;
+  object.id = id;
   return object;
 }
 
@@ -129,7 +129,7 @@ P _playerDeserializeProp<P>(
 }
 
 Id _playerGetId(Player object) {
-  return object.isarId;
+  return object.id;
 }
 
 List<IsarLinkBase<dynamic>> _playerGetLinks(Player object) {
@@ -137,7 +137,7 @@ List<IsarLinkBase<dynamic>> _playerGetLinks(Player object) {
 }
 
 void _playerAttach(IsarCollection<dynamic> col, Id id, Player object) {
-  object.isarId = id;
+  object.id = id;
 }
 
 extension PlayerByIndex on IsarCollection<Player> {
@@ -195,7 +195,7 @@ extension PlayerByIndex on IsarCollection<Player> {
 }
 
 extension PlayerQueryWhereSort on QueryBuilder<Player, Player, QWhere> {
-  QueryBuilder<Player, Player, QAfterWhere> anyIsarId() {
+  QueryBuilder<Player, Player, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
@@ -211,66 +211,66 @@ extension PlayerQueryWhereSort on QueryBuilder<Player, Player, QWhere> {
 }
 
 extension PlayerQueryWhere on QueryBuilder<Player, Player, QWhereClause> {
-  QueryBuilder<Player, Player, QAfterWhereClause> isarIdEqualTo(Id isarId) {
+  QueryBuilder<Player, Player, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: isarId,
-        upper: isarId,
+        lower: id,
+        upper: id,
       ));
     });
   }
 
-  QueryBuilder<Player, Player, QAfterWhereClause> isarIdNotEqualTo(Id isarId) {
+  QueryBuilder<Player, Player, QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(
-              IdWhereClause.lessThan(upper: isarId, includeUpper: false),
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
             )
             .addWhereClause(
-              IdWhereClause.greaterThan(lower: isarId, includeLower: false),
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
             );
       } else {
         return query
             .addWhereClause(
-              IdWhereClause.greaterThan(lower: isarId, includeLower: false),
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
             )
             .addWhereClause(
-              IdWhereClause.lessThan(upper: isarId, includeUpper: false),
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
             );
       }
     });
   }
 
-  QueryBuilder<Player, Player, QAfterWhereClause> isarIdGreaterThan(Id isarId,
+  QueryBuilder<Player, Player, QAfterWhereClause> idGreaterThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: isarId, includeLower: include),
+        IdWhereClause.greaterThan(lower: id, includeLower: include),
       );
     });
   }
 
-  QueryBuilder<Player, Player, QAfterWhereClause> isarIdLessThan(Id isarId,
+  QueryBuilder<Player, Player, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.lessThan(upper: isarId, includeUpper: include),
+        IdWhereClause.lessThan(upper: id, includeUpper: include),
       );
     });
   }
 
-  QueryBuilder<Player, Player, QAfterWhereClause> isarIdBetween(
-    Id lowerIsarId,
-    Id upperIsarId, {
+  QueryBuilder<Player, Player, QAfterWhereClause> idBetween(
+    Id lowerId,
+    Id upperId, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: lowerIsarId,
+        lower: lowerId,
         includeLower: includeLower,
-        upper: upperIsarId,
+        upper: upperId,
         includeUpper: includeUpper,
       ));
     });
@@ -366,51 +366,42 @@ extension PlayerQueryWhere on QueryBuilder<Player, Player, QWhereClause> {
 }
 
 extension PlayerQueryFilter on QueryBuilder<Player, Player, QFilterCondition> {
-  QueryBuilder<Player, Player, QAfterFilterCondition> isMeEqualTo(bool value) {
+  QueryBuilder<Player, Player, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'isMe',
+        property: r'id',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<Player, Player, QAfterFilterCondition> isarIdEqualTo(Id value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'isarId',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Player, Player, QAfterFilterCondition> isarIdGreaterThan(
+  QueryBuilder<Player, Player, QAfterFilterCondition> idGreaterThan(
     Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'isarId',
+        property: r'id',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<Player, Player, QAfterFilterCondition> isarIdLessThan(
+  QueryBuilder<Player, Player, QAfterFilterCondition> idLessThan(
     Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'isarId',
+        property: r'id',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<Player, Player, QAfterFilterCondition> isarIdBetween(
+  QueryBuilder<Player, Player, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -418,11 +409,20 @@ extension PlayerQueryFilter on QueryBuilder<Player, Player, QFilterCondition> {
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'isarId',
+        property: r'id',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Player, Player, QAfterFilterCondition> isMeEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isMe',
+        value: value,
       ));
     });
   }
@@ -654,6 +654,18 @@ extension PlayerQuerySortBy on QueryBuilder<Player, Player, QSortBy> {
 }
 
 extension PlayerQuerySortThenBy on QueryBuilder<Player, Player, QSortThenBy> {
+  QueryBuilder<Player, Player, QAfterSortBy> thenById() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Player, Player, QAfterSortBy> thenByIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.desc);
+    });
+  }
+
   QueryBuilder<Player, Player, QAfterSortBy> thenByIsMe() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isMe', Sort.asc);
@@ -663,18 +675,6 @@ extension PlayerQuerySortThenBy on QueryBuilder<Player, Player, QSortThenBy> {
   QueryBuilder<Player, Player, QAfterSortBy> thenByIsMeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isMe', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Player, Player, QAfterSortBy> thenByIsarId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isarId', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Player, Player, QAfterSortBy> thenByIsarIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isarId', Sort.desc);
     });
   }
 
@@ -725,9 +725,9 @@ extension PlayerQueryWhereDistinct on QueryBuilder<Player, Player, QDistinct> {
 }
 
 extension PlayerQueryProperty on QueryBuilder<Player, Player, QQueryProperty> {
-  QueryBuilder<Player, int, QQueryOperations> isarIdProperty() {
+  QueryBuilder<Player, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'isarId');
+      return query.addPropertyName(r'id');
     });
   }
 

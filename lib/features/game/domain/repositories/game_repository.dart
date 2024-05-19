@@ -1,8 +1,8 @@
-import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:who_boogles_it/core/models/player.dart';
 import 'package:who_boogles_it/core/models/question.dart';
+import 'package:who_boogles_it/core/util/logger.dart';
 
 class GameRepository {
   static const points = [
@@ -36,7 +36,7 @@ class GameRepository {
     myAnswer = '';
     enemyAnswer = '';
 
-    dev.log('Game has been reset');
+    Logger.print('Game has been reset');
   }
 
   bool isFinalRound() {
@@ -45,7 +45,7 @@ class GameRepository {
 
   bool isAnswersReceived() {
     var complete = myAnswer != '' && enemyAnswer != '';
-    if (complete) dev.log('All answers have been received. AI: "$enemyAnswer". Player: "$myAnswer"');
+    if (complete) Logger.print('All answers have been received. AI: "$enemyAnswer". Player: "$myAnswer"');
     return complete;
   }
 
@@ -92,9 +92,9 @@ class GameRepository {
       var level = (enemy.winCounter / 3).floor() + 1;
 
       if (level > 70) {
-        percent = 46; // Elite
+        percent = 42; // Elite
       } else if (level > 40) {
-        percent = 48; // Expert
+        percent = 46; // Expert
       } else if (level > 20) {
         percent = 56; // Professional
       } else if (level > 4) {
@@ -106,7 +106,7 @@ class GameRepository {
           : wrongAnswers[Random().nextInt(wrongAnswers.length)];
     }
 
-    dev.log('AI say: $answer (${random > percent ? 'no cheat' : '$percent% cheat'})');
+    Logger.print('AI say: $answer (${random > percent ? 'no cheat' : '$percent% cheat'})');
     return answer;
   }
 
@@ -139,14 +139,14 @@ class GameRepository {
 
   int enemyDiceRoll() {
     diceEnemy = Random().nextInt(6);
-    dev.log('AI got the number ${diceEnemy + 1}');
+    Logger.print('AI got the number ${diceEnemy + 1}');
     return diceEnemy;
   }
 
   int myDiceRoll() {
     if (Random().nextInt(100) < 53) {
       var diceMe = diceEnemy + Random().nextInt(6 - diceEnemy);
-      dev.log('Player got the number ${diceMe + 1} (53% cheat)');
+      Logger.print('Player got the number ${diceMe + 1} (53% cheat)');
       return diceMe;
     }
 
@@ -154,17 +154,17 @@ class GameRepository {
     while (diceMe == diceEnemy) {
       diceMe = Random().nextInt(6);
     }
-    dev.log('Player got the number ${diceMe + 1} (no cheat)');
+    Logger.print('Player got the number ${diceMe + 1} (no cheat)');
     return diceMe;
   }
 
   void payWin(bool winnerIsMe) {
     if (winnerIsMe) {
       myScore += roundScore;
-      dev.log('${me.nickname} got a fund of round ($roundScore)');
+      Logger.print('${me.nickname} got a fund of round ($roundScore)');
     } else {
       enemyScore += roundScore;
-      dev.log('${enemy.nickname} got a fund of round ($roundScore)');
+      Logger.print('${enemy.nickname} got a fund of round ($roundScore)');
     }
   }
 
@@ -180,13 +180,13 @@ class GameRepository {
     this.enemy = enemy;
     this.langCode = langCode;
 
-    dev.log('Game started. ${this.me.nickname} vs ${this.enemy.nickname}');
+    Logger.print('Game started. ${this.me.nickname} vs ${this.enemy.nickname}');
     started = true;
   }
 
   void setQuestion(Question question) {
     rightAnswers = List.from(question.rightAnswers);
     wrongAnswers = List.from(question.wrongAnswers);
-    dev.log('Round ${round + 1}. Question is: "${question.text} ..."');
+    Logger.print('Round ${round + 1}. Question is: "${question.text} ..."');
   }
 }

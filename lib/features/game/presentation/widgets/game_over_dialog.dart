@@ -96,6 +96,7 @@ class GameOverDialog extends StatelessWidget {
                         curve: Curves.fastOutSlowIn,
                       ),
                 ),
+                const SizedBox(height: AppSize.defaultSpace),
               ],
             ),
           ),
