@@ -27,18 +27,23 @@ const QuestionSchema = CollectionSchema(
       name: r'lastPlayed',
       type: IsarType.dateTime,
     ),
-    r'rightAnswers': PropertySchema(
+    r'questionId': PropertySchema(
       id: 2,
+      name: r'questionId',
+      type: IsarType.long,
+    ),
+    r'rightAnswers': PropertySchema(
+      id: 3,
       name: r'rightAnswers',
       type: IsarType.stringList,
     ),
     r'text': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'text',
       type: IsarType.string,
     ),
     r'wrongAnswers': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'wrongAnswers',
       type: IsarType.stringList,
     )
@@ -49,6 +54,19 @@ const QuestionSchema = CollectionSchema(
   deserializeProp: _questionDeserializeProp,
   idName: r'id',
   indexes: {
+    r'questionId': IndexSchema(
+      id: 5032123391997384121,
+      name: r'questionId',
+      unique: true,
+      replace: true,
+      properties: [
+        IndexPropertySchema(
+          name: r'questionId',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
+    ),
     r'lastPlayed': IndexSchema(
       id: -8420677377986255979,
       name: r'lastPlayed',
@@ -117,9 +135,10 @@ void _questionSerialize(
 ) {
   writer.writeString(offsets[0], object.langCode);
   writer.writeDateTime(offsets[1], object.lastPlayed);
-  writer.writeStringList(offsets[2], object.rightAnswers);
-  writer.writeString(offsets[3], object.text);
-  writer.writeStringList(offsets[4], object.wrongAnswers);
+  writer.writeLong(offsets[2], object.questionId);
+  writer.writeStringList(offsets[3], object.rightAnswers);
+  writer.writeString(offsets[4], object.text);
+  writer.writeStringList(offsets[5], object.wrongAnswers);
 }
 
 Question _questionDeserialize(
@@ -129,12 +148,13 @@ Question _questionDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Question(
-    id: id,
     langCode: reader.readString(offsets[0]),
-    rightAnswers: reader.readStringList(offsets[2]) ?? [],
-    text: reader.readString(offsets[3]),
-    wrongAnswers: reader.readStringList(offsets[4]) ?? [],
+    questionId: reader.readLong(offsets[2]),
+    rightAnswers: reader.readStringList(offsets[3]) ?? [],
+    text: reader.readString(offsets[4]),
+    wrongAnswers: reader.readStringList(offsets[5]) ?? [],
   );
+  object.id = id;
   object.lastPlayed = reader.readDateTimeOrNull(offsets[1]);
   return object;
 }
@@ -151,10 +171,12 @@ P _questionDeserializeProp<P>(
     case 1:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 2:
-      return (reader.readStringList(offset) ?? []) as P;
+      return (reader.readLong(offset)) as P;
     case 3:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringList(offset) ?? []) as P;
     case 4:
+      return (reader.readString(offset)) as P;
+    case 5:
       return (reader.readStringList(offset) ?? []) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -173,10 +195,73 @@ void _questionAttach(IsarCollection<dynamic> col, Id id, Question object) {
   object.id = id;
 }
 
+extension QuestionByIndex on IsarCollection<Question> {
+  Future<Question?> getByQuestionId(int questionId) {
+    return getByIndex(r'questionId', [questionId]);
+  }
+
+  Question? getByQuestionIdSync(int questionId) {
+    return getByIndexSync(r'questionId', [questionId]);
+  }
+
+  Future<bool> deleteByQuestionId(int questionId) {
+    return deleteByIndex(r'questionId', [questionId]);
+  }
+
+  bool deleteByQuestionIdSync(int questionId) {
+    return deleteByIndexSync(r'questionId', [questionId]);
+  }
+
+  Future<List<Question?>> getAllByQuestionId(List<int> questionIdValues) {
+    final values = questionIdValues.map((e) => [e]).toList();
+    return getAllByIndex(r'questionId', values);
+  }
+
+  List<Question?> getAllByQuestionIdSync(List<int> questionIdValues) {
+    final values = questionIdValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'questionId', values);
+  }
+
+  Future<int> deleteAllByQuestionId(List<int> questionIdValues) {
+    final values = questionIdValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'questionId', values);
+  }
+
+  int deleteAllByQuestionIdSync(List<int> questionIdValues) {
+    final values = questionIdValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'questionId', values);
+  }
+
+  Future<Id> putByQuestionId(Question object) {
+    return putByIndex(r'questionId', object);
+  }
+
+  Id putByQuestionIdSync(Question object, {bool saveLinks = true}) {
+    return putByIndexSync(r'questionId', object, saveLinks: saveLinks);
+  }
+
+  Future<List<Id>> putAllByQuestionId(List<Question> objects) {
+    return putAllByIndex(r'questionId', objects);
+  }
+
+  List<Id> putAllByQuestionIdSync(List<Question> objects,
+      {bool saveLinks = true}) {
+    return putAllByIndexSync(r'questionId', objects, saveLinks: saveLinks);
+  }
+}
+
 extension QuestionQueryWhereSort on QueryBuilder<Question, Question, QWhere> {
   QueryBuilder<Question, Question, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
+    });
+  }
+
+  QueryBuilder<Question, Question, QAfterWhere> anyQuestionId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'questionId'),
+      );
     });
   }
 
@@ -250,6 +335,96 @@ extension QuestionQueryWhere on QueryBuilder<Question, Question, QWhereClause> {
         lower: lowerId,
         includeLower: includeLower,
         upper: upperId,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Question, Question, QAfterWhereClause> questionIdEqualTo(
+      int questionId) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'questionId',
+        value: [questionId],
+      ));
+    });
+  }
+
+  QueryBuilder<Question, Question, QAfterWhereClause> questionIdNotEqualTo(
+      int questionId) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'questionId',
+              lower: [],
+              upper: [questionId],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'questionId',
+              lower: [questionId],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'questionId',
+              lower: [questionId],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'questionId',
+              lower: [],
+              upper: [questionId],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<Question, Question, QAfterWhereClause> questionIdGreaterThan(
+    int questionId, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'questionId',
+        lower: [questionId],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Question, Question, QAfterWhereClause> questionIdLessThan(
+    int questionId, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'questionId',
+        lower: [],
+        upper: [questionId],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<Question, Question, QAfterWhereClause> questionIdBetween(
+    int lowerQuestionId,
+    int upperQuestionId, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'questionId',
+        lower: [lowerQuestionId],
+        includeLower: includeLower,
+        upper: [upperQuestionId],
         includeUpper: includeUpper,
       ));
     });
@@ -657,6 +832,59 @@ extension QuestionQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'lastPlayed',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Question, Question, QAfterFilterCondition> questionIdEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'questionId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Question, Question, QAfterFilterCondition> questionIdGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'questionId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Question, Question, QAfterFilterCondition> questionIdLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'questionId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Question, Question, QAfterFilterCondition> questionIdBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'questionId',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1277,6 +1505,18 @@ extension QuestionQuerySortBy on QueryBuilder<Question, Question, QSortBy> {
     });
   }
 
+  QueryBuilder<Question, Question, QAfterSortBy> sortByQuestionId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'questionId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Question, Question, QAfterSortBy> sortByQuestionIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'questionId', Sort.desc);
+    });
+  }
+
   QueryBuilder<Question, Question, QAfterSortBy> sortByText() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'text', Sort.asc);
@@ -1328,6 +1568,18 @@ extension QuestionQuerySortThenBy
     });
   }
 
+  QueryBuilder<Question, Question, QAfterSortBy> thenByQuestionId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'questionId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Question, Question, QAfterSortBy> thenByQuestionIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'questionId', Sort.desc);
+    });
+  }
+
   QueryBuilder<Question, Question, QAfterSortBy> thenByText() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'text', Sort.asc);
@@ -1353,6 +1605,12 @@ extension QuestionQueryWhereDistinct
   QueryBuilder<Question, Question, QDistinct> distinctByLastPlayed() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'lastPlayed');
+    });
+  }
+
+  QueryBuilder<Question, Question, QDistinct> distinctByQuestionId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'questionId');
     });
   }
 
@@ -1393,6 +1651,12 @@ extension QuestionQueryProperty
   QueryBuilder<Question, DateTime?, QQueryOperations> lastPlayedProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lastPlayed');
+    });
+  }
+
+  QueryBuilder<Question, int, QQueryOperations> questionIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'questionId');
     });
   }
 

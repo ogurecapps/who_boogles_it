@@ -1,7 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:lottie/lottie.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/app/app_theme.dart';
+import 'package:who_boogles_it/generated/locale_keys.g.dart';
 
 class UpdateDatabase extends StatelessWidget {
   const UpdateDatabase({super.key});
@@ -32,15 +35,27 @@ class UpdateDatabase extends StatelessWidget {
                     ),
                   ),
                   const Text(
-                    'Скачиваем самые странные запросы из Интернета...',
+                    LocaleKeys.updateDatabase,
                     textAlign: TextAlign.center,
-                  ),
+                  ).tr(),
                 ],
               ),
             ),
           ),
         ),
       ),
-    );
+    )
+        .animate()
+        .slideY(
+          delay: 200.ms,
+          duration: 600.ms,
+          begin: 0.1,
+          end: 0,
+          curve: Curves.fastOutSlowIn,
+        )
+        .fadeIn(
+          delay: 200.ms,
+          duration: 600.ms,
+        );
   }
 }

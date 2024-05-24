@@ -63,5 +63,6 @@
     "guessesLine": "guesses the line #",
     "gameOverTitle": "coming through",
     "gameOverDraw": "The game ended in a draw",
-    "gameOverStatus": "🏁 End of the game 🏁"
+    "gameOverStatus": "🏁 End of the game 🏁",
+    "updateDatabase": "We're downloading the strangest search queries on the Web"
 }

@@ -242,9 +242,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
       gameRepository.startGame(me, enemy, event.langCode);
 
-      //emit(EnemySearchStartState(enemy));
       emit(UpdateDatabaseState());
       await _updateQuestionsUseCase.execute(event.langCode);
+      emit(EnemySearchStartState(enemy));
     } else {
       Question question;
 
