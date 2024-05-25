@@ -11,6 +11,7 @@ import 'package:who_boogles_it/core/util/logger.dart';
 import 'package:who_boogles_it/features/game/domain/repositories/game_repository.dart';
 import 'package:who_boogles_it/features/game/domain/use_cases/get_player_use_case.dart';
 import 'package:who_boogles_it/features/game/domain/use_cases/get_question_use_case.dart';
+import 'package:who_boogles_it/features/game/domain/use_cases/update_questions_use_case.dart';
 import 'package:who_boogles_it/features/game/domain/use_cases/win_counter_use_case.dart';
 
 part 'game_event.dart';
@@ -22,6 +23,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   final GetQuestionUseCase _getQuestionUseCase = locator.get<GetQuestionUseCase>();
   final GetPlayerUseCase _getPlayerUseCase = locator.get<GetPlayerUseCase>();
   final WinCounterUseCase _winCounterUseCase = locator.get<WinCounterUseCase>();
+  final UpdateQuestionsUseCase _updateQuestionsUseCase = locator.get<UpdateQuestionsUseCase>();
 
   GameBloc() : super(GameInitialState()) {
     on<NextRoundEvent>(_nextRound);
@@ -240,6 +242,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
       gameRepository.startGame(me, enemy, event.langCode);
 
+      emit(UpdateDatabaseState());
+      await _updateQuestionsUseCase.execute(event.langCode);
       emit(EnemySearchStartState(enemy));
     } else {
       Question question;
