@@ -119,7 +119,7 @@ class _AnswerPlateState extends State<AnswerPlate> with SingleTickerProviderStat
                   child: const Icon(
                     size: 26,
                     Icons.favorite,
-                    color: AppColor.titleColor,
+                    color: AppColor.redColor,
                   ),
                 ),
                 Padding(

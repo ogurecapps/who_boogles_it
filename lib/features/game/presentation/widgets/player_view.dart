@@ -48,7 +48,7 @@ class _PlayerViewState extends State<PlayerView> with TickerProviderStateMixin {
       return Stack(
         children: [
           Icon(size: 18, Icons.favorite, color: Theme.of(context).colorScheme.outline),
-          const Icon(size: 18, Icons.favorite, color: AppColor.titleColor)
+          const Icon(size: 18, Icons.favorite, color: AppColor.redColor)
               .animate(controller: _addCtrls[index], delay: _delays[index]) // Adding
               .scaleXY(
                 duration: 400.ms,

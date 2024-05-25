@@ -67,5 +67,10 @@ abstract class  LocaleKeys {
   static const gameOverDraw = 'gameOverDraw';
   static const gameOverStatus = 'gameOverStatus';
   static const updateDatabase = 'updateDatabase';
+  static const about_0 = 'about_0';
+  static const about_1 = 'about_1';
+  static const about_2 = 'about_2';
+  static const about_3 = 'about_3';
+  static const about_4 = 'about_4';
 
 }

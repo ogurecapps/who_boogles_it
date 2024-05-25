@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:who_boogles_it/app/app_color.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
 import 'package:who_boogles_it/shared/presentation/util/single_anim_ctrl_state.dart';
 
@@ -34,7 +33,7 @@ class _GameTitleState extends SingleAnimCtrlState {
                 ..strokeWidth = borderSize
                 ..color = Theme.of(context).colorScheme.onPrimary),
         ).tr(),
-        const Text(
+        Text(
           LocaleKeys.gameTitle,
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -42,7 +41,7 @@ class _GameTitleState extends SingleAnimCtrlState {
             height: linesSpacing,
             fontWeight: FontWeight.bold,
             fontSize: fontSize,
-            color: AppColor.titleColor,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ).tr(),
       ],

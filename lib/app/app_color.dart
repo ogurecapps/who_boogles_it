@@ -17,7 +17,7 @@ class AppColor {
     Color(0xff6e12bd),
   ];
 
-  static const titleColor = Color(0xffed5761);
+  static const redColor = Color(0xffed5761);
   static const pageColor = Color(0xfffcf5e4);
   static const bubbleColor = Color(0xffe3fee0);
 

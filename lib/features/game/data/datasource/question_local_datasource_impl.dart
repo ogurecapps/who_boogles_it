@@ -35,6 +35,12 @@ class QuestionLocalDatasourceImpl extends QuestionLocalDatasource {
 
   @override
   Future<void> putQuestion(Question question) async {
+    // Keep last played
+    if (question.lastPlayed == null) {
+      var exQuestion = await db.getDb().questions.where().questionIdEqualTo(question.questionId).findFirst();
+      if (exQuestion != null) question.lastPlayed = exQuestion.lastPlayed;
+    }
+
     await db.getDb().writeTxn(() async {
       await db.getDb().questions.put(question);
     });
