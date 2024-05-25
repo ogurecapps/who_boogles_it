@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:who_boogles_it/app/app_size.dart';
 import 'package:who_boogles_it/features/settings/presentation/widgets/language_selector.dart';
@@ -34,7 +35,7 @@ class _SettingsButtonsState extends MultiAnimCtrlState {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () => context.push('/about'),
                 icon: const Icon(Icons.badge),
                 label: const Text(LocaleKeys.about).tr(),
               )

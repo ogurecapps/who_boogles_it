@@ -34,7 +34,7 @@ class AppTheme {
           bodySmall: TextStyle(
             fontFamily: 'MainFont',
             color: AppColor.colorScheme.outline,
-            fontSize: 12,
+            fontSize: 13,
           ),
           bodyMedium: TextStyle(
             fontFamily: 'MainFont',

@@ -252,7 +252,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         question = await _getQuestionUseCase.execute(event.langCode);
         gameRepository.setQuestion(question);
       } catch (e) {
+        Logger.print('Getting question error: ${e.toString()}', level: 'ERROR');
         emit(GameErrorState());
+
         return;
       }
 

@@ -5,6 +5,7 @@ import 'package:who_boogles_it/core/routes/custom_transition.dart';
 import 'package:who_boogles_it/features/game/presentation/screens/game_screen.dart';
 import 'package:who_boogles_it/features/home/presentation/screens/home_screen.dart';
 import 'package:who_boogles_it/features/profile/presentation/screens/profile_screen.dart';
+import 'package:who_boogles_it/features/settings/presentation/screens/about_screen.dart';
 import 'package:who_boogles_it/features/settings/presentation/screens/settings_screen.dart';
 
 class AppRouter {
@@ -43,6 +44,14 @@ class AppRouter {
               page: const SettingsScreen(),
             ),
           ),
+          GoRoute(
+            path: 'about',
+            pageBuilder: (context, state) => CustomTransition.buildPage<void>(
+              context: context,
+              state: state,
+              page: const AboutScreen(),
+            ),
+          )
         ],
       ),
     ],
