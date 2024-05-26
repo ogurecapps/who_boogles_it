@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:who_boogles_it/app/app_size.dart';
+import 'package:who_boogles_it/core/util/logger.dart';
 import 'package:who_boogles_it/features/settings/presentation/widgets/language_selector.dart';
 import 'package:who_boogles_it/generated/locale_keys.g.dart';
 import 'package:who_boogles_it/shared/presentation/util/multi_anim_ctrl_state.dart';
@@ -75,8 +76,8 @@ class _SettingsButtonsState extends MultiAnimCtrlState {
     );
   }
 
-  @override
-  void didPopNext() {} //No animations play when we close a list of languages
+  //@override
+  //void didPopNext() {} // No animations play when we close a list of languages
 }
 
 Future<void> onPrivacyPressed() async {
@@ -85,6 +86,6 @@ Future<void> onPrivacyPressed() async {
   if (await canLaunchUrl(url)) {
     await launchUrl(url);
   } else {
-    throw Exception('Could not launch $url');
+    Logger.print('Could not launch $url', level: 'ERROR');
   }
 }
