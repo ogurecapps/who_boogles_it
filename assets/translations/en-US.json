@@ -65,7 +65,7 @@
     "gameOverDraw": "The game ended in a draw",
     "gameOverStatus": "🏁 End of the game 🏁",
     "updateDatabase": "We're downloading the strangest search queries on the Web",
-    "about_0": "My name is Andrew Sklyarov, I am a developer of the app in front of you. I created this game like an interactive CV. Next the short story about my work experience and technologies that I have used in the development of the Boogle Feud.",
+    "about_0": "My name is Andrew Sklyarov, I am a developer of the app in front of you. I created this game as a pet project and interactive CV. Next the short story about my work experience and technologies that I have used in the development of the Boogle Feud.",
     "about_1": "I started my career as 1C Enterprise developer. Next, I was doing development in the sphere of app integration and Enterprise Service Buses (ESB). I built high-load processings with 24/7 availability, I have been programming big projects with hundreds of data flows in offline and online retailing. I single-handedly made a mobile application for one of the biggest store of cosmetics and perfumery in Russia. I was a successful independent game developer, my games were downloaded more 27 000 000 times from Google Play, App Store, and Steam.",
     "about_2": "For now, I am looking for jobs as a <mark>Flutter developer</mark>. You can message me via Telegram: <tg>@coder1cv8 (tap to go)</tg>.",
     "about_3": "Now, concerning this game. The game was developed on <mark>Dart</mark> programming language and based on the <mark>Flutter</mark> framework. To structure the code I used Clean Architecture rules. And besides, I follow the design patterns like S.O.L.I.D., D.R.Y., and my favorite K.I.S.S. (keep it simple, you know).",
