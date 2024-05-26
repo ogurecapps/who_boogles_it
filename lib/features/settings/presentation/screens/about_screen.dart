@@ -72,7 +72,7 @@ class AboutScreen extends StatelessWidget {
                     .slideX(
                       delay: Duration(milliseconds: 600 + i * 200),
                       duration: 400.ms,
-                      begin: 0.1,
+                      begin: 0.1 * (i.isEven ? 1 : -1),
                       end: 0,
                       curve: Curves.fastOutSlowIn,
                     )

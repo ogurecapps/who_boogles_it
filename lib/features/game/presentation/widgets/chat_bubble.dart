@@ -23,7 +23,7 @@ class ChatBubble extends StatefulWidget {
 }
 
 class _ChatBubbleState extends State<ChatBubble> with TickerProviderStateMixin {
-  static const int diceStep = 180;
+  static const int diceStep = 150;
   static const double bubbleWidth = 200;
 
   ContentState _content = ContentState.text;
