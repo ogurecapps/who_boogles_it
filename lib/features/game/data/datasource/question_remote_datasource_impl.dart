@@ -17,4 +17,17 @@ class QuestionRemoteDatasourceImpl extends QuestionRemoteDatasource {
 
     return data;
   }
+
+  @override
+  Future<void> pubAnswer(int questionId, String answer) async {
+    try {
+      var data = await db.from('answers').select().eq('text', '$questionId#$answer').maybeSingle();
+      if (data == null || data.isEmpty) {
+        await db.from('answers').insert({'text': '$questionId#$answer'});
+        Logger.print('Publish new answer: "$questionId#$answer"');
+      }
+    } catch (e) {
+      Logger.print('Error on publish answer: ${e.toString()}', level: 'WARN');
+    }
+  }
 }

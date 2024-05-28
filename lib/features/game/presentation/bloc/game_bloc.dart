@@ -11,6 +11,7 @@ import 'package:who_boogles_it/core/util/logger.dart';
 import 'package:who_boogles_it/features/game/domain/repositories/game_repository.dart';
 import 'package:who_boogles_it/features/game/domain/use_cases/get_player_use_case.dart';
 import 'package:who_boogles_it/features/game/domain/use_cases/get_question_use_case.dart';
+import 'package:who_boogles_it/features/game/domain/use_cases/publish_answer_use_case.dart';
 import 'package:who_boogles_it/features/game/domain/use_cases/update_questions_use_case.dart';
 import 'package:who_boogles_it/features/game/domain/use_cases/win_counter_use_case.dart';
 
@@ -24,6 +25,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   final GetPlayerUseCase _getPlayerUseCase = locator.get<GetPlayerUseCase>();
   final WinCounterUseCase _winCounterUseCase = locator.get<WinCounterUseCase>();
   final UpdateQuestionsUseCase _updateQuestionsUseCase = locator.get<UpdateQuestionsUseCase>();
+  final PublishAnswerUseCase _pubAnswerUseCase = locator.get<PublishAnswerUseCase>();
 
   GameBloc() : super(GameInitialState()) {
     on<NextRoundEvent>(_nextRound);
@@ -231,6 +233,10 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   Future<void> _playerSays(PlayerSaysEvent event, Emitter<GameState> emit) async {
     await _sayAnswer(emit, event.answer, true);
+
+    if (!gameRepository.isKnownAnswer(event.answer)) {
+      _pubAnswerUseCase.execute(gameRepository.questionId, event.answer);
+    }
   }
 
   Future<void> _loadGameData(LoadGameEvent event, Emitter<GameState> emit) async {

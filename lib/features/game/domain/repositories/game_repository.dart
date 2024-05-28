@@ -24,6 +24,7 @@ class GameRepository {
   String myAnswer = '';
   String enemyAnswer = '';
   int diceEnemy = 0;
+  int questionId = 0;
   bool started = false;
 
   bool get isStarted => started;
@@ -37,6 +38,10 @@ class GameRepository {
     enemyAnswer = '';
 
     Logger.print('Game has been reset');
+  }
+
+  bool isKnownAnswer(String answer) {
+    return false;
   }
 
   bool isFinalRound() {
@@ -187,6 +192,8 @@ class GameRepository {
   void setQuestion(Question question) {
     rightAnswers = List.from(question.rightAnswers);
     wrongAnswers = List.from(question.wrongAnswers);
+    questionId = question.id;
+
     Logger.print('Round ${round + 1}. Question is: "${question.text} ..."');
   }
 }

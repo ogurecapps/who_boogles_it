@@ -23,4 +23,9 @@ class QuestionRepositoryImpl extends QuestionRepository {
   Future<List<Map<String, dynamic>>> getQuestionsBundle(String langCode, int from, int to) {
     return remoteDatasource.getQuestionsBundle(langCode, from, to);
   }
+
+  @override
+  Future<void> pubAnswer(int questionId, String answer) {
+    return remoteDatasource.pubAnswer(questionId, answer);
+  }
 }
