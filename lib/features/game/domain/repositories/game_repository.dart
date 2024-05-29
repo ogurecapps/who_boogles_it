@@ -11,11 +11,14 @@ class GameRepository {
     [15, 30, 60, 120, 240, 420]
   ];
 
+  late String langCode;
   late Player me;
   late Player enemy;
+  // dynamic
   late List<String> rightAnswers;
   late List<String> wrongAnswers;
-  late String langCode;
+  // fixed
+  late List<String> allAnswers;
 
   int round = 0;
   int roundScore = 0;
@@ -41,7 +44,7 @@ class GameRepository {
   }
 
   bool isKnownAnswer(String answer) {
-    return false;
+    return allAnswers.indexWhere((element) => element.split(',').contains(answer.toLowerCase())) >= 0;
   }
 
   bool isFinalRound() {
@@ -192,7 +195,8 @@ class GameRepository {
   void setQuestion(Question question) {
     rightAnswers = List.from(question.rightAnswers);
     wrongAnswers = List.from(question.wrongAnswers);
-    questionId = question.id;
+    allAnswers = List.from(rightAnswers)..addAll(wrongAnswers);
+    questionId = question.questionId;
 
     Logger.print('Round ${round + 1}. Question is: "${question.text} ..."');
   }
