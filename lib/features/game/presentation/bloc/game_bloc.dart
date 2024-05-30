@@ -6,6 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:who_boogles_it/core/di/locator.dart';
 import 'package:who_boogles_it/core/models/player.dart';
 import 'package:who_boogles_it/core/models/question.dart';
+import 'package:who_boogles_it/core/models/setting.dart';
 import 'package:who_boogles_it/core/util/analytics_engine.dart';
 import 'package:who_boogles_it/core/util/logger.dart';
 import 'package:who_boogles_it/features/game/domain/repositories/game_repository.dart';
@@ -14,6 +15,8 @@ import 'package:who_boogles_it/features/game/domain/use_cases/get_question_use_c
 import 'package:who_boogles_it/features/game/domain/use_cases/publish_answer_use_case.dart';
 import 'package:who_boogles_it/features/game/domain/use_cases/update_questions_use_case.dart';
 import 'package:who_boogles_it/features/game/domain/use_cases/win_counter_use_case.dart';
+import 'package:who_boogles_it/shared/domain/use_cases/get_setting_use_case.dart';
+import 'package:who_boogles_it/shared/domain/use_cases/put_setting_use_case.dart';
 
 part 'game_event.dart';
 part 'game_state.dart';
@@ -26,6 +29,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   final WinCounterUseCase _winCounterUseCase = locator.get<WinCounterUseCase>();
   final UpdateQuestionsUseCase _updateQuestionsUseCase = locator.get<UpdateQuestionsUseCase>();
   final PublishAnswerUseCase _pubAnswerUseCase = locator.get<PublishAnswerUseCase>();
+  final GetSettingUseCase _getSettingUseCase = locator.get<GetSettingUseCase>();
+  final PutSettingUseCase _putSettingUseCase = locator.get<PutSettingUseCase>();
 
   GameBloc() : super(GameInitialState()) {
     on<NextRoundEvent>(_nextRound);
@@ -239,6 +244,22 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     }
   }
 
+  Future<void> _updateIfNeeded(Emitter<GameState> emit, String langCode) async {
+    String lastUpdate = await _getSettingUseCase.execute(Setting.lastUpdateDay);
+    DateTime lastUpdateDate = DateTime.parse(lastUpdate);
+    DateTime now = DateTime.now();
+    DateTime today = DateTime(now.year, now.month, now.day);
+
+    if (lastUpdateDate.isBefore(today)) {
+      Logger.print('Last update = $lastUpdateDate is before today = $today. Need update');
+      emit(UpdateDatabaseState());
+      await _updateQuestionsUseCase.execute(langCode);
+      await _putSettingUseCase.execute(Setting.lastUpdateDay, today.toString());
+    } else {
+      Logger.print('Last update = $lastUpdateDate is NOT before today = $today. Skip update');
+    }
+  }
+
   Future<void> _loadGameData(LoadGameEvent event, Emitter<GameState> emit) async {
     if (!gameRepository.isStarted) {
       AnalyticsEngine.logLevelStart(levelName: 'Game session');
@@ -248,8 +269,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
       gameRepository.startGame(me, enemy, event.langCode);
 
-      emit(UpdateDatabaseState());
-      await _updateQuestionsUseCase.execute(event.langCode);
+      await _updateIfNeeded(emit, event.langCode); // Once a day
+
       emit(EnemySearchStartState(enemy));
     } else {
       Question question;

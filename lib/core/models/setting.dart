@@ -15,10 +15,12 @@ class Setting {
   static String getDefaultValue(String key) {
     return switch (key) {
       keySome => 'some_value',
+      lastUpdateDay => '2024-01-01',
       _ => '',
     };
   }
 
   // Keys
   static const String keySome = 'some_key';
+  static const String lastUpdateDay = 'last_update_day';
 }
