@@ -53,6 +53,8 @@ class _GameTitleState extends SingleAnimCtrlState {
           duration: 1000.ms,
           curve: Curves.elasticOut,
         )
-        .fadeIn(delay: 800.ms, duration: 1000.ms);
+        .fadeIn(delay: 800.ms, duration: 1000.ms)
+        .animate(onPlay: (innerController) => innerController.loop())
+        .shakeY(duration: 1000.ms, hz: .5, amount: 2, curve: Curves.linear);
   }
 }
